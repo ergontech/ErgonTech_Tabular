@@ -6,7 +6,7 @@
                     <children>
                         <sheets translate="title">
                             <title>Sheets Importer</title>
-                            <action>adminhtml/import/index</action>
+                            <action>adminhtml/sheetsImporter/index</action>
                             <sort_order>40</sort_order>
                         </sheets>
                     </children>

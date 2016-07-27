@@ -17,4 +17,17 @@
             </ergontech_tabular>
         </helpers>
     </global>
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <ErgonTech_Tabular before="Mage_Adminhtml">ErgonTech_Tabular_Adminhtml</ErgonTech_Tabular>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+
 </config>
