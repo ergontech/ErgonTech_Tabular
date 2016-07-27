@@ -1,0 +1,41 @@
+{
+  "name": "ergontech/tabular-magento",
+  "description": "Magento module for processing tabular data",
+  "type": "magento-module",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Matthew Wells",
+      "email": "matthew@ergon.tech"
+    }
+  ],
+  "autoload-dev": {
+    "psr-0": {
+      "": [
+        "root/app/code/community"
+      ]
+    }
+  },
+  "repositories": [
+    {
+      "url": "https://github.com/ergontech/tabular-processor",
+      "type": "vcs"
+    },
+    {
+      "url": "https://packages.firegento.com",
+      "type": "composer"
+    }
+  ],
+  "require-dev": {
+    "magetest/magento-phpspec-extension": "^3.0"
+  },
+  "require": {
+    "ergontech/tabular-core": "dev-master",
+    "avstudnitz/fast-simple-import": "^0.7.0"
+  },
+  "extra": {
+    "map": [
+    ],
+    "magento-root-dir": "root"
+  }
+}
