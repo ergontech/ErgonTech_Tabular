@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <ErgonTech_Tabular>
+            <version>0.1.0</version>
+        </ErgonTech_Tabular>
+    </modules>
+    <global>
+        <models>
+            <ergontech_tabular>
+                <class>ErgonTech_Tabular_Model</class>
+            </ergontech_tabular>
+        </models>
+    </global>
+</config>
