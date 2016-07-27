@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "75f619720c5d2dfb2419332bed524c18",
-    "content-hash": "7998010487f0f0cf7e95e367f611b21f",
+    "hash": "b2b3e52bc1cf5d989f973f1e51c2e44b",
+    "content-hash": "28caa16a6ecf74b514063ce3552ab601",
     "packages": [
         {
             "name": "avstudnitz/fast-simple-import",
@@ -143,12 +143,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:ergontech/tabular-processor.git",
-                "reference": "4a9c7911a21b85a7943367c030ba4da5e181251e"
+                "reference": "0cc73d424446f84467ef7c486d242a18942df02f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ergontech/tabular-processor/zipball/4a9c7911a21b85a7943367c030ba4da5e181251e",
-                "reference": "4a9c7911a21b85a7943367c030ba4da5e181251e",
+                "url": "https://api.github.com/repos/ergontech/tabular-processor/zipball/0cc73d424446f84467ef7c486d242a18942df02f",
+                "reference": "0cc73d424446f84467ef7c486d242a18942df02f",
                 "shasum": ""
             },
             "require": {
@@ -177,7 +177,7 @@
                 "source": "https://github.com/ergontech/tabular-processor/tree/master",
                 "issues": "https://github.com/ergontech/tabular-processor/issues"
             },
-            "time": "2016-07-26 19:37:55"
+            "time": "2016-07-27 19:56:21"
         },
         {
             "name": "firebase/php-jwt",
@@ -1181,6 +1181,51 @@
     ],
     "packages-dev": [
         {
+            "name": "aydin-hassan/magento-core-composer-installer",
+            "version": "1.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/AydinHassan/magento-core-composer-installer.git",
+                "reference": "0c75cefa55595154a03a9c25f69a7a2fc1319be7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/AydinHassan/magento-core-composer-installer/zipball/0c75cefa55595154a03a9c25f69a7a2fc1319be7",
+                "reference": "0c75cefa55595154a03a9c25f69a7a2fc1319be7",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "~1.0"
+            },
+            "require-dev": {
+                "composer/composer": "~1.0@dev",
+                "mikey179/vfsstream": "~1.4",
+                "phpunit/phpunit": "~4.3",
+                "squizlabs/php_codesniffer": "~1.5"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "\\AydinHassan\\MagentoCoreComposerInstaller\\CoreManager"
+            },
+            "autoload": {
+                "psr-4": {
+                    "AydinHassan\\MagentoCoreComposerInstaller\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Aydin Hassan",
+                    "email": "aydin@hotmail.co.uk"
+                }
+            ],
+            "description": "A composer plugin for managing Magento Core",
+            "time": "2015-09-07 22:38:45"
+        },
+        {
             "name": "doctrine/instantiator",
             "version": "1.0.5",
             "source": {
@@ -1233,6 +1278,120 @@
                 "instantiate"
             ],
             "time": "2015-06-14 21:17:01"
+        },
+        {
+            "name": "magento/core",
+            "version": "1.9.2.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bragento/magento-core.git",
+                "reference": "2b62adf7f40c42b2b715d0bbae24d175c08d0e51"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bragento/magento-core/zipball/2b62adf7f40c42b2b715d0bbae24d175c08d0e51",
+                "reference": "2b62adf7f40c42b2b715d0bbae24d175c08d0e51",
+                "shasum": ""
+            },
+            "type": "magento-core",
+            "extra": {
+                "map": [
+                    [
+                        "app",
+                        "app"
+                    ],
+                    [
+                        "dev",
+                        "dev"
+                    ],
+                    [
+                        "downloader",
+                        "downloader"
+                    ],
+                    [
+                        "errors",
+                        "errors"
+                    ],
+                    [
+                        "includes",
+                        "includes"
+                    ],
+                    [
+                        "js",
+                        "js"
+                    ],
+                    [
+                        "lib",
+                        "lib"
+                    ],
+                    [
+                        "media",
+                        "media"
+                    ],
+                    [
+                        "shell",
+                        "shell"
+                    ],
+                    [
+                        "skin",
+                        "skin"
+                    ],
+                    [
+                        "var",
+                        "var"
+                    ],
+                    [
+                        ".htaccess",
+                        ".htaccess"
+                    ],
+                    [
+                        "api.php",
+                        "api.php"
+                    ],
+                    [
+                        "cron.php",
+                        "cron.php"
+                    ],
+                    [
+                        "cron.sh",
+                        "cron.sh"
+                    ],
+                    [
+                        "favicon.ico",
+                        "favicon.ico"
+                    ],
+                    [
+                        "get.php",
+                        "get.php"
+                    ],
+                    [
+                        "index.php",
+                        "index.php"
+                    ],
+                    [
+                        "install.php",
+                        "install.php"
+                    ],
+                    [
+                        "mage",
+                        "mage"
+                    ],
+                    [
+                        "LICENSE.html",
+                        "LICENSE.html"
+                    ]
+                ]
+            },
+            "license": [
+                "OSL-3.0"
+            ],
+            "description": "Magento Core",
+            "homepage": "http://www.magentocommerce.com",
+            "support": {
+                "source": "https://github.com/bragento/magento-core/tree/1.9.2.4",
+                "issues": "https://github.com/bragento/magento-core/issues"
+            },
+            "time": "2016-02-24 07:46:07"
         },
         {
             "name": "magetest/magento-phpspec-extension",

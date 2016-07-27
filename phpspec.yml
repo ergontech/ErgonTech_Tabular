@@ -1,5 +1,6 @@
 extensions: [MageTest\PhpSpec\MagentoExtension\Extension]
 mage_locator:
-  spec_path: 'spec'
-  spec_prefix: 'spec'
-  src_path: 'ErgonTech'
+  spec_path: spec
+  spec_prefix: spec
+  src_path: .
+  code_pool: community
