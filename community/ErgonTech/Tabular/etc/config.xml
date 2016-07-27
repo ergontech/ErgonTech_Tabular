@@ -11,5 +11,10 @@
                 <class>ErgonTech_Tabular_Model</class>
             </ergontech_tabular>
         </models>
+        <helpers>
+            <ergontech_tabular>
+                <class>ErgonTech_Tabular_Helper</class>
+            </ergontech_tabular>
+        </helpers>
     </global>
 </config>

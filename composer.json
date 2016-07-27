@@ -43,6 +43,8 @@
   },
   "extra": {
     "map": [
+      ["community/ErgonTech/Tabular", "app/code/community/ErgonTech/Tabular"],
+      ["modules/ErgonTech_Tabular.xml", "app/etc/modules/ErgonTech_Tabular.xml"]
     ],
     "magento-root-dir": "root"
   }
