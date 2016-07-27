@@ -143,12 +143,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:ergontech/tabular-processor.git",
-                "reference": "0cc73d424446f84467ef7c486d242a18942df02f"
+                "reference": "b2ea60cf277350fc3250c9d81b8db448789fe683"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ergontech/tabular-processor/zipball/0cc73d424446f84467ef7c486d242a18942df02f",
-                "reference": "0cc73d424446f84467ef7c486d242a18942df02f",
+                "url": "https://api.github.com/repos/ergontech/tabular-processor/zipball/b2ea60cf277350fc3250c9d81b8db448789fe683",
+                "reference": "b2ea60cf277350fc3250c9d81b8db448789fe683",
                 "shasum": ""
             },
             "require": {
@@ -177,7 +177,7 @@
                 "source": "https://github.com/ergontech/tabular-processor/tree/master",
                 "issues": "https://github.com/ergontech/tabular-processor/issues"
             },
-            "time": "2016-07-27 19:56:21"
+            "time": "2016-07-27 21:46:01"
         },
         {
             "name": "firebase/php-jwt",
