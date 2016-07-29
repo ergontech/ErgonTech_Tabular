@@ -1,6 +1,6 @@
 <?php
 
-namespace spec;
+namespace spec\ErgonTech\Tabular\Step\Product;
 
 use ErgonTech\Tabular\Rows;
 use ErgonTech\Tabular\Step;
@@ -8,7 +8,7 @@ use ErgonTech\Tabular\StepExecutionException;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class ErgonTech_Tabular_Model_Step_Product_FastSimpleImportSpec extends ObjectBehavior
+class FastSimpleImportSpec extends ObjectBehavior
 {
     private $rowsReturner;
 
@@ -21,7 +21,7 @@ class ErgonTech_Tabular_Model_Step_Product_FastSimpleImportSpec extends ObjectBe
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('ErgonTech_Tabular_Model_Step_Product_FastSimpleImport');
+        $this->shouldHaveType(Step\Product\FastSimpleImport::class);
     }
 
     function it_is_a_step()

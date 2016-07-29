@@ -9,7 +9,16 @@
         <models>
             <ergontech_tabular>
                 <class>ErgonTech_Tabular_Model</class>
+                <resourceModel>ergontech_tabular_resource</resourceModel>
             </ergontech_tabular>
+            <ergontech_tabular_resource>
+                <class>ErgonTech_Tabular_Model_Resource</class>
+                <entities>
+                    <import_profile>
+                        <table>tabular_import_profile</table>
+                    </import_profile>
+                </entities>
+            </ergontech_tabular_resource>
         </models>
         <helpers>
             <ergontech_tabular>

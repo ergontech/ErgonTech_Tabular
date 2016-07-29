@@ -18,6 +18,9 @@
         "root/app/code/core",
         "root/lib",
         "root/app"
+      ],
+      "ErgonTech\\Tabular": [
+        "community"
       ]
     }
   },

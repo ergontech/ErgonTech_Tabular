@@ -1,10 +1,13 @@
 <?php
 
+namespace ErgonTech\Tabular\Step\Product;
+
+use AvS_FastSimpleImport_Model_Import;
 use ErgonTech\Tabular\Rows;
 use ErgonTech\Tabular\Step;
 use ErgonTech\Tabular\StepExecutionException;
 
-class ErgonTech_Tabular_Model_Step_Product_FastSimpleImport implements Step
+class FastSimpleImport implements Step
 {
     /**
      * @var AvS_FastSimpleImport_Model_Import
@@ -28,7 +31,7 @@ class ErgonTech_Tabular_Model_Step_Product_FastSimpleImport implements Step
     {
         try {
             $this->import->processProductImport($rows->getRowsAssoc());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new StepExecutionException($e->getMessage());
         }
         return $rows;
