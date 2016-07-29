@@ -5,6 +5,7 @@
             <version>0.1.0</version>
         </ErgonTech_Tabular>
     </modules>
+
     <global>
         <models>
             <ergontech_tabular>
@@ -38,5 +39,13 @@
             </adminhtml>
         </routers>
     </admin>
+
+    <default>
+        <tabular>
+            <general>
+                <enabled>1</enabled>
+            </general>
+        </tabular>
+    </default>
 
 </config>
