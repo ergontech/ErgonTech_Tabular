@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b2b3e52bc1cf5d989f973f1e51c2e44b",
-    "content-hash": "28caa16a6ecf74b514063ce3552ab601",
+    "hash": "e12f4b1f9dcab4077bef38bcecb80016",
+    "content-hash": "c8d8f00ad29a396cb49eb2ad57a6360d",
     "packages": [
         {
             "name": "avstudnitz/fast-simple-import",
@@ -139,7 +139,7 @@
         },
         {
             "name": "ergontech/tabular-core",
-            "version": "dev-master",
+            "version": "v0.1.0",
             "source": {
                 "type": "git",
                 "url": "git@github.com:ergontech/tabular-processor.git",
@@ -2501,9 +2501,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "ergontech/tabular-core": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
