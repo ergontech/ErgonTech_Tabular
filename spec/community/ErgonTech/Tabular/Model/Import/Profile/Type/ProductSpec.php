@@ -66,7 +66,7 @@ class ErgonTech_Tabular_Model_Import_Profile_Type_ProductSpec extends ObjectBeha
         $this->processor->addStep(Argument::type(GoogleSheetsLoadStep::class))->shouldBeCalled();
         $this->processor->addStep(Argument::type(HeaderTransformStep::class))->shouldBeCalled();
         $this->processor->addStep(Argument::type(FastSimpleImport::class))->shouldBeCalled();
-        $profile->getSheetsData()->shouldBeCalled();
+        $profile->getExtra('sheets_data')->shouldBeCalled();
 
         $this->initialize($profile);
     }

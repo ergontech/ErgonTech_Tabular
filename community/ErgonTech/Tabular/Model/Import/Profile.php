@@ -3,7 +3,7 @@
 /**
  * @method string getType()
  * @method string getName()
- * @method array getSheetsData()
+ * @method mixed getExtra($key = null)
  */
 class ErgonTech_Tabular_Model_Import_Profile extends Mage_Core_Model_Abstract
 {
@@ -11,8 +11,14 @@ class ErgonTech_Tabular_Model_Import_Profile extends Mage_Core_Model_Abstract
 
     const XML_PATH_PROFILE_TYPE = 'ergontech/tabular/import/profile/type';
 
+    /**
+     * @var string
+     */
     protected $_resourceName = 'ergontech_tabular/import_profile';
 
+    /**
+     * @var string
+     */
     protected $_resourceCollectionName = 'ergontech_tabular/import_profile_collection';
 
     /**
@@ -40,7 +46,12 @@ class ErgonTech_Tabular_Model_Import_Profile extends Mage_Core_Model_Abstract
         ];
     }
 
-
+    /**
+     * @param array|string $key
+     * @param null $value
+     * @return $this|Varien_Object
+     * @throws ErgonTech_Tabular_Exception_Import_Profile
+     */
     public function setData($key, $value = null)
     {
         if (is_array($key)) {
@@ -55,6 +66,18 @@ class ErgonTech_Tabular_Model_Import_Profile extends Mage_Core_Model_Abstract
             return parent::setData($key, $value);
         }
 
-        throw new ErgonTech_Tabular_Exception_Import_Profile();
+        throw new ErgonTech_Tabular_Exception_Import_Profile("{$key} could not be validated with the given value \"{$value}\"");
+
+    }
+
+    /**
+     * Load a profile with the given name
+     *
+     * @param $name
+     * @return ErgonTech_Tabular_Model_Import_Profile
+     */
+    public function loadByName($name)
+    {
+        return Mage::getModel('ergontech_tabular/import_profile')->load($name, 'name');
     }
 }

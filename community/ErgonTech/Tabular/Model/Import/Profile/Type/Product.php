@@ -76,7 +76,7 @@ class ErgonTech_Tabular_Model_Import_Profile_Type_Product implements ErgonTech_T
 
         $sheets = Mage::helper('ergontech_tabular/google_api')->getService(Google_Service_Sheets::class);
         /** @var array $sheetsData */
-        $sheetsData = $profile->getSheetsData();
+        $sheetsData = $profile->getExtra('sheets_data');
 
         $this->processor->addStep(new LoggingStep(new Psr\Log\NullLogger()));
         $this->processor->addStep(new GoogleSheetsLoadStep(

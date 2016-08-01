@@ -4,6 +4,7 @@ namespace spec;
 
 use ErgonTech_Tabular_Exception_Import_Profile as ImportProfileException;
 use ErgonTech_Tabular_Model_Import_Profile as ImportProfile;
+use ErgonTech_Tabular_Model_Import_Profile as TabularImportProfile;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -13,6 +14,7 @@ class ErgonTech_Tabular_Model_Import_ProfileSpec extends ObjectBehavior
     {
         \Mage::app();
         \Mage::getConfig()->setNode('global/models/ergontech_tabular/resourceModel', 'ergontech_tabular_resource');
+        \Mage::getConfig()->setNode('global/models/ergontech_tabular/class', 'ErgonTech_Tabular_Model');
         \Mage::getConfig()->setNode('global/models/ergontech_tabular_resource/class', 'ErgonTech_Tabular_Model_Resource');
     }
 
@@ -50,13 +52,27 @@ class ErgonTech_Tabular_Model_Import_ProfileSpec extends ObjectBehavior
 
     public function it_has_a_resource_collection_model(
         \Zend_Db_Adapter_Abstract $adapter,
-        \ErgonTech_Tabular_Model_Resource_Import_Profile $resourceImportProfile,
+        \ErgonTech_Tabular_Model_Resource_Import_Profile $profileResource,
         \Zend_Db_Select $select)
     {
         $adapter->select()->willReturn($select);
-        $resourceImportProfile->getMainTable()->willReturn('tabular_import_profile');
-        $resourceImportProfile->getReadConnection()->willReturn($adapter);
-        \Mage::register('_resource_singleton/ergontech_tabular/import_profile', $resourceImportProfile->getWrappedObject());
+        $profileResource->getMainTable()->willReturn('tabular_import_profile');
+        $profileResource->getReadConnection()->willReturn($adapter);
+        \Mage::register('_resource_singleton/ergontech_tabular/import_profile', $profileResource->getWrappedObject());
         $this->getCollection()->shouldReturnAnInstanceOf(\ErgonTech_Tabular_Model_Resource_Import_Profile_Collection::class);
+    }
+
+    public function it_can_load_by_name(
+        \ErgonTech_Tabular_Model_Resource_Import_Profile $profileResource,
+        TabularImportProfile $profile
+    )
+    {
+        $profileResource
+            ->load(Argument::type(TabularImportProfile::class), 'name value', 'name')
+            ->willReturn($profile);
+        \Mage::register('_resource_singleton/ergontech_tabular/import_profile', $profileResource->getWrappedObject());
+
+        $loadedProfile = $this->loadByName('name value');
+        $loadedProfile->shouldHaveType(TabularImportProfile::class);
     }
 }
