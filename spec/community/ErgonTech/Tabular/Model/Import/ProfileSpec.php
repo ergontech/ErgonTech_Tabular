@@ -75,4 +75,9 @@ class ErgonTech_Tabular_Model_Import_ProfileSpec extends ObjectBehavior
         $loadedProfile = $this->loadByName('name value');
         $loadedProfile->shouldHaveType(TabularImportProfile::class);
     }
+
+    public function it_does_not_validate_against_some_keys()
+    {
+        $this->setData('entity_id', '1')->shouldNotThrow(\Exception::class);
+    }
 }

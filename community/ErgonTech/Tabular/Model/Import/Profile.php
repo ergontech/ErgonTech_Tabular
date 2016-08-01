@@ -62,7 +62,8 @@ class ErgonTech_Tabular_Model_Import_Profile extends Mage_Core_Model_Abstract
             return $this;
         }
 
-        if (array_key_exists($key, $this->validations) && call_user_func($this->validations[$key], $value)) {
+        $validationExists = array_key_exists($key, $this->validations);
+        if (!$validationExists || ($validationExists && call_user_func($this->validations[$key], $value))) {
             return parent::setData($key, $value);
         }
 
