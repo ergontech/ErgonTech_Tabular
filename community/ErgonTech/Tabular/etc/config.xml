@@ -18,6 +18,9 @@
                     <import_profile>
                         <table>tabular_import_profile</table>
                     </import_profile>
+                    <import_profile_store>
+                        <table>tabular_import_profile_store</table>
+                    </import_profile_store>
                 </entities>
             </ergontech_tabular_resource>
         </models>
@@ -27,7 +30,12 @@
             </ergontech_tabular>
         </helpers>
         <resources>
-
+            <ergontech_tabular_setup>
+                <setup>
+                    <module>ErgonTech_Tabular</module>
+                    <class>Mage_Core_Model_Resource_Setup</class>
+                </setup>
+            </ergontech_tabular_setup>
         </resources>
     </global>
 
