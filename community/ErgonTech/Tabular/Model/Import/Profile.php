@@ -13,6 +13,8 @@ class ErgonTech_Tabular_Model_Import_Profile extends Mage_Core_Model_Abstract
 
     protected $_resourceName = 'ergontech_tabular/import_profile';
 
+    protected $_resourceCollectionName = 'ergontech_tabular/import_profile_collection';
+
     /**
      * @var array
      */

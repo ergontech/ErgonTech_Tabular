@@ -26,6 +26,9 @@
                 <class>ErgonTech_Tabular_Helper</class>
             </ergontech_tabular>
         </helpers>
+        <resources>
+
+        </resources>
     </global>
 
     <admin>

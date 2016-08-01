@@ -47,4 +47,16 @@ class ErgonTech_Tabular_Model_Import_ProfileSpec extends ObjectBehavior
     {
         $this->getResource()->shouldReturnAnInstanceOf(\ErgonTech_Tabular_Model_Resource_Import_Profile::class);
     }
+
+    public function it_has_a_resource_collection_model(
+        \Zend_Db_Adapter_Abstract $adapter,
+        \ErgonTech_Tabular_Model_Resource_Import_Profile $resourceImportProfile,
+        \Zend_Db_Select $select)
+    {
+        $adapter->select()->willReturn($select);
+        $resourceImportProfile->getMainTable()->willReturn('tabular_import_profile');
+        $resourceImportProfile->getReadConnection()->willReturn($adapter);
+        \Mage::register('_resource_singleton/ergontech_tabular/import_profile', $resourceImportProfile->getWrappedObject());
+        $this->getCollection()->shouldReturnAnInstanceOf(\ErgonTech_Tabular_Model_Resource_Import_Profile_Collection::class);
+    }
 }
