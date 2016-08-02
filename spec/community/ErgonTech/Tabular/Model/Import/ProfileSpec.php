@@ -3,8 +3,7 @@
 namespace spec;
 
 use ErgonTech_Tabular_Exception_Import_Profile as ImportProfileException;
-use ErgonTech_Tabular_Model_Import_Profile as ImportProfile;
-use ErgonTech_Tabular_Model_Import_Profile as TabularImportProfile;
+use ErgonTech_Tabular_Model_Import_Profile;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -25,12 +24,12 @@ class ErgonTech_Tabular_Model_Import_ProfileSpec extends ObjectBehavior
 
     public function it_is_initializable()
     {
-        $this->shouldHaveType(ImportProfile::class);
+        $this->shouldHaveType(ErgonTech_Tabular_Model_Import_Profile::class);
     }
 
     public function it_throws_an_exception_for_an_invalid_name_sent_to_setData()
     {
-        $badName = implode('', array_fill(0, ImportProfile::MAX_NAME_LENGTH + 1, 'a'));
+        $badName = implode('', array_fill(0, ErgonTech_Tabular_Model_Import_Profile::MAX_NAME_LENGTH + 1, 'a'));
         $this->shouldThrow(ImportProfileException::class)->during('setData', ['name', $badName]);
     }
 
@@ -40,7 +39,7 @@ class ErgonTech_Tabular_Model_Import_ProfileSpec extends ObjectBehavior
         $validClassName = 'Pretend\Class\Name';
         $badTypeId = 'invalid';
 
-        \Mage::getConfig()->setNode(ImportProfile::XML_PATH_PROFILE_TYPE . '/' . $validTypeId, $validClassName);
+        \Mage::getConfig()->setNode(\ErgonTech_Tabular_Model_Source_Import_Profile_Type::CONFIG_PATH_PROFILE_TYPE . '/' . $validTypeId, $validClassName);
 
         $this->shouldThrow(ImportProfileException::class)->during('setData', ['type_id', $badTypeId]);
     }
@@ -64,16 +63,16 @@ class ErgonTech_Tabular_Model_Import_ProfileSpec extends ObjectBehavior
 
     public function it_can_load_by_name(
         \ErgonTech_Tabular_Model_Resource_Import_Profile $profileResource,
-        TabularImportProfile $profile
+        ErgonTech_Tabular_Model_Import_Profile $profile
     )
     {
         $profileResource
-            ->load(Argument::type(TabularImportProfile::class), 'name value', 'name')
+            ->load(Argument::type(ErgonTech_Tabular_Model_Import_Profile::class), 'name value', 'name')
             ->willReturn($profile);
         \Mage::register('_resource_singleton/ergontech_tabular/import_profile', $profileResource->getWrappedObject());
 
         $loadedProfile = $this->loadByName('name value');
-        $loadedProfile->shouldHaveType(TabularImportProfile::class);
+        $loadedProfile->shouldHaveType(ErgonTech_Tabular_Model_Import_Profile::class);
     }
 
     public function it_does_not_validate_against_some_keys()

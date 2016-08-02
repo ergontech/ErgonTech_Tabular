@@ -9,8 +9,6 @@ class ErgonTech_Tabular_Model_Import_Profile extends Mage_Core_Model_Abstract
 {
     const MAX_NAME_LENGTH = 255;
 
-    const XML_PATH_PROFILE_TYPE = 'ergontech/tabular/import/profile/type';
-
     /**
      * @var string
      */
@@ -39,7 +37,7 @@ class ErgonTech_Tabular_Model_Import_Profile extends Mage_Core_Model_Abstract
                 return is_string($name) && strlen($name) <= static::MAX_NAME_LENGTH;
             },
             'type_id' => function ($type_id) {
-                $types = Mage::getConfig()->getNode(static::XML_PATH_PROFILE_TYPE)->asArray();
+                $types = Mage::getModel('ergontech_tabular/source_import_profile_type')->getProfileTypes();
 
                 return array_key_exists($type_id, $types);
             }

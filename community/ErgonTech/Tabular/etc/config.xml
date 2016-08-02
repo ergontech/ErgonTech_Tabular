@@ -37,6 +37,23 @@
                 </setup>
             </ergontech_tabular_setup>
         </resources>
+        <blocks>
+            <ergontech_tabular>
+                <class>ErgonTech_Tabular_Block</class>
+            </ergontech_tabular>
+        </blocks>
+
+        <ergontech>
+            <tabular>
+                <import>
+                    <profile>
+                        <type>
+                            <product>ErgonTech_Tabular_Model_Import_Profile_Type_Product</product>
+                        </type>
+                    </profile>
+                </import>
+            </tabular>
+        </ergontech>
     </global>
 
     <admin>
@@ -50,6 +67,16 @@
             </adminhtml>
         </routers>
     </admin>
+
+    <adminhtml>
+        <layout>
+            <updates>
+                <ergontech_tabular>
+                    <file>ergontech/tabular.xml</file>
+                </ergontech_tabular>
+            </updates>
+        </layout>
+    </adminhtml>
 
     <default>
         <tabular>

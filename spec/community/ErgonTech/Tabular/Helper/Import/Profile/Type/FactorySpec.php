@@ -53,7 +53,7 @@ class ErgonTech_Tabular_Helper_Import_Profile_Type_FactorySpec extends ObjectBeh
     public function it_generates_a_profile_type_instance_given_a_profile_instance(\ErgonTech_Tabular_Model_Import_Profile $profile)
     {
         $modelSuffix = 'foo';
-        $modelConfigPath = \ErgonTech_Tabular_Model_Import_Profile::XML_PATH_PROFILE_TYPE . '/' . $modelSuffix;
+        $modelConfigPath = \ErgonTech_Tabular_Model_Source_Import_Profile_Type::CONFIG_PATH_PROFILE_TYPE . '/' . $modelSuffix;
 
         $config = Mage::getConfig();
         $config->setNode($modelConfigPath, FactorySpecTestClass::class);
@@ -66,7 +66,7 @@ class ErgonTech_Tabular_Helper_Import_Profile_Type_FactorySpec extends ObjectBeh
     public function it_throws_an_exception_when_the_type_instance_cannot_be_found(\ErgonTech_Tabular_Model_Import_Profile $profile)
     {
         $modelSuffix = 'nope';
-        $modelConfigPath = \ErgonTech_Tabular_Model_Import_Profile::XML_PATH_PROFILE_TYPE . '/' . $modelSuffix;
+        $modelConfigPath = \ErgonTech_Tabular_Model_Source_Import_Profile_Type::CONFIG_PATH_PROFILE_TYPE . '/' . $modelSuffix;
 
         $config = Mage::getConfig();
         $config->setNode($modelConfigPath, 'nope_not_a_class_that_exists_i_hope');

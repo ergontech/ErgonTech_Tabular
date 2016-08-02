@@ -4,11 +4,11 @@
             <children>
                 <convert>
                     <children>
-                        <sheets translate="title">
-                            <title>Sheets Importer</title>
-                            <action>adminhtml/sheetsImporter/index</action>
+                        <tabular_profile translate="title">
+                            <title>Tabular Data Import Profiles</title>
+                            <action>adminhtml/tabular_profile/index</action>
                             <sort_order>40</sort_order>
-                        </sheets>
+                        </tabular_profile>
                     </children>
                 </convert>
             </children>
