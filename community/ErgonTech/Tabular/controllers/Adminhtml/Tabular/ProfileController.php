@@ -24,10 +24,10 @@ class ErgonTech_Tabular_Adminhtml_Tabular_ProfileController extends Mage_Adminht
         $profile = Mage::getModel('ergontech_tabular/import_profile');
 
         if ($id) {
-            $$profile->load($id);
-            if (!$$profile->getId()) {
+            $profile->load($id);
+            if (!$profile->getId()) {
                 Mage::getSingleton('adminhtml/session')->addError(
-                    $this->helper('ergontech_tabular')
+                    Mage::helper('ergontech_tabular')
                         ->__("The import profile with id %d does not exist!", $id));
             }
         }
