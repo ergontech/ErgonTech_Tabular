@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @method string getType()
+ * @method string getProfileType()
  * @method string getName()
  * @method mixed getExtra($key = null)
  */

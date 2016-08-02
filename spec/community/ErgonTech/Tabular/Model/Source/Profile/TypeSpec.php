@@ -14,10 +14,11 @@ class ErgonTech_Tabular_Model_Source_Profile_TypeSpec extends ObjectBehavior
     function let()
     {
         Mage::app();
-        Mage::getConfig()->setNode(
-            \ErgonTech_Tabular_Model_Source_Profile_Type::CONFIG_PATH_PROFILE_TYPE . '/' . static::FAKE_NAME,
+        Mage::getConfig()->setNode(sprintf('%s/%s/class',
+            \ErgonTech_Tabular_Model_Source_Profile_Type::CONFIG_PATH_PROFILE_TYPE, static::FAKE_NAME),
             self::FAKE_CLASS);
     }
+
     function it_is_initializable()
     {
         $this->shouldHaveType(\ErgonTech_Tabular_Model_Source_Profile_Type::class);
@@ -35,6 +36,6 @@ class ErgonTech_Tabular_Model_Source_Profile_TypeSpec extends ObjectBehavior
         $profileTypes = $this->getProfileTypes();
 
         $profileTypes->shouldBeArray();
-        $profileTypes[static::FAKE_NAME]->shouldBeLike(static::FAKE_CLASS);
+        $profileTypes[static::FAKE_NAME]['class']->shouldBeLike(static::FAKE_CLASS);
     }
 }
