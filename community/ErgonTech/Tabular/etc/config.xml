@@ -15,12 +15,12 @@
             <ergontech_tabular_resource>
                 <class>ErgonTech_Tabular_Model_Resource</class>
                 <entities>
-                    <import_profile>
-                        <table>tabular_import_profile</table>
-                    </import_profile>
-                    <import_profile_store>
-                        <table>tabular_import_profile_store</table>
-                    </import_profile_store>
+                    <profile>
+                        <table>tabular_profile</table>
+                    </profile>
+                    <profile_store>
+                        <table>tabular_profile_store</table>
+                    </profile_store>
                 </entities>
             </ergontech_tabular_resource>
         </models>
@@ -45,13 +45,11 @@
 
         <ergontech>
             <tabular>
-                <import>
-                    <profile>
-                        <type>
-                            <product>ErgonTech_Tabular_Model_Import_Profile_Type_Product</product>
-                        </type>
-                    </profile>
-                </import>
+                <profile>
+                    <type>
+                        <product_import>ErgonTech_Tabular_Model_Profile_Type_Product_Import</product_import>
+                    </type>
+                </profile>
             </tabular>
         </ergontech>
     </global>

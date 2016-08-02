@@ -3,14 +3,14 @@
 
     <adminhtml_tabular_profile_index>
         <reference name="content">
-            <block type="ergontech_tabular/adminhtml_import_profile_page" name="tabular_import_profile_page"></block>
+            <block type="ergontech_tabular/adminhtml_profile_page" name="tabular_profile_page"></block>
         </reference>
     </adminhtml_tabular_profile_index>
 
     <adminhtml_tabular_profile_edit>
         <update handle="editor" />
         <reference name="content">
-            <block type="ergontech_tabular/adminhtml_import_profile_edit" name="tabular_import_profile_edit"/>
+            <block type="ergontech_tabular/adminhtml_profile_edit" name="tabular_profile_edit"/>
         </reference>
     </adminhtml_tabular_profile_edit>
 </layout>

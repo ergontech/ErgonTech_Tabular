@@ -5,7 +5,7 @@ namespace spec;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class ErgonTech_Tabular_Model_Resource_Import_ProfileSpec extends ObjectBehavior
+class ErgonTech_Tabular_Model_Resource_ProfileSpec extends ObjectBehavior
 {
     public function let()
     {
@@ -19,11 +19,11 @@ class ErgonTech_Tabular_Model_Resource_Import_ProfileSpec extends ObjectBehavior
 
     public function it_is_initializable()
     {
-        $this->shouldHaveType(\ErgonTech_Tabular_Model_Resource_Import_Profile::class);
+        $this->shouldHaveType(\ErgonTech_Tabular_Model_Resource_Profile::class);
     }
 
     public function it_deserializes_extra_data_upon_load(
-        \ErgonTech_Tabular_Model_Import_Profile $profile,
+        \ErgonTech_Tabular_Model_Profile $profile,
         \Mage_Core_Model_Resource $resource,
         \Varien_Db_Adapter_Interface $adapter,
         \Varien_Db_Select $select
@@ -38,7 +38,7 @@ class ErgonTech_Tabular_Model_Resource_Import_ProfileSpec extends ObjectBehavior
         ];
 
         $resource->getConnection(Argument::type('string'))->willReturn($adapter);
-        $resource->getTableName('ergontech_tabular/import_profile')->willReturn('tabular_import_profile');
+        $resource->getTableName('ergontech_tabular/profile')->willReturn('tabular_profile');
 
         $adapter->fetchRow(Argument::type(\Varien_Db_Select::class))->willReturn($dataHash);
         $adapter->getTransactionLevel()->willReturn(0);

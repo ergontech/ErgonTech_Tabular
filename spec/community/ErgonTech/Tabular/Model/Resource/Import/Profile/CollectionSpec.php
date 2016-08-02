@@ -5,22 +5,22 @@ namespace spec;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class ErgonTech_Tabular_Model_Resource_Import_Profile_CollectionSpec extends ObjectBehavior
+class ErgonTech_Tabular_Model_Resource_Profile_CollectionSpec extends ObjectBehavior
 {
 
     protected $resource;
 
     function let(
         \Zend_Db_Adapter_Abstract $adapter,
-        \ErgonTech_Tabular_Model_Resource_Import_Profile $resource,
+        \ErgonTech_Tabular_Model_Resource_Profile $resource,
         \Zend_Db_Select $select
     )
     {
         $this->resource = $resource;
-        $resource->getMainTable()->willReturn('tabular_import_profile');
+        $resource->getMainTable()->willReturn('tabular_profile');
         $resource->getReadConnection()->willReturn($adapter);
         $resource->getIdFieldName()->willReturn('entity_id');
-        $this->resource->load(Argument::type(\ErgonTech_Tabular_Model_Import_Profile::class), null, null)->will(function ($args) {
+        $this->resource->load(Argument::type(\ErgonTech_Tabular_Model_Profile::class), null, null)->will(function ($args) {
             list($profile, $id, $field) = $args;
 
             return $profile;
@@ -43,7 +43,7 @@ class ErgonTech_Tabular_Model_Resource_Import_Profile_CollectionSpec extends Obj
 
         \Mage::app();
         \Mage::getConfig()->setNode('global/models/ergontech_tabular/class', 'ErgonTech_Tabular_Model');
-        \Mage::register('_resource_singleton/ergontech_tabular/import_profile', $resource->getWrappedObject());
+        \Mage::register('_resource_singleton/ergontech_tabular/profile', $resource->getWrappedObject());
     }
 
     function letGo()
@@ -53,21 +53,21 @@ class ErgonTech_Tabular_Model_Resource_Import_Profile_CollectionSpec extends Obj
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('ErgonTech_Tabular_Model_Resource_Import_Profile_Collection');
+        $this->shouldHaveType('ErgonTech_Tabular_Model_Resource_Profile_Collection');
     }
 
     function it_gets_profiles_from_the_database()
     {
         $this->load();
 
-        $this->getFirstItem()->shouldHaveType(\ErgonTech_Tabular_Model_Import_Profile::class);
+        $this->getFirstItem()->shouldHaveType(\ErgonTech_Tabular_Model_Profile::class);
         $item2 = $this->getItemById(2);
         $item2->getData('name')->shouldReturn('byebye');
     }
 
     function it_calls_load_on_each_item()
     {
-        $this->resource->load(Argument::type(\ErgonTech_Tabular_Model_Import_Profile::class), null, null)->shouldBeCalledTimes(2);
+        $this->resource->load(Argument::type(\ErgonTech_Tabular_Model_Profile::class), null, null)->shouldBeCalledTimes(2);
         $this->load();
     }
 }

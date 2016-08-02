@@ -5,7 +5,7 @@
                 <convert>
                     <children>
                         <tabular_profile translate="title">
-                            <title>Tabular Data Import Profiles</title>
+                            <title>Tabular Data Processing Profiles</title>
                             <action>adminhtml/tabular_profile/index</action>
                             <sort_order>40</sort_order>
                         </tabular_profile>
@@ -23,7 +23,7 @@
                             <config>
                                 <children>
                                     <tabular translate="title" module="ergontech_tabular">
-                                        <title>Tabular Data Importer</title>
+                                        <title>Tabular Data Processor</title>
                                     </tabular>
                                 </children>
                             </config>

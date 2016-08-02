@@ -10,7 +10,7 @@
 <config>
     <sections>
         <tabular translate="label" module="ergontech_tabular">
-            <label>Tabular Data Importer</label>
+            <label>Tabular Data Processor</label>
             <tab>service</tab>
             <sort_order>10</sort_order>
             <show_in_default>1</show_in_default>
