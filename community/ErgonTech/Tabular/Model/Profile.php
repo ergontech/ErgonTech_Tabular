@@ -4,6 +4,7 @@
  * @method string getProfileType()
  * @method string getName()
  * @method mixed getExtra($key = null)
+ * @method int getStoreId()
  */
 class ErgonTech_Tabular_Model_Profile extends Mage_Core_Model_Abstract
 {

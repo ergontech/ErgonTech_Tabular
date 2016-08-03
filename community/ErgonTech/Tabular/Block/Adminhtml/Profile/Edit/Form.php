@@ -16,7 +16,7 @@ class ErgonTech_Tabular_Block_Adminhtml_Profile_Edit_Form extends Mage_Adminhtml
         /** @var Varien_Data_Form $form */
         $this->setForm(new Varien_Data_Form([
             'id' => 'edit_form',
-            'action' => $this->getAction(),
+            'action' => $this->getData('action'),
             'method' => 'post'
         ]));
         $this->setHtmlIdPrefix('profile_');
@@ -27,7 +27,15 @@ class ErgonTech_Tabular_Block_Adminhtml_Profile_Edit_Form extends Mage_Adminhtml
             $this->addRunFieldset();
         }
 
-        return parent::_prepareForm();
+        $this->getForm()
+            ->setUseContainer(true)
+            ->setValues($this->getProfile()->getData());
+
+        $this->addExtraFields();
+
+        parent::_prepareForm();
+
+        return $this;
     }
 
     protected function addRunFieldset()
@@ -83,12 +91,13 @@ class ErgonTech_Tabular_Block_Adminhtml_Profile_Edit_Form extends Mage_Adminhtml
             'required' => true,
         ]);
 
+        $profileTypes = array_keys(Mage::getModel('ergontech_tabular/source_profile_type')->getProfileTypes());
         $fieldset->addField('profile_type', 'select', [
             'name' => 'profile_type',
             'label' => $helper->__('Profile Type'),
             'title' => $helper->__('Profile Type'),
             'required' => true,
-            'options' => array_keys(Mage::getModel('ergontech_tabular/source_profile_type')->getProfileTypes())
+            'options' => array_combine($profileTypes, $profileTypes)
         ]);
 
         if (!Mage::app()->isSingleStoreMode()) {
@@ -108,7 +117,17 @@ class ErgonTech_Tabular_Block_Adminhtml_Profile_Edit_Form extends Mage_Adminhtml
             ));
             $profile->setStoreId(Mage::app()->getStore(true)->getId());
         }
+    }
 
+    public function addExtraFields()
+    {
+        /** @var ErgonTech_Tabular_Helper_Data $helper */
+        $helper = Mage::helper('ergontech_tabular');
+
+        $profile = $this->getProfile();
+        /** @var Varien_Data_Form $form */
+        $form = $this->getForm();
+        $fieldset = $form->getElement('base_fieldset');
         if ($profile->getProfileType()) {
             $extraFields = Mage::getConfig()->getNode(sprintf('%s/%s/extra',
                 ErgonTech_Tabular_Model_Source_Profile_Type::CONFIG_PATH_PROFILE_TYPE,
@@ -126,6 +145,8 @@ class ErgonTech_Tabular_Block_Adminhtml_Profile_Edit_Form extends Mage_Adminhtml
                 if (array_key_exists('comment', $fieldConfig)) {
                     $field->setData('after_element_html', $fieldConfig['comment']);
                 }
+
+                $field->setValue($profile->getExtra($extraField));
             }
         }
     }

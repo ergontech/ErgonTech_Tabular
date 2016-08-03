@@ -8,10 +8,18 @@ class ErgonTech_Tabular_Block_Adminhtml_Profile_Edit extends Mage_Adminhtml_Bloc
         $this->_objectId = 'entity_id';
         $this->_controller = 'adminhtml_profile';
 
-        $helper = Mage::helper('ergontech_tabular');
-
         parent::__construct();
 
+        $this->_formScripts[] = <<<JS
+function saveAndContinueEdit() {
+    editForm.submit($('edit_form').action+'back/edit/');
+}
+JS;
+    }
+
+    protected function _prepareLayout()
+    {
+        $helper = Mage::helper('ergontech_tabular');
         $this->_updateButton('save', 'label', $helper->__('Save Profile'));
         $this->_updateButton('delete', 'label', $helper->__('Delete Profile'));
 
@@ -21,13 +29,23 @@ class ErgonTech_Tabular_Block_Adminhtml_Profile_Edit extends Mage_Adminhtml_Bloc
             'class' => 'save'
         ], -100);
 
-        $this->_formScripts[] = <<<JS
-function saveAndContinueEdit() {
-    editForm.submit($('edit_form').action+'back/edit/');
-}
-JS;
 
-
+        return parent::_prepareLayout();
     }
 
+    public function getHeaderText()
+    {
+        return Mage::helper('ergontech_tabular')
+            ->__(Mage::registry('ergontech_tabular_profile')->getId()
+                ? 'Edit Profile' : 'New Profile');
+    }
+
+
+    public function getFormActionUrl()
+    {
+        if ($this->hasFormActionUrl()) {
+            return $this->getData('form_action_url');
+        }
+        return $this->getUrl('*/*/save');
+    }
 }
