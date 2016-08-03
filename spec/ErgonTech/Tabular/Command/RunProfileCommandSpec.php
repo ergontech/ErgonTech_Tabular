@@ -2,7 +2,7 @@
 
 namespace spec\ErgonTech\Tabular\Command;
 
-use ErgonTech\Tabular\Command\ImportCommand;
+use ErgonTech\Tabular\Command\RunProfileCommand;
 use Mage;
 use N98\Magento\Application;
 use PhpSpec\ObjectBehavior;
@@ -14,7 +14,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ImportCommandSpec extends ObjectBehavior
+class RunProfileCommandSpec extends ObjectBehavior
 {
     function let(Application $app, HelperSet $helperSet, InputDefinition $inputDefinition, InputOption $inputOption, InputArgument $inputArgument)
     {
@@ -34,16 +34,16 @@ class ImportCommandSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType(ImportCommand::class);
+        $this->shouldHaveType(RunProfileCommand::class);
     }
 
     function it_offers_help()
     {
-        /** @var $this ImportCommandSpec|ImportCommand */
+        /** @var $this RunProfileCommandSpec|RunProfileCommand */
         $help = <<<HELP
-Imports data based on the profile type and data of the specified profile.
+Processes data based on the profile type and data of the specified profile.
 
-A list of profile is available by running the "tabular:profiles:list" command.
+A list of profiles is available by running the "tabular:profiles:list" command.
 HELP;
         $this->getHelp()->shouldReturn($help);
     }
@@ -105,7 +105,7 @@ HELP;
             ->willReturn('test profile')
             ->shouldBeCalled();
 
-        /** @var $this ImportCommandSpec|ImportCommand */
+        /** @var $this RunProfileCommandSpec|RunProfileCommand */
         $this->run($input, $output);
     }
 }

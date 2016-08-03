@@ -8,15 +8,15 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ImportCommand extends AbstractMagentoCommand
+class RunProfileCommand extends AbstractMagentoCommand
 {
     protected function configure()
     {
         $this->addOption('profile-name', null, InputOption::VALUE_REQUIRED, 'Run an import with the given profile');
         $this->setHelp(<<<HELP
-Imports data based on the profile type and data of the specified profile.
+Processes data based on the profile type and data of the specified profile.
 
-A list of profile is available by running the "tabular:profiles:list" command.
+A list of profiles is available by running the "tabular:profiles:list" command.
 HELP
         );
     }
