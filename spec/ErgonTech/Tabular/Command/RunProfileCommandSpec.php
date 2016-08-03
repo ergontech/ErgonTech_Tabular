@@ -16,14 +16,20 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class RunProfileCommandSpec extends ObjectBehavior
 {
+    /**
+     * @var Application
+     */
+    protected $app;
+
     function let(Application $app, HelperSet $helperSet, InputDefinition $inputDefinition, InputOption $inputOption, InputArgument $inputArgument)
     {
         $inputDefinition->getOptions()->willReturn([$inputOption]);
         $inputDefinition->getArguments()->willReturn([$inputArgument]);
 
-        $app->getHelperSet()->willReturn($helperSet);
-        $app->getDefinition()->willReturn($inputDefinition);
-        $this->setApplication($app);
+        $this->app = $app;
+        $this->app->getHelperSet()->willReturn($helperSet);
+        $this->app->getDefinition()->willReturn($inputDefinition);
+        $this->setApplication($this->app);
         Mage::app();
     }
 
@@ -91,6 +97,19 @@ HELP;
         $profileType->execute()->shouldBeCalled();
 
         $input->bind(Argument::type(InputDefinition::class))->willReturn(null);
+
+        $this->app->detectMagento()
+            ->willReturn(null)
+            ->shouldBeCalled();
+        $this->app->initMagento(Argument::type('bool'))
+            ->willReturn(null)
+            ->shouldBeCalled();
+        $this->app->isMagentoEnterprise()
+            ->willReturn(false);
+        $this->app->getMagentoRootFolder()
+            ->willReturn(__DIR__ . '/../../../../root');
+        $this->app->getMagentoMajorVersion()
+            ->willReturn(10000);
 
         $input->isInteractive()
             ->willReturn(false);

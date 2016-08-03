@@ -1,0 +1,6 @@
+autoloaders:
+  ErgonTech\Tabular\Command: %module%/src/
+
+commands:
+  customCommands:
+    - ErgonTech\Tabular\Command\RunProfileCommand

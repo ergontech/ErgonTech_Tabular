@@ -28,20 +28,24 @@ HELP
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $profileName = $input->getOption('profile-name');
+        try {
+            $this->detectMagento($output);
+            $this->initMagento();
+            $profileName = $input->getOption('profile-name');
 
-        $profileCollection = Mage::getResourceModel('ergontech_tabular/profile_collection')
-            ->addFieldToFilter('name', $profileName);
+            $profileCollection = Mage::getResourceModel('ergontech_tabular/profile_collection')
+                ->addFieldToFilter('name', $profileName);
 
-        $profileCollection->getSelect()->limit(1);
+            $profileCollection->getSelect()->limit(1);
 
-        $profile = $profileCollection->getFirstItem();
+            $profile = $profileCollection->getFirstItem();
 
-        /** @var \ErgonTech_Tabular_Model_Profile_Type $profileType */
-        $profileType = Mage::helper('ergontech_tabular/profile_type_factory')->createProfileTypeInstance($profile);
+            /** @var \ErgonTech_Tabular_Model_Profile_Type $profileType */
+            $profileType = Mage::helper('ergontech_tabular/profile_type_factory')->createProfileTypeInstance($profile);
 
-        $profileType->execute();
+            $profileType->execute();
+        } catch (\Exception $e) {
+            $output->write(sprintf('<error>%s</error>',$e));
+        }
     }
-
-
 }
