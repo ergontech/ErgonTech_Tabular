@@ -18,7 +18,8 @@
         "root/app/code/community",
         "root/app/code/core",
         "root/lib",
-        "root/app"
+        "root/app",
+        "src"
       ],
       "ErgonTech\\Tabular": [
         "community"
@@ -39,7 +40,8 @@
     "magetest/magento-phpspec-extension": "^3.0",
     "magento/core": "^1.9",
     "aydin-hassan/magento-core-composer-installer": "1.3.*",
-    "magento-hackathon/magento-composer-installer": "^3.0"
+    "magento-hackathon/magento-composer-installer": "^3.0",
+    "n98/magerun": "^1.97.9"
   },
   "require": {
     "ergontech/tabular-core": "^0.1",
@@ -48,7 +50,9 @@
   "extra": {
     "map": [
       ["community/ErgonTech/Tabular", "app/code/community/ErgonTech/Tabular"],
-      ["modules/ErgonTech_Tabular.xml", "app/etc/modules/ErgonTech_Tabular.xml"]
+      ["modules/ErgonTech_Tabular.xml", "app/etc/modules/ErgonTech_Tabular.xml"],
+      ["design/adminhtml/default/default/layout/ergontech", "design/adminhtml/default/default/layout/ergontech"],
+      ["src", "lib/n98-magerun/modules/tabular/src"]
     ],
     "magento-root-dir": "root"
   }
