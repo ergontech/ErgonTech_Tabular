@@ -58,7 +58,7 @@ class ErgonTech_Tabular_Helper_Profile_Type_FactorySpec extends ObjectBehavior
         $config = Mage::getConfig();
         $config->setNode($modelConfigPath, FactorySpecTestClass::class);
 
-        $profile->getType()->willReturn($modelSuffix);
+        $profile->getProfileType()->willReturn($modelSuffix);
 
         $this->createProfileTypeInstance($profile)->shouldReturnAnInstanceOf(FactorySpecTestClass::class);
     }
@@ -71,7 +71,7 @@ class ErgonTech_Tabular_Helper_Profile_Type_FactorySpec extends ObjectBehavior
         $config = Mage::getConfig();
         $config->setNode($modelConfigPath, 'nope_not_a_class_that_exists_i_hope');
 
-        $profile->getType()->willReturn($modelSuffix);
+        $profile->getProfileType()->willReturn($modelSuffix);
 
         $this->shouldThrow(\ErgonTech_Tabular_Exception_Type::class)->during('createProfileTypeInstance', [$profile]);
     }
