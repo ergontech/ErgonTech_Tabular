@@ -39,6 +39,11 @@ class ErgonTech_Tabular_Model_Profile_Type_Product_ImportSpec extends ObjectBeha
         $this->shouldHaveType(\ErgonTech_Tabular_Model_Profile_Type_Product_Import::class);
     }
 
+    public function it_is_a_profile_type()
+    {
+        $this->shouldHaveType(\ErgonTech_Tabular_Model_Profile_Type::class);
+    }
+
     public function it_can_only_be_initialized_once(\ErgonTech_Tabular_Model_Profile $profile, \ErgonTech_Tabular_Helper_Google_Api $api)
     {
         \Mage::register('_helper/ergontech_tabular/google_api', $api);
