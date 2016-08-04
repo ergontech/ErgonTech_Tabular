@@ -7,6 +7,20 @@ class ErgonTech_Tabular_Helper_HeaderTransforms extends Mage_Core_Helper_Abstrac
         return str_replace(' ', '_', strtolower($input));
     }
 
+    public static function categoryHeaderMapping($input)
+    {
+        $mappings = [
+            'Root Category' => '_root',
+            'Category' => '_category'
+        ];
+
+        if (array_key_exists($input, $mappings)) {
+            return $mappings[$input];
+        }
+
+        return static::spacesToUnderscoresAndLowercase($input);
+    }
+
     public function getHeaderTransformCallbackForProfile(ErgonTech_Tabular_Model_Profile $profile)
     {
         return Mage::getConfig()->getNode(sprintf('%s/%s/extra/header_transform_callback/options/%s/callback',
