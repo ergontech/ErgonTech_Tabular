@@ -80,11 +80,8 @@ class ErgonTech_Tabular_Model_Profile_Type_Product_Import implements ErgonTech_T
         $sheets = Mage::helper('ergontech_tabular/google_api')->getService(Google_Service_Sheets::class);
         /** @var array $sheetsData */
         if (is_null($this->headerTransformCallback)) {
-            $extraClass = Mage::getConfig()->getNode(sprintf('%s/%s/extra/header_transform_callback/options/%s/callback',
-                ErgonTech_Tabular_Model_Source_Profile_Type::CONFIG_PATH_PROFILE_TYPE,
-                $profile->getProfileType(),
-                $profile->getExtra('header_transform_callback')));
-            $this->setHeaderTransformCallback((string)$extraClass);
+            $callback = Mage::helper('ergontech_tabular/headerTransforms')->getHeaderTransformCallbackForProfile($profile);
+            $this->setHeaderTransformCallback((string)$callback);
         }
 
         $this->processor->addStep(new FastSimpleImport(Mage::getModel('fastsimpleimport/import')));

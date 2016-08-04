@@ -20,13 +20,14 @@ class ErgonTech_Tabular_Model_Profile_Type_Product_ImportSpec extends ObjectBeha
 
     private $googleApiHelper;
 
-    public function let(Processor $processor, \Mage_Catalog_Model_Resource_Product $productResource)
+    public function let(Processor $processor, \Mage_Catalog_Model_Resource_Product $productResource, \ErgonTech_Tabular_Helper_HeaderTransforms $headerTransforms)
     {
         $this->processor = $processor;
 
         $this->beConstructedWith($this->processor);
         \Mage::app();
         \Mage::register('_resource_singleton/catalog/product', $productResource);
+        \Mage::register('_helper/ergontech_tabular/headerTransforms', $headerTransforms);
     }
 
     public function letGo()
@@ -75,9 +76,6 @@ class ErgonTech_Tabular_Model_Profile_Type_Product_ImportSpec extends ObjectBeha
         $profile->getExtra('header_named_range')->shouldBeCalled();
         $profile->getExtra('data_named_range')->shouldBeCalled();
 
-        $profile->getProfileType()
-            ->shouldBeCalled()
-            ->willReturn('asdf');
         $profile->getExtra('header_transform_callback')
             ->willReturn('strtolower');
 
