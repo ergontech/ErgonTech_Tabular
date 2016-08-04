@@ -146,6 +146,14 @@ class ErgonTech_Tabular_Block_Adminhtml_Profile_Edit_Form extends Mage_Adminhtml
                     $field->setData('after_element_html', $fieldConfig['comment']);
                 }
 
+                if (array_key_exists('options', $fieldConfig)) {
+                    $options = [];
+                    foreach ($fieldConfig['options'] as $optionKey => $optionConfig) {
+                        $options[$optionKey] = $optionConfig['label'];
+                    }
+                    $field->setData('values', $options);
+                }
+
                 $field->setValue($profile->getExtra($extraField));
             }
         }

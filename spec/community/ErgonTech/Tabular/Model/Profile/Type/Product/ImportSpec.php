@@ -66,7 +66,15 @@ class ErgonTech_Tabular_Model_Profile_Type_Product_ImportSpec extends ObjectBeha
         $this->processor->addStep(Argument::type(GoogleSheetsLoadStep::class))->shouldBeCalled();
         $this->processor->addStep(Argument::type(HeaderTransformStep::class))->shouldBeCalled();
         $this->processor->addStep(Argument::type(FastSimpleImport::class))->shouldBeCalled();
-        $profile->getExtra('sheets_data')->shouldBeCalled();
+        $profile->getExtra('spreadsheet_id')->shouldBeCalled();
+        $profile->getExtra('header_named_range')->shouldBeCalled();
+        $profile->getExtra('data_named_range')->shouldBeCalled();
+
+        $profile->getProfileType()
+            ->shouldBeCalled()
+            ->willReturn('asdf');
+        $profile->getExtra('header_transform_callback')
+            ->willReturn('strtolower');
 
         $this->initialize($profile);
     }
@@ -74,10 +82,11 @@ class ErgonTech_Tabular_Model_Profile_Type_Product_ImportSpec extends ObjectBeha
     public function it_runs_profile(\ErgonTech_Tabular_Model_Profile $profile, \ErgonTech_Tabular_Helper_Google_Api $api)
     {
         \Mage::register('_helper/ergontech_tabular/google_api', $api);
-        $this->initialize($profile);
         $this->setHeaderTransformCallback(function ($a) {
         });
-//        $this->processor->run()->shouldBeCalled();
-//        $this->processor->__invoke(Argument::type(Rows::class))->shouldBeCalled();
+        $this->initialize($profile);
+        $this->processor->run()->shouldBeCalled();
+
+        $this->execute();
     }
 }

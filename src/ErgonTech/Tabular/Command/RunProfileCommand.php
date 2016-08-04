@@ -45,7 +45,7 @@ HELP
 
             $profileType->execute();
         } catch (\Exception $e) {
-            $output->write(sprintf('<error>%s</error>',$e));
+            $output->write(sprintf('<error>%s</error>',$e->getMessage()));
         }
     }
 }

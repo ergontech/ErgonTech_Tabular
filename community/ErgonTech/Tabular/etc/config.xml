@@ -63,6 +63,16 @@
                                     <input>text</input>
                                     <label>Data Named Range</label>
                                 </data_named_range>
+                                <header_transform_callback>
+                                    <input>select</input>
+                                    <label>Header Column Transform Options</label>
+                                    <options>
+                                        <spaces_to_underscores_and_lowercase>
+                                            <label>Spaces to underscores and Lowercase</label>
+                                            <callback><![CDATA[ErgonTech_Tabular_Helper_HeaderTransforms::spacesToUnderscoresAndLowercase]]></callback>
+                                        </spaces_to_underscores_and_lowercase>
+                                    </options>
+                                </header_transform_callback>
                             </extra>
                         </product_import>
                     </type>
@@ -95,6 +105,9 @@
 
     <default>
         <tabular>
+            <google_api>
+                <api_key backend_model="adminhtml/system_config_backend_encrypted"/>
+            </google_api>
             <general>
                 <enabled>1</enabled>
             </general>
