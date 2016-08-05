@@ -24,7 +24,6 @@ class RootCategoryCreatorSpec extends ObjectBehavior
         \Mage_Catalog_Model_Resource_Category $categoryResource)
     {
         $this->categoryResource = $categoryResource;
-        \Mage::app();
         \Mage::unregister('_resource_singleton/catalog/category');
         \Mage::register('_resource_singleton/catalog/category', $this->categoryResource->getWrappedObject());
         $this->collection = $collection;

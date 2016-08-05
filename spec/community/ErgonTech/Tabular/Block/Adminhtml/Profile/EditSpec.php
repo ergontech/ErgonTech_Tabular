@@ -9,14 +9,14 @@ class ErgonTech_Tabular_Block_Adminhtml_Profile_EditSpec extends ObjectBehavior
 {
     function let(\ErgonTech_Tabular_Helper_Data $data)
     {
-        \Mage::app();
         \Mage::register('_helper/ergontech_tabular', $data);
         \Mage::register('_helper/ergontech_tabular/data', $data);
     }
 
     function letGo()
     {
-        \Mage::reset();
+        \Mage::unregister('_helper/ergontech_tabular');
+        \Mage::unregister('_helper/ergontech_tabular/data');
     }
 
     function it_is_initializable()

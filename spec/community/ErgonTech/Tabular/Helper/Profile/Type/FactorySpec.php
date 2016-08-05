@@ -42,12 +42,10 @@ class ErgonTech_Tabular_Helper_Profile_Type_FactorySpec extends ObjectBehavior
 
     public function let()
     {
-        Mage::app();
     }
 
     public function letGo()
     {
-        Mage::reset();
     }
 
     public function it_generates_a_profile_type_instance_given_a_profile_instance(\ErgonTech_Tabular_Model_Profile $profile)
