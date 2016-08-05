@@ -8,6 +8,7 @@ use ErgonTech\Tabular\LoggingStep;
 use ErgonTech\Tabular\Processor;
 use ErgonTech\Tabular\Rows;
 use ErgonTech\Tabular\Step\Category;
+use Monolog\Logger;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -23,7 +24,10 @@ class ErgonTech_Tabular_Model_Profile_Type_Category_ImportSpec extends ObjectBeh
         \Mage_Catalog_Model_Resource_Category_Collection $categoryCollection,
         \AvS_FastSimpleImport_Model_Import $import,
         \Mage_Core_Model_Config $config,
-        \ErgonTech_Tabular_Helper_HeaderTransforms $headerTransforms
+        \Mage_Core_Model_Config_Options $configOptions,
+        \ErgonTech_Tabular_Helper_HeaderTransforms $headerTransforms,
+        \ErgonTech_Tabular_Helper_Monolog $monologHelper,
+        Logger $logger
     ) {
         $this->processor = $processor;
 
@@ -35,7 +39,13 @@ class ErgonTech_Tabular_Model_Profile_Type_Category_ImportSpec extends ObjectBeh
         $refConfig->setValue($config->getWrappedObject());
         $config->getResourceModelInstance('catalog/category_collection', Argument::any())->willReturn($categoryCollection);
         $config->getModelInstance('fastsimpleimport/import', Argument::any())->willReturn($import);
-        \Mage::register('_helper/ergontech_tabular/headerTransforms', $headerTransforms);
+        $config->getOptions()->willReturn($configOptions);
+        $configOptions->getDir('var')->willReturn('/tmp');
+        \Mage::register('_helper/ergontech_tabular/headerTransforms', $headerTransforms->getWrappedObject());
+        \Mage::register('_helper/ergontech_tabular/monolog', $monologHelper->getWrappedObject());
+
+        $monologHelper->getLogger(Argument::type('string'))->willReturn($logger);
+        $monologHelper->registerLogger(Argument::type('string'))->willReturn($logger);
     }
 
     public function letGo()
@@ -87,6 +97,7 @@ class ErgonTech_Tabular_Model_Profile_Type_Category_ImportSpec extends ObjectBeh
         $profile->getExtra('spreadsheet_id')->shouldBeCalled();
         $profile->getExtra('header_named_range')->shouldBeCalled();
         $profile->getExtra('data_named_range')->shouldBeCalled();
+        $profile->getProfileType()->willReturn('blah')->shouldBeCalled();
 
         $profile->getExtra('header_transform_callback')
             ->willReturn('strtolower');
