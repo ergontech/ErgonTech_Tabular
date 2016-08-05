@@ -35,7 +35,7 @@ class ErgonTech_Tabular_Helper_Google_Api extends Mage_Core_Helper_Abstract
             if ($type === ErgonTech_Tabular_Model_Source_Google_Api_Type::API_KEY) {
                 $this->client->setDeveloperKey($apiKey);
             } else {
-                $this->client->setAuthConfig($apiKey);
+                $this->client->setAuthConfig(Mage::helper('core')->jsonDecode($apiKey));
             }
         }
 

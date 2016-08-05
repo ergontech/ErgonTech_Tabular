@@ -13,11 +13,14 @@ class ErgonTech_Tabular_Helper_Google_ApiSpec extends ObjectBehavior
 
     protected $client;
 
+    protected $dataHelper;
+
     function let(
         \Mage_Core_Model_Config $config,
         \Mage_Core_Model_App $app,
         \Mage_Core_Model_Store $store,
-        \Google_Client $client
+        \Google_Client $client,
+        \Mage_Core_Helper_Data $dataHelper
     ) {
 
         $refMage = new \ReflectionClass(Mage::class);
@@ -31,7 +34,9 @@ class ErgonTech_Tabular_Helper_Google_ApiSpec extends ObjectBehavior
 
         $this->store = $store;
         $this->client = $client;
+        $this->dataHelper = $dataHelper;
         Mage::register('_singleton/Google_Client', $this->client->getWrappedObject());
+        Mage::register('_helper/core', $this->dataHelper->getWrappedObject());
     }
 
     function letGo()
@@ -72,11 +77,13 @@ class ErgonTech_Tabular_Helper_Google_ApiSpec extends ObjectBehavior
     function it_reads_json_config_when_the_type_is_service_account()
     {
         $authConfig = ['hello' => 'world'];
+        $authConfigStr = json_encode($authConfig);
+        $this->dataHelper->jsonDecode($authConfigStr)->willReturn($authConfig);
         $this->store->getConfig(\ErgonTech_Tabular_Helper_Google_Api::CONFIG_PATH_API_TYPE)
             ->willReturn(\ErgonTech_Tabular_Model_Source_Google_Api_Type::SERVICE_ACCOUNT)
             ->shouldBeCalled();
         $this->store->getConfig(\ErgonTech_Tabular_Helper_Google_Api::CONFIG_PATH_API_KEY)
-            ->willReturn($authConfig)
+            ->willReturn($authConfigStr)
             ->shouldBeCalled();
         $this->client->setAuthConfig($authConfig)
             ->shouldBeCalled();
