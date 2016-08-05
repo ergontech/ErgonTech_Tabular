@@ -68,18 +68,24 @@ class ErgonTech_Tabular_Model_Profile_Type_Category_Import implements ErgonTech_
             $this->setHeaderTransformCallback((string)$callback);
         }
 
-        $this->processor->addStep(new \ErgonTech\Tabular\LoggingStep(new \Psr\Log\NullLogger()));
+        /** @var \Monolog\Logger $logger */
+        $logger = Mage::helper('ergontech_tabular/monolog')->registerLogger('tabular');
+        $logger->pushHandler(
+            new \Monolog\Handler\StreamHandler(sprintf('%s/log/tabular/%s.log',
+                Mage::getBaseDir('var'), $profile->getProfileType())));
+
         $this->processor->addStep(new \ErgonTech\Tabular\Step\Category\FastSimpleImport(Mage::getModel('fastsimpleimport/import')));
-        $this->processor->addStep(new \ErgonTech\Tabular\LoggingStep(new \Psr\Log\NullLogger()));
+        $this->processor->addStep(new \ErgonTech\Tabular\LoggingStep($logger));
         $this->processor->addStep(new \ErgonTech\Tabular\Step\Category\RootCategoryCreator(Mage::getResourceModel('catalog/category_collection')));
-        $this->processor->addStep(new \ErgonTech\Tabular\LoggingStep(new \Psr\Log\NullLogger()));
+        $this->processor->addStep(new \ErgonTech\Tabular\LoggingStep($logger));
         $this->processor->addStep(new \ErgonTech\Tabular\HeaderTransformStep($this->headerTransformCallback));
-        $this->processor->addStep(new \ErgonTech\Tabular\LoggingStep(new \Psr\Log\NullLogger()));
+        $this->processor->addStep(new \ErgonTech\Tabular\LoggingStep($logger));
         $this->processor->addStep(new \ErgonTech\Tabular\GoogleSheetsLoadStep(
             Mage::helper('ergontech_tabular/google_api')->getService(Google_Service_Sheets::class, [Google_Service_Sheets::SPREADSHEETS_READONLY]),
             $profile->getExtra('spreadsheet_id'),
             $profile->getExtra('header_named_range'),
             $profile->getExtra('data_named_range')));
+        $this->processor->addStep(new \ErgonTech\Tabular\LoggingStep($logger));
 
         $this->initialized = true;
     }

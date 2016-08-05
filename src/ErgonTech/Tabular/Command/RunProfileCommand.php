@@ -3,7 +3,9 @@
 namespace ErgonTech\Tabular\Command;
 
 use Mage;
+use Monolog\Handler\StreamHandler;
 use N98\Magento\Command\AbstractMagentoCommand;
+use Psr\Log\LogLevel;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -43,6 +45,7 @@ HELP
             /** @var \ErgonTech_Tabular_Model_Profile_Type $profileType */
             $profileType = Mage::helper('ergontech_tabular/profile_type_factory')->createProfileTypeInstance($profile);
 
+            Mage::helper('ergontech_tabular/monolog')->pushHandler('tabular', new StreamHandler(STDOUT, LogLevel::DEBUG));
             $profileType->execute();
         } catch (\Exception $e) {
             $output->write(sprintf('<error>%s</error>',$e->getMessage()));

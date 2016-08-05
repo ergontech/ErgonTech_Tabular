@@ -4,9 +4,11 @@ namespace spec\ErgonTech\Tabular\Command;
 
 use ErgonTech\Tabular\Command\RunProfileCommand;
 use Mage;
+use Monolog\Handler\HandlerInterface;
 use N98\Magento\Application;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
@@ -60,7 +62,9 @@ HELP;
         \Mage_Core_Model_Config $config,
         \ErgonTech_Tabular_Model_Resource_Profile_Collection $collection,
         \Varien_Db_Select $select,
+        LoggerInterface $logger,
         \ErgonTech_Tabular_Helper_Profile_Type_Factory $profileTypeFactory,
+        \ErgonTech_Tabular_Helper_Monolog $monologHelper,
         \ErgonTech_Tabular_Model_Profile $profile,
         \ErgonTech_Tabular_Model_Profile_Type $profileType
     ) {
@@ -89,6 +93,10 @@ HELP;
         $configRef->setValue($mageReflection, $config->getWrappedObject());
 
         Mage::register('_helper/ergontech_tabular/profile_type_factory', $profileTypeFactory->getWrappedObject());
+        Mage::register('_helper/ergontech_tabular/monolog', $monologHelper->getWrappedObject());
+
+        $monologHelper->getLogger('tabular')->willReturn($logger);
+        $monologHelper->pushHandler('tabular', Argument::type(HandlerInterface::class))->shouldBeCalled();
 
         $profileTypeFactory->createProfileTypeInstance($profile)
             ->willReturn($profileType)
