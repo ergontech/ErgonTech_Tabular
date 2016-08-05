@@ -3,6 +3,7 @@
 class ErgonTech_Tabular_Helper_Google_Api extends Mage_Core_Helper_Abstract
 {
     const CONFIG_PATH_API_KEY = 'tabular/google_api/api_key';
+    const CONFIG_PATH_API_TYPE = 'tabular/google_api/type';
 
     /**
      * @var Google_Client
@@ -28,9 +29,14 @@ class ErgonTech_Tabular_Helper_Google_Api extends Mage_Core_Helper_Abstract
     public function getGoogleClient()
     {
         if (is_null($this->client)) {
+            $type = Mage::getStoreConfig(static::CONFIG_PATH_API_TYPE);
             $apiKey = Mage::getStoreConfig(static::CONFIG_PATH_API_KEY);
-            $this->client = new Google_Client();
-            $this->client->setDeveloperKey($apiKey);
+            $this->client = Mage::getSingleton(Google_Client::class);
+            if ($type === ErgonTech_Tabular_Model_Source_Google_Api_Type::API_KEY) {
+                $this->client->setDeveloperKey($apiKey);
+            } else {
+                $this->client->setAuthConfig($apiKey);
+            }
         }
 
         return $this->client;

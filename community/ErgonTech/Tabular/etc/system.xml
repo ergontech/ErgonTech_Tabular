@@ -42,14 +42,24 @@
                     <show_in_store>1</show_in_store>
                     <sort_order>10</sort_order>
                     <fields>
-                        <api_key translate="label">
-                            <label>API Key</label>
-                            <frontend_type>obscure</frontend_type>
-                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                        <type translate="label">
+                            <label>API Access Type</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>ergontech_tabular/source_google_api_type</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
+                        </type>
+                        <api_key translate="label">
+                            <label>Access Data</label>
+                            <frontend_type>obscure</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[For Public API access, nothing more than an API key is needed. For access to a private sheet copy the contents of a service account JSON file here. See <a target="_blank" href="http://karl.kranich.org/2015/04/16/google-sheets-api-php/">here</a> for more info.]]></comment>
                         </api_key>
                     </fields>
                 </google_api>
