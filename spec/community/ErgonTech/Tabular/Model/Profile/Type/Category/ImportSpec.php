@@ -73,10 +73,11 @@ class ErgonTech_Tabular_Model_Profile_Type_Category_ImportSpec extends ObjectBeh
         \ErgonTech_Tabular_Helper_Google_Api $api,
         \Google_Service_Sheets $sheetsService)
     {
-        $api->getService(\Google_Service_Sheets::class)
+        $api->getService(\Google_Service_Sheets::class, [\Google_Service_Sheets::SPREADSHEETS_READONLY])
             ->willReturn($sheetsService)
-            /*->shouldBeCalled()*/;// what's up with this issue? :(
-        \Mage::register('_helper/ergontech_tabular/google_api', $api);
+            ->shouldBeCalled();
+
+        \Mage::register('_helper/ergontech_tabular/google_api', $api->getWrappedObject());
 
         $this->processor->addStep(Argument::type(LoggingStep::class))->shouldBeCalledTimes(4);
         $this->processor->addStep(Argument::type(GoogleSheetsLoadStep::class))->shouldBeCalled();

@@ -76,7 +76,7 @@ class ErgonTech_Tabular_Model_Profile_Type_Category_Import implements ErgonTech_
         $this->processor->addStep(new \ErgonTech\Tabular\HeaderTransformStep($this->headerTransformCallback));
         $this->processor->addStep(new \ErgonTech\Tabular\LoggingStep(new \Psr\Log\NullLogger()));
         $this->processor->addStep(new \ErgonTech\Tabular\GoogleSheetsLoadStep(
-            Mage::helper('ergontech_tabular/google_api')->getService(Google_Service_Sheets::class),
+            Mage::helper('ergontech_tabular/google_api')->getService(Google_Service_Sheets::class, [Google_Service_Sheets::SPREADSHEETS_READONLY]),
             $profile->getExtra('spreadsheet_id'),
             $profile->getExtra('header_named_range'),
             $profile->getExtra('data_named_range')));

@@ -11,6 +11,9 @@ class ErgonTech_Tabular_Helper_Google_ApiSpec extends ObjectBehavior
     private $app;
     protected $store;
 
+    /**
+     * @var \Google_Client
+     */
     protected $client;
 
     protected $dataHelper;
@@ -51,12 +54,21 @@ class ErgonTech_Tabular_Helper_Google_ApiSpec extends ObjectBehavior
 
     function it_can_get_a_service()
     {
+        $scopes = [\Google_Service_Sheets::SPREADSHEETS_READONLY];
         $sheetsClassname = \Google_Service_Sheets::class;
-        $this->getService($sheetsClassname)->shouldReturnAnInstanceOf($sheetsClassname);
+
+        $this->client->setScopes($scopes)
+            ->shouldBeCalled();
+        $this->client->setAuthConfig(Argument::any())
+            ->shouldBeCalled();
+
+        $this->getService($sheetsClassname, $scopes)
+            ->shouldReturnAnInstanceOf($sheetsClassname);
     }
 
     function it_can_get_a_Google_Client()
     {
+
         $this->getGoogleClient()->shouldReturnAnInstanceOf(\Google_Client::class);
     }
 
@@ -79,14 +91,21 @@ class ErgonTech_Tabular_Helper_Google_ApiSpec extends ObjectBehavior
         $authConfig = ['hello' => 'world'];
         $authConfigStr = json_encode($authConfig);
         $this->dataHelper->jsonDecode($authConfigStr)->willReturn($authConfig);
+
+        // We should check which api type is to be used
         $this->store->getConfig(\ErgonTech_Tabular_Helper_Google_Api::CONFIG_PATH_API_TYPE)
             ->willReturn(\ErgonTech_Tabular_Model_Source_Google_Api_Type::SERVICE_ACCOUNT)
             ->shouldBeCalled();
+
+        // We should ask for the "auth data"
         $this->store->getConfig(\ErgonTech_Tabular_Helper_Google_Api::CONFIG_PATH_API_KEY)
             ->willReturn($authConfigStr)
             ->shouldBeCalled();
+
+        // We should set the client's config based on what was found
         $this->client->setAuthConfig($authConfig)
             ->shouldBeCalled();
+
         $this->getGoogleClient();
     }
 }

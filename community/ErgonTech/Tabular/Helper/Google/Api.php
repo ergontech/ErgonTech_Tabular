@@ -14,13 +14,19 @@ class ErgonTech_Tabular_Helper_Google_Api extends Mage_Core_Helper_Abstract
      * @param string $serviceClassname
      * @return Google_Service
      */
-    public function getService($serviceClassname)
+    public function getService($serviceClassname, array $scopes = [])
     {
         if (!class_exists($serviceClassname)) {
             throw new ErgonTech_Tabular_Exception_Google_Api('The service ' . $serviceClassname . ' does not exist.');
         }
 
-        return new $serviceClassname($this->getGoogleClient());
+        $client = $this->getGoogleClient();
+
+        if (count($scopes)) {
+            $client->setScopes($scopes);
+        }
+
+        return new $serviceClassname($client);
     }
 
     /**
