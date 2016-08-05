@@ -45,7 +45,8 @@
   },
   "require": {
     "ergontech/tabular-core": "^0.1",
-    "avstudnitz/fast-simple-import": "^0.7.0"
+    "avstudnitz/fast-simple-import": "^0.7.0",
+    "monolog/monolog": "^1.21"
   },
   "extra": {
     "map": [
