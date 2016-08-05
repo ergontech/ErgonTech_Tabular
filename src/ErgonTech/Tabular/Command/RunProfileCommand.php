@@ -35,12 +35,11 @@ HELP
             $this->initMagento();
             $profileName = $input->getOption('profile-name');
 
-            $profileCollection = Mage::getResourceModel('ergontech_tabular/profile_collection')
-                ->addFieldToFilter('name', $profileName);
+            $profile = Mage::getModel('ergontech_tabular/profile')->loadByName($profileName);
 
-            $profileCollection->getSelect()->limit(1);
-
-            $profile = $profileCollection->getFirstItem();
+            if (!$profile->getId()) {
+                throw new \ErgonTech_Tabular_Exception_Profile("A profile named {$profileName} was not found");
+            }
 
             /** @var \ErgonTech_Tabular_Model_Profile_Type $profileType */
             $profileType = Mage::helper('ergontech_tabular/profile_type_factory')->createProfileTypeInstance($profile);

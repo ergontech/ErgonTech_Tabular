@@ -18,21 +18,91 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class RunProfileCommandSpec extends ObjectBehavior
 {
+    private $input;
+    private $output;
+    private $config;
+    private $profile;
+    private $logger;
+    private $profileName;
+    private $profileTypeFactory;
+    private $monologHelper;
+    private $profileType;
     /**
      * @var Application
      */
-    protected $app;
+    private $app;
 
-    function let(Application $app, HelperSet $helperSet, InputDefinition $inputDefinition, InputOption $inputOption, InputArgument $inputArgument)
-    {
+    function let(
+        Application $app,
+        HelperSet $helperSet,
+        InputDefinition $inputDefinition,
+        InputOption $inputOption,
+        InputArgument $inputArgument,
+        InputInterface $input,
+        OutputInterface $output,
+        \Mage_Core_Model_Config $config,
+        \ErgonTech_Tabular_Model_Profile $profile,
+        LoggerInterface $logger,
+        \ErgonTech_Tabular_Helper_Profile_Type_Factory $profileTypeFactory,
+        \ErgonTech_Tabular_Helper_Monolog $monologHelper,
+        \ErgonTech_Tabular_Model_Profile_Type $profileType
+    ) {
         $inputDefinition->getOptions()->willReturn([$inputOption]);
         $inputDefinition->getArguments()->willReturn([$inputArgument]);
 
+
+        $this->profileName = 'test profile';
+        $this->input = $input;
+        $this->output = $output;
+        $this->config = $config;
+        $this->profile = $profile;
+        $this->logger = $logger;
+        $this->profileTypeFactory = $profileTypeFactory;
+        $this->monologHelper = $monologHelper;
+        $this->profileType = $profileType;
+
+//        Mage::app();
         $this->app = $app;
         $this->app->getHelperSet()->willReturn($helperSet);
         $this->app->getDefinition()->willReturn($inputDefinition);
+
         $this->setApplication($this->app);
-        Mage::app();
+
+        $this->app->detectMagento()
+            ->willReturn(null);
+        $this->app->initMagento(Argument::type('bool'))
+            ->willReturn(null);
+        $this->app->isMagentoEnterprise()
+            ->willReturn(false);
+        $this->app->getMagentoRootFolder()
+            ->willReturn(__DIR__ . '/../../../../root');
+        $this->app->getMagentoMajorVersion()
+            ->willReturn(10000);
+
+        $this->input->bind(Argument::type(InputDefinition::class))->willReturn(null);
+
+        $this->profileTypeFactory->createProfileTypeInstance($this->profile)
+            ->willReturn($this->profileType);
+
+        $this->input->isInteractive()
+            ->willReturn(false);
+        $this->input->hasArgument('command')
+            ->willReturn(true);
+        $this->input->validate()
+            ->willReturn(null);
+        $this->input->getArgument('command')
+            ->willReturn('tabular:profile:run');
+        $this->input->getOption('profile-name')
+            ->willReturn($this->profileName);
+
+        $mageReflection = new \ReflectionClass(Mage::class);
+        /** @var \ReflectionProperty $configRef */
+        $configRef = $mageReflection->getProperty('_config');
+        $configRef->setAccessible(true);
+        $configRef->setValue($mageReflection, $this->config->getWrappedObject());
+
+        Mage::register('_helper/ergontech_tabular/profile_type_factory', $this->profileTypeFactory->getWrappedObject());
+        Mage::register('_helper/ergontech_tabular/monolog', $this->monologHelper->getWrappedObject());
     }
 
     function letGo()
@@ -56,83 +126,55 @@ HELP;
         $this->getHelp()->shouldReturn($help);
     }
 
-    function it_runs_an_import_profile_matching_input(
-        InputInterface $input,
-        OutputInterface $output,
-        \Mage_Core_Model_Config $config,
-        \ErgonTech_Tabular_Model_Resource_Profile_Collection $collection,
-        \Varien_Db_Select $select,
-        LoggerInterface $logger,
-        \ErgonTech_Tabular_Helper_Profile_Type_Factory $profileTypeFactory,
-        \ErgonTech_Tabular_Helper_Monolog $monologHelper,
-        \ErgonTech_Tabular_Model_Profile $profile,
-        \ErgonTech_Tabular_Model_Profile_Type $profileType
-    ) {
-        $config->getResourceModelInstance('ergontech_tabular/profile_collection', [])
-            ->willReturn($collection)
+    function it_runs_an_import_profile_matching_input()
+    {
+        $this->config->getModelInstance('ergontech_tabular/profile', [])
+            ->willReturn($this->profile)
             ->shouldBeCalled();
 
-        $collection->addFieldToFilter('name', 'test profile')
-            ->willReturn($collection)
+        $this->profile->loadByName($this->profileName)
+            ->willReturn($this->profile)
             ->shouldBeCalled();
 
-        $collection->getSelect()
-            ->willReturn($select);
-
-        $select->limit(1)
+        $this->profile->getId()
+            ->willReturn(1)
             ->shouldBeCalled();
 
-        $collection->getFirstItem()
-            ->willReturn($profile)
+        $this->monologHelper->getLogger('tabular')->willReturn($this->logger);
+        $this->monologHelper->pushHandler('tabular', Argument::type(HandlerInterface::class))->shouldBeCalled();
+
+        $this->profileTypeFactory->createProfileTypeInstance($this->profile)
             ->shouldBeCalled();
 
-        $mageReflection = new \ReflectionClass(Mage::class);
-        /** @var \ReflectionProperty $configRef */
-        $configRef = $mageReflection->getProperty('_config');
-        $configRef->setAccessible(true);
-        $configRef->setValue($mageReflection, $config->getWrappedObject());
-
-        Mage::register('_helper/ergontech_tabular/profile_type_factory', $profileTypeFactory->getWrappedObject());
-        Mage::register('_helper/ergontech_tabular/monolog', $monologHelper->getWrappedObject());
-
-        $monologHelper->getLogger('tabular')->willReturn($logger);
-        $monologHelper->pushHandler('tabular', Argument::type(HandlerInterface::class))->shouldBeCalled();
-
-        $profileTypeFactory->createProfileTypeInstance($profile)
-            ->willReturn($profileType)
-            ->shouldBeCalled();
-
-        $profileType->execute()->shouldBeCalled();
-
-        $input->bind(Argument::type(InputDefinition::class))->willReturn(null);
-
-        $this->app->detectMagento()
-            ->willReturn(null)
-            ->shouldBeCalled();
-        $this->app->initMagento(Argument::type('bool'))
-            ->willReturn(null)
-            ->shouldBeCalled();
-        $this->app->isMagentoEnterprise()
-            ->willReturn(false);
-        $this->app->getMagentoRootFolder()
-            ->willReturn(__DIR__ . '/../../../../root');
-        $this->app->getMagentoMajorVersion()
-            ->willReturn(10000);
-
-        $input->isInteractive()
-            ->willReturn(false);
-        $input->hasArgument('command')
-            ->willReturn(true);
-        $input->validate()
-            ->willReturn(null);
-        $input->getArgument('command')
-            ->willReturn('tabular:profile:run')
-            ->shouldBeCalled();
-        $input->getOption('profile-name')
-            ->willReturn('test profile')
-            ->shouldBeCalled();
+        $this->profileType->execute()->shouldBeCalled();
 
         /** @var $this RunProfileCommandSpec|RunProfileCommand */
-        $this->run($input, $output);
+        $this->run($this->input, $this->output);
+    }
+
+    function it_sends_a_message_to_output_when_the_profile_does_not_exist()
+    {
+        $this->config->getModelInstance('ergontech_tabular/profile', [])
+            ->willReturn($this->profile)
+            ->shouldBeCalled();
+
+        $this->profile->getId()
+            ->willReturn(null)
+            ->shouldBeCalled();
+
+        $this->profile->loadByName($this->profileName)
+            ->willReturn($this->profile)
+            ->shouldBeCalled();
+
+        $this->profileTypeFactory->createProfileTypeInstance($this->profile)
+            ->shouldNotBeCalled();
+
+        $this->profileType->execute()
+            ->shouldNotBeCalled();
+
+        $this->output->write('<error>A profile named ' . $this->profileName . ' was not found</error>')
+            ->shouldBeCalled();
+
+        $this->run($this->input, $this->output);
     }
 }
