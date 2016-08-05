@@ -17,6 +17,7 @@ class ErgonTech_Tabular_Block_Adminhtml_Profile_EditSpec extends ObjectBehavior
     {
         \Mage::unregister('_helper/ergontech_tabular');
         \Mage::unregister('_helper/ergontech_tabular/data');
+        \Mage::reset();
     }
 
     function it_is_initializable()
