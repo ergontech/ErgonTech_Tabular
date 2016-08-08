@@ -39,9 +39,7 @@ class ErgonTech_Tabular_Adminhtml_Tabular_ProfileController extends Mage_Adminht
         if ($id) {
             $profile->load($id);
             if (!$profile->getId()) {
-                Mage::getSingleton('adminhtml/session')->addError(
-                    Mage::helper('ergontech_tabular')
-                        ->__('The profile with id %d does not exist!', $id));
+                $this->addProfileLoadErrorMessage($id);
                 $this->_redirect('*/*/');
                 return;
             }
@@ -60,6 +58,35 @@ class ErgonTech_Tabular_Adminhtml_Tabular_ProfileController extends Mage_Adminht
         $this->renderLayout();
     }
 
+    public function runAction()
+    {
+        /** @var Mage_Core_Controller_Request_Http $request */
+        $request = $this->getRequest();
+        if (!$request->isPost()) {
+            $this->_redirect('*/*/');
+            return;
+        }
+
+        $profile = Mage::getModel('ergontech_tabular/profile');
+        $id = $request->getPost('entity_id');
+
+        $profile->load($id);
+
+        if (!$profile->getId()) {
+            $this->addProfileLoadErrorMessage($id);
+            $this->_redirect('*/*/');
+            return;
+        }
+
+
+        /** @var ErgonTech_Tabular_Model_Profile_Type $profileType */
+        $profileType = Mage::helper('ergontech_tabular/profile_type_factory')->createProfileTypeInstance($profile);
+        Mage::helper('ergontech_tabular/monolog')->pushHandler('tabular',
+            new \Monolog\Handler\StreamHandler(fopen('php://output', 'w')));
+
+        $profileType->execute();
+    }
+
     public function saveAction()
     {
         if ($data = $this->getRequest()->getPost()) {
@@ -67,7 +94,7 @@ class ErgonTech_Tabular_Adminhtml_Tabular_ProfileController extends Mage_Adminht
             $id = $this->getRequest()->getParam('block_id');
             $profile = Mage::getModel('ergontech_tabular/profile')->load($id);
             if (!$profile->getId() && $id) {
-                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('ergontech_tabular')->__('The profile with id %d does not exist!', $id));
+                $this->addProfileLoadErrorMessage($id);
                 $this->_redirect('*/*/');
                 return;
             }
@@ -103,5 +130,15 @@ class ErgonTech_Tabular_Adminhtml_Tabular_ProfileController extends Mage_Adminht
                 return;
             }
         }
+    }
+
+    /**
+     * @param $id
+     */
+    protected function addProfileLoadErrorMessage($id)
+    {
+        Mage::getSingleton('adminhtml/session')->addError(
+            Mage::helper('ergontech_tabular')
+                ->__('The profile with id %d does not exist!', $id));
     }
 }

@@ -10,9 +10,21 @@ class ErgonTech_Tabular_Block_Adminhtml_Profile_Edit extends Mage_Adminhtml_Bloc
 
         parent::__construct();
 
+        $runUrl = $this->getUrl('*/*/run');
+
         $this->_formScripts[] = <<<JS
 function saveAndContinueEdit() {
     editForm.submit($('edit_form').action+'back/edit/');
+}
+
+function runprofile() {
+    new Ajax.Request('{$runUrl}', {
+        parameters: {
+            entity_id: $('entity_id').value
+        }, onComplete: function (transport) {
+            document.querySelector('#run_fieldset > div').update('<pre>' + transport.responseText + '</pre>');
+        }
+    });
 }
 JS;
     }
@@ -28,6 +40,12 @@ JS;
             'onclick' => 'saveAndContinueEdit()',
             'class' => 'save'
         ], -100);
+
+        $this->_addButton('runprofile', [
+            'label' => $helper->__('Run Profile Now'),
+            'onclick' => 'runprofile()',
+            'class' => 'success'
+        ], -101);
 
 
         return parent::_prepareLayout();
