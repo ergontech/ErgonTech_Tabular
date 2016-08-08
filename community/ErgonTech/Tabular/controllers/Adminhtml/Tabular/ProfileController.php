@@ -47,7 +47,6 @@ class ErgonTech_Tabular_Adminhtml_Tabular_ProfileController extends Mage_Adminht
             }
         }
 
-        $this->_title($profile->getId() ? $profile->getTitle() : $this->__('New Block'));
 
         $data = Mage::getSingleton('adminhtml/session')->getFormData(true);
         if (!empty($data)) {
@@ -56,6 +55,7 @@ class ErgonTech_Tabular_Adminhtml_Tabular_ProfileController extends Mage_Adminht
         Mage::register('ergontech_tabular_profile', $profile);
 
         $this->_initAction();
+        $this->_title($profile->getId() ? $profile->getName() : $this->__('New Profile'));
 
         $this->renderLayout();
     }
