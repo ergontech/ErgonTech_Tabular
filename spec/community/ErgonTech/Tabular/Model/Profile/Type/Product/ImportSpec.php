@@ -25,9 +25,9 @@ class ErgonTech_Tabular_Model_Profile_Type_Product_ImportSpec extends ObjectBeha
         $this->processor = $processor;
 
         $this->beConstructedWith($this->processor);
-        \Mage::app();
-        \Mage::register('_resource_singleton/catalog/product', $productResource);
-        \Mage::register('_helper/ergontech_tabular/headerTransforms', $headerTransforms);
+//        \Mage::app();
+        \Mage::register('_resource_singleton/catalog/product', $productResource->getWrappedObject());
+        \Mage::register('_helper/ergontech_tabular/headerTransforms', $headerTransforms->getWrappedObject());
     }
 
     public function letGo()
@@ -64,10 +64,11 @@ class ErgonTech_Tabular_Model_Profile_Type_Product_ImportSpec extends ObjectBeha
         \ErgonTech_Tabular_Helper_Google_Api $api,
         \Google_Service_Sheets $sheetsService)
     {
-        $api->getService(\Google_Service_Sheets::class)
+        $api->getService(\Google_Service_Sheets::class, [\Google_Service_Sheets::SPREADSHEETS_READONLY])
             ->willReturn($sheetsService)
-            /*->shouldBeCalled()*/;// what's up with this issue? :(
-        \Mage::register('_helper/ergontech_tabular/google_api', $api);
+            ->shouldBeCalled();
+
+        \Mage::register('_helper/ergontech_tabular/google_api', $api->getWrappedObject());
         $this->processor->addStep(Argument::type(LoggingStep::class))->shouldBeCalledTimes(3);
         $this->processor->addStep(Argument::type(GoogleSheetsLoadStep::class))->shouldBeCalled();
         $this->processor->addStep(Argument::type(HeaderTransformStep::class))->shouldBeCalled();

@@ -77,7 +77,9 @@ class ErgonTech_Tabular_Model_Profile_Type_Product_Import implements ErgonTech_T
             throw new LogicException('Initialize can only be called once');
         }
 
-        $sheets = Mage::helper('ergontech_tabular/google_api')->getService(Google_Service_Sheets::class);
+        /** @var ErgonTech_Tabular_Helper_Google_Api $googleHelper */
+        $googleHelper = Mage::helper('ergontech_tabular/google_api');
+        $sheets = $googleHelper->getService(Google_Service_Sheets::class, [Google_Service_Sheets::SPREADSHEETS_READONLY]);
         /** @var array $sheetsData */
         if (is_null($this->headerTransformCallback)) {
             $callback = Mage::helper('ergontech_tabular/headerTransforms')->getHeaderTransformCallbackForProfile($profile);
