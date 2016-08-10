@@ -52,7 +52,7 @@
     "map": [
       ["community/ErgonTech/Tabular", "app/code/community/ErgonTech/Tabular"],
       ["modules/ErgonTech_Tabular.xml", "app/etc/modules/ErgonTech_Tabular.xml"],
-      ["design/adminhtml/default/default/layout/ergontech", "design/adminhtml/default/default/layout/ergontech"],
+      ["design/adminhtml/default/default/layout/ergontech", "app/design/adminhtml/default/default/layout/ergontech"],
       ["src", "lib/n98-magerun/modules/tabular/src"],
       ["n98-magerun.yaml", "lib/n98-magerun/modules/tabular/n98-magerun.yaml"]
     ],
