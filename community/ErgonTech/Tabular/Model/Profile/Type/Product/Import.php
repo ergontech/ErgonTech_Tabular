@@ -70,6 +70,7 @@ class ErgonTech_Tabular_Model_Profile_Type_Product_Import implements ErgonTech_T
      *
      * @param ErgonTech_Tabular_Model_Profile $profile
      * @return void
+     * @throws \LogicException
      */
     public function initialize(ErgonTech_Tabular_Model_Profile $profile)
     {

@@ -11,8 +11,14 @@ use ErgonTech\Tabular\Step\Product\FastSimpleImport;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
+class ProductImportSpecTest
+{
+    public static function transform($input) { return $input; }
+}
+
 class ErgonTech_Tabular_Model_Profile_Type_Product_ImportSpec extends ObjectBehavior
 {
+    private $headerTransforms;
     /**
      * @var Processor
      */
@@ -20,14 +26,31 @@ class ErgonTech_Tabular_Model_Profile_Type_Product_ImportSpec extends ObjectBeha
 
     private $googleApiHelper;
 
-    public function let(Processor $processor, \Mage_Catalog_Model_Resource_Product $productResource, \ErgonTech_Tabular_Helper_HeaderTransforms $headerTransforms)
+    public function let(Processor $processor,
+                        \Mage_Catalog_Model_Resource_Product $productResource,
+                        \ErgonTech_Tabular_Helper_HeaderTransforms $headerTransforms,
+                        \Mage_Catalog_Model_Resource_Category_Collection $categoryCollection,
+                        \Mage_Core_Model_Config $config,
+                        \Mage_Core_Model_Config_Options $configOptions,
+                        \AvS_FastSimpleImport_Model_Import $import)
     {
         $this->processor = $processor;
 
         $this->beConstructedWith($this->processor);
-//        \Mage::app();
+        \Mage::app();
+
+        $refMage = new \ReflectionClass(\Mage::class);
+        $refConfig = $refMage->getProperty('_config');
+        $refConfig->setAccessible(true);
+        $refConfig->setValue($config->getWrappedObject());
+        $config->getResourceModelInstance('catalog/category_collection', Argument::any())->willReturn($categoryCollection);
+        $config->getModelInstance('fastsimpleimport/import', Argument::any())->willReturn($import);
+        $config->getOptions()->willReturn($configOptions);
+        $configOptions->getDir('var')->willReturn('/tmp');
+
         \Mage::register('_resource_singleton/catalog/product', $productResource->getWrappedObject());
         \Mage::register('_helper/ergontech_tabular/headerTransforms', $headerTransforms->getWrappedObject());
+        $this->headerTransforms = $headerTransforms;
     }
 
     public function letGo()
@@ -86,8 +109,10 @@ class ErgonTech_Tabular_Model_Profile_Type_Product_ImportSpec extends ObjectBeha
     public function it_runs_profile(\ErgonTech_Tabular_Model_Profile $profile, \ErgonTech_Tabular_Helper_Google_Api $api)
     {
         \Mage::register('_helper/ergontech_tabular/google_api', $api);
-        $this->setHeaderTransformCallback(function ($a) {
-        });
+        $this->headerTransforms
+            ->getHeaderTransformCallbackForProfile(Argument::type(\ErgonTech_Tabular_Model_Profile::class))
+            ->willReturn('spec\ProductImportSpecTest::transform');
+
         $this->initialize($profile);
         $this->processor->run()->shouldBeCalled();
 
