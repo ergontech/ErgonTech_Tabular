@@ -80,23 +80,28 @@ class ErgonTech_Tabular_Model_Profile_Type_Product_Import implements ErgonTech_T
 
         /** @var ErgonTech_Tabular_Helper_Google_Api $googleHelper */
         $googleHelper = Mage::helper('ergontech_tabular/google_api');
-        $sheets = $googleHelper->getService(Google_Service_Sheets::class, [Google_Service_Sheets::SPREADSHEETS_READONLY]);
         /** @var array $sheetsData */
         if (is_null($this->headerTransformCallback)) {
             $callback = Mage::helper('ergontech_tabular/headerTransforms')->getHeaderTransformCallbackForProfile($profile);
             $this->setHeaderTransformCallback((string)$callback);
         }
 
+        /** @var \Monolog\Logger $logger */
+        $logger = Mage::helper('ergontech_tabular/monolog')->registerLogger('tabular');
+        $logger->pushHandler(
+            new \Monolog\Handler\StreamHandler(sprintf('%s/log/tabular/%s.log',
+                Mage::getBaseDir('var'), $profile->getProfileType())));
+
         $this->processor->addStep(new FastSimpleImport(Mage::getModel('fastsimpleimport/import')));
-        $this->processor->addStep(new LoggingStep(new Psr\Log\NullLogger()));
+        $this->processor->addStep(new LoggingStep($logger));
         $this->processor->addStep(new HeaderTransformStep($this->headerTransformCallback));
-        $this->processor->addStep(new LoggingStep(new Psr\Log\NullLogger()));
+        $this->processor->addStep(new LoggingStep($logger));
         $this->processor->addStep(new GoogleSheetsLoadStep(
-            $sheets,
+            $googleHelper->getService(Google_Service_Sheets::class, [Google_Service_Sheets::SPREADSHEETS_READONLY]),
             $profile->getExtra('spreadsheet_id'),
             $profile->getExtra('header_named_range'),
             $profile->getExtra('data_named_range')));
-        $this->processor->addStep(new LoggingStep(new Psr\Log\NullLogger()));
+        $this->processor->addStep(new LoggingStep($logger));
 
         $this->ready = true;
     }
