@@ -44,7 +44,7 @@
     "n98/magerun": "^1.97.9"
   },
   "require": {
-    "ergontech/tabular-core": "^0.1",
+    "ergontech/tabular-core": "^0.2",
     "avstudnitz/fast-simple-import": "^0.7.0",
     "monolog/monolog": "^1.21"
   },

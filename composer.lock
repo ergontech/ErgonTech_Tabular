@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c3d48a4ebe6390ec0bdb0185cfb655cb",
-    "content-hash": "905059f0b940abdd0581dbe1326f9087",
+    "hash": "e213b1085df1f438864bdc0663a04c81",
+    "content-hash": "8459fbaf034d375cfcd9398542146afc",
     "packages": [
         {
             "name": "avstudnitz/fast-simple-import",
@@ -139,16 +139,16 @@
         },
         {
             "name": "ergontech/tabular-core",
-            "version": "v0.1.0",
+            "version": "v0.2.0",
             "source": {
                 "type": "git",
                 "url": "git@github.com:ergontech/tabular-processor.git",
-                "reference": "b2ea60cf277350fc3250c9d81b8db448789fe683"
+                "reference": "929bced5a87a042a520daa9500b1c19e80773c26"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ergontech/tabular-processor/zipball/b2ea60cf277350fc3250c9d81b8db448789fe683",
-                "reference": "b2ea60cf277350fc3250c9d81b8db448789fe683",
+                "url": "https://api.github.com/repos/ergontech/tabular-processor/zipball/929bced5a87a042a520daa9500b1c19e80773c26",
+                "reference": "929bced5a87a042a520daa9500b1c19e80773c26",
                 "shasum": ""
             },
             "require": {
@@ -174,10 +174,10 @@
                 }
             ],
             "support": {
-                "source": "https://github.com/ergontech/tabular-processor/tree/master",
+                "source": "https://github.com/ergontech/tabular-processor/tree/v0.2.0",
                 "issues": "https://github.com/ergontech/tabular-processor/issues"
             },
-            "time": "2016-07-27 21:46:01"
+            "time": "2016-08-11 22:15:03"
         },
         {
             "name": "firebase/php-jwt",
