@@ -5,6 +5,8 @@
  * @category ErgonTech
  * @package ErgonTech_Tabular
  * @author Matthew Wells <matthew@ergon.tech>
+ *
+ * @method ErgonTech_Tabular_Model_Profile getProfile()
  */
 class ErgonTech_Tabular_Block_Adminhtml_Profile_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
 {
@@ -25,18 +27,20 @@ class ErgonTech_Tabular_Block_Adminhtml_Profile_Edit_Form extends Mage_Adminhtml
     protected function _prepareForm()
     {
         /** @var Varien_Data_Form $form */
-        $this->setForm(new Varien_Data_Form([
+        $form = Mage::getModel(Varien_Data_Form::class, [
             'id' => 'edit_form',
             'action' => $this->getData('action'),
-            'method' => 'post'
-        ]));
+            'method' => 'post',
+            'base_url' => Mage::getBaseUrl(),
+            'parent' => $this,
+            'use_container' => true
+        ]);
+        $this->_form = $form;
         $this->setHtmlIdPrefix('profile_');
 
         $this->addGeneralInformationFieldset();
 
-        $this->getForm()
-            ->setUseContainer(true)
-            ->setValues($this->getProfile()->getData());
+        $form->setValues($this->getProfile()->getData());
 
         if ($this->getProfile()->getId()) {
             $this->addRunFieldset();
