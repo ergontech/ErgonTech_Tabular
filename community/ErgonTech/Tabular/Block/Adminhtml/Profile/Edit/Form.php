@@ -1,7 +1,15 @@
 <?php
 
+/**
+ * Class ErgonTech_Tabular_Block_Adminhtml_Profile_Edit_Form
+ * @category ErgonTech
+ * @package ErgonTech_Tabular
+ * @author Matthew Wells <matthew@ergon.tech>
+ */
 class ErgonTech_Tabular_Block_Adminhtml_Profile_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
 {
+    const RUN_FIELDSET_NAME = 'run_fieldset';
+
     public function __construct()
     {
         parent::__construct();
@@ -10,9 +18,12 @@ class ErgonTech_Tabular_Block_Adminhtml_Profile_Edit_Form extends Mage_Adminhtml
         $this->setProfile(Mage::registry('ergontech_tabular_profile'));
     }
 
+    /**
+     * Create and prepare a `Varien_Data_Form`
+     * @return $this
+     */
     protected function _prepareForm()
     {
-
         /** @var Varien_Data_Form $form */
         $this->setForm(new Varien_Data_Form([
             'id' => 'edit_form',
@@ -23,21 +34,25 @@ class ErgonTech_Tabular_Block_Adminhtml_Profile_Edit_Form extends Mage_Adminhtml
 
         $this->addGeneralInformationFieldset();
 
-        if ($this->getProfile()->getId()) {
-            $this->addRunFieldset();
-        }
-
         $this->getForm()
             ->setUseContainer(true)
             ->setValues($this->getProfile()->getData());
 
-        $this->addExtraFields();
+        if ($this->getProfile()->getId()) {
+            $this->addRunFieldset();
+            $this->addExtraFields();
+        }
 
         parent::_prepareForm();
 
         return $this;
     }
 
+    /**
+     * Add the "run" fieldset to the form
+     * Exists as a container for the output of a profile run
+     * @return void
+     */
     protected function addRunFieldset()
     {
         /** @var Varien_Data_Form $form */
@@ -50,7 +65,7 @@ class ErgonTech_Tabular_Block_Adminhtml_Profile_Edit_Form extends Mage_Adminhtml
         $helper = Mage::helper('ergontech_tabular');
 
         /** @var Varien_Data_Form_Element_Fieldset $fieldset */
-        $fieldset = $form->addFieldset('run_fieldset', [
+        $fieldset = $form->addFieldset(self::RUN_FIELDSET_NAME, [
             'legend' => $helper->__('Run'),
             'class' => 'fieldset-wide'
         ]);
@@ -119,6 +134,10 @@ class ErgonTech_Tabular_Block_Adminhtml_Profile_Edit_Form extends Mage_Adminhtml
         }
     }
 
+    /**
+     * Add "extra" fields to the form, based on XML config
+     * @return void
+     */
     public function addExtraFields()
     {
         /** @var ErgonTech_Tabular_Helper_Data $helper */
@@ -127,14 +146,18 @@ class ErgonTech_Tabular_Block_Adminhtml_Profile_Edit_Form extends Mage_Adminhtml
         $profile = $this->getProfile();
         /** @var Varien_Data_Form $form */
         $form = $this->getForm();
+
+        /** @var Varien_Data_Form_Element_Fieldset $fieldset */
         $fieldset = $form->getElement('base_fieldset');
         if ($profile->getProfileType()) {
+            /** @var Mage_Core_Model_Config_Element $extraFields */
             $extraFields = Mage::getConfig()->getNode(sprintf('%s/%s/extra',
                 ErgonTech_Tabular_Model_Source_Profile_Type::CONFIG_PATH_PROFILE_TYPE,
                 $profile->getProfileType()));
 
             foreach ($extraFields->asArray() as $extraField => $fieldConfig) {
                 $fieldName = "extra[{$extraField}]";
+
                 /** @var Varien_Data_Form_Element_Abstract $field */
                 $field = $fieldset->addField($fieldName, $fieldConfig['input'], [
                     'name' => $fieldName,
@@ -142,6 +165,7 @@ class ErgonTech_Tabular_Block_Adminhtml_Profile_Edit_Form extends Mage_Adminhtml
                     'title' => $helper->__($fieldConfig['label']),
                     'required' => true,
                 ]);
+
                 if (array_key_exists('comment', $fieldConfig)) {
                     $field->setData('after_element_html', $fieldConfig['comment']);
                 }

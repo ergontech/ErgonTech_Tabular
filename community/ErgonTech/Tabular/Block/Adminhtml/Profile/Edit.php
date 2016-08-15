@@ -11,6 +11,7 @@ class ErgonTech_Tabular_Block_Adminhtml_Profile_Edit extends Mage_Adminhtml_Bloc
         parent::__construct();
 
         $runUrl = $this->getUrl('*/*/run');
+        $runFieldsetName = ErgonTech_Tabular_Block_Adminhtml_Profile_Edit_Form::RUN_FIELDSET_NAME;
 
         $this->_formScripts[] = <<<JS
 function saveAndContinueEdit() {
@@ -22,7 +23,7 @@ function runprofile() {
         parameters: {
             entity_id: $('entity_id').value
         }, onComplete: function (transport) {
-            document.querySelector('#run_fieldset > div').update('<pre>' + transport.responseText + '</pre>');
+            document.querySelector('#{$runFieldsetName} > div').update('<pre>' + transport.responseText + '</pre>');
         }
     });
 }
