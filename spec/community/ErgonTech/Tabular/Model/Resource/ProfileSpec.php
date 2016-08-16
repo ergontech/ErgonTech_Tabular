@@ -1,12 +1,13 @@
 <?php
 
-namespace spec;
+namespace spec\ErgonTech\Tabular\Model;
 
+use ErgonTech\Tabular\Model_Profile as TabularProfile;
 use PhpParser\Node\Arg;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class ErgonTech_Tabular_Model_Resource_ProfileSpec extends ObjectBehavior
+class Resource_ProfileSpec extends ObjectBehavior
 {
     protected $resource;
 
@@ -17,7 +18,7 @@ class ErgonTech_Tabular_Model_Resource_ProfileSpec extends ObjectBehavior
     protected $select;
 
     public function let(
-        \ErgonTech_Tabular_Model_Profile $profile,
+        TabularProfile $profile,
         \Mage_Core_Model_Resource $resource,
         \Varien_Db_Adapter_Pdo_Mysql $adapter,
         \Varien_Db_Select $select
@@ -57,7 +58,7 @@ class ErgonTech_Tabular_Model_Resource_ProfileSpec extends ObjectBehavior
 
     public function it_is_initializable()
     {
-        $this->shouldHaveType(\ErgonTech_Tabular_Model_Resource_Profile::class);
+        $this->shouldHaveType(\ErgonTech\Tabular\Model\Resource_Profile::class);
     }
 
     public function it_deserializes_extra_data_upon_load() {
@@ -79,7 +80,7 @@ class ErgonTech_Tabular_Model_Resource_ProfileSpec extends ObjectBehavior
     }
 
     public function it_checks_store_association_when_the_profile_has_a_store_id(
-        \ErgonTech_Tabular_Model_Profile $profile
+        TabularProfile $profile
     )
     {
         $extra = ['asdf' => 'fdas'];

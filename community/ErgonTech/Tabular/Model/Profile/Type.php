@@ -1,8 +1,10 @@
 <?php
 
-use ErgonTech\Tabular\StepExecutionException;
+namespace ErgonTech\Tabular;
 
-interface ErgonTech_Tabular_Model_Profile_Type
+use StepExecutionException;
+
+interface Model_Profile_Type
 {
     /**
      * Run the profile
@@ -15,8 +17,8 @@ interface ErgonTech_Tabular_Model_Profile_Type
     /**
      * Initialize the profile type with the given profile instance
      *
-     * @param ErgonTech_Tabular_Model_Profile $profile
+     * @param Model_Profile $profile
      * @return void
      */
-    public function initialize(ErgonTech_Tabular_Model_Profile $profile);
+    public function initialize(Model_Profile $profile);
 }

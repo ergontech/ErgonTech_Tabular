@@ -1,7 +1,8 @@
 <?php
 
-namespace spec;
+namespace spec\ErgonTech\Tabular;
 
+use ErgonTech\Tabular;
 use ErgonTech\Tabular\GoogleSheetsLoadStep;
 use ErgonTech\Tabular\HeaderTransformStep;
 use ErgonTech\Tabular\LoggingStep;
@@ -13,7 +14,7 @@ use Monolog\Logger;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class ErgonTech_Tabular_Model_Profile_Type_Product_ImportSpec extends ObjectBehavior
+class Model_Profile_Type_Product_ImportSpec extends ObjectBehavior
 {
     private $headerTransforms;
     private $api;
@@ -26,12 +27,12 @@ class ErgonTech_Tabular_Model_Profile_Type_Product_ImportSpec extends ObjectBeha
 
     public function let(Processor $processor,
                         \Mage_Catalog_Model_Resource_Product $productResource,
-                        \ErgonTech_Tabular_Helper_HeaderTransforms $headerTransforms,
+                        Tabular\Helper_HeaderTransforms $headerTransforms,
                         \Mage_Catalog_Model_Resource_Category_Collection $categoryCollection,
                         Logger $logger,
-                        \ErgonTech_Tabular_Helper_Monolog $monologHelper,
+                        Tabular\Helper_Monolog $monologHelper,
                         \Google_Service_Sheets $sheetsService,
-                        \ErgonTech_Tabular_Helper_Google_Api $api,
+                        Tabular\Helper_Google_Api $api,
                         \Mage_Core_Model_Config $config,
                         \Mage_Core_Model_Config_Options $configOptions,
                         \AvS_FastSimpleImport_Model_Import $import)
@@ -71,27 +72,27 @@ class ErgonTech_Tabular_Model_Profile_Type_Product_ImportSpec extends ObjectBeha
 
     public function it_is_initializable()
     {
-        $this->shouldHaveType(\ErgonTech_Tabular_Model_Profile_Type_Product_Import::class);
+        $this->shouldHaveType(Tabular\Model_Profile_Type_Product_Import::class);
     }
 
     public function it_is_a_profile_type()
     {
-        $this->shouldHaveType(\ErgonTech_Tabular_Model_Profile_Type::class);
+        $this->shouldHaveType(Tabular\Model_Profile_Type::class);
     }
 
-    public function it_can_only_be_initialized_once(\ErgonTech_Tabular_Model_Profile $profile)
+    public function it_can_only_be_initialized_once(Tabular\Model_Profile $profile)
     {
         $this->initialize($profile);
         $this->shouldThrow(\LogicException::class)->during('initialize', [$profile]);
     }
 
-    public function it_requires_a_header_transform_callback_before_running(\ErgonTech_Tabular_Model_Profile $profile)
+    public function it_requires_a_header_transform_callback_before_running(Tabular\Model_Profile $profile)
     {
         $this->initialize($profile);
         $this->shouldThrow(\LogicException::class)->during('execute');
     }
 
-    public function it_adds_the_right_steps_to_the_Processor(\ErgonTech_Tabular_Model_Profile $profile)
+    public function it_adds_the_right_steps_to_the_Processor(Tabular\Model_Profile $profile)
     {
         $this->api->getService(\Google_Service_Sheets::class, [\Google_Service_Sheets::SPREADSHEETS_READONLY])
             ->shouldBeCalled();
@@ -112,7 +113,7 @@ class ErgonTech_Tabular_Model_Profile_Type_Product_ImportSpec extends ObjectBeha
         $this->initialize($profile);
     }
 
-    public function it_adds_a_logger(\ErgonTech_Tabular_Model_Profile $profile)
+    public function it_adds_a_logger(Tabular\Model_Profile $profile)
     {
         $this->monologHelper->registerLogger('tabular')->shouldBeCalled();
         $this->logger->pushHandler(Argument::type(HandlerInterface::class))->shouldBeCalled();
@@ -120,11 +121,11 @@ class ErgonTech_Tabular_Model_Profile_Type_Product_ImportSpec extends ObjectBeha
         $this->initialize($profile);
     }
 
-    public function it_runs_profile(\ErgonTech_Tabular_Model_Profile $profile, \ErgonTech_Tabular_Helper_Google_Api $api)
+    public function it_runs_profile(Tabular\Model_Profile $profile, Tabular\Helper_Google_Api $api)
     {
         $this->headerTransforms
-            ->getHeaderTransformCallbackForProfile(Argument::type(\ErgonTech_Tabular_Model_Profile::class))
-            ->willReturn('spec\ProductImportSpecTest::transform');
+            ->getHeaderTransformCallbackForProfile(Argument::type(Tabular\Model_Profile::class))
+            ->willReturn('spec\ErgonTech\Tabular\ProductImportSpecTest::transform');
 
         $this->initialize($profile);
         $this->processor->run()->shouldBeCalled();

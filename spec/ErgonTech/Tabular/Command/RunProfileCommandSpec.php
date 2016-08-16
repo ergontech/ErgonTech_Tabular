@@ -3,6 +3,10 @@
 namespace spec\ErgonTech\Tabular\Command;
 
 use ErgonTech\Tabular\Command\RunProfileCommand;
+use ErgonTech\Tabular\Helper_Monolog;
+use ErgonTech\Tabular\Helper_Profile_Type_Factory;
+use ErgonTech\Tabular\Model_Profile;
+use ErgonTech\Tabular\Model_Profile_Type;
 use Mage;
 use Monolog\Handler\HandlerInterface;
 use N98\Magento\Application;
@@ -41,11 +45,11 @@ class RunProfileCommandSpec extends ObjectBehavior
         InputInterface $input,
         OutputInterface $output,
         \Mage_Core_Model_Config $config,
-        \ErgonTech_Tabular_Model_Profile $profile,
+        Model_Profile $profile,
         LoggerInterface $logger,
-        \ErgonTech_Tabular_Helper_Profile_Type_Factory $profileTypeFactory,
-        \ErgonTech_Tabular_Helper_Monolog $monologHelper,
-        \ErgonTech_Tabular_Model_Profile_Type $profileType
+        Helper_Profile_Type_Factory $profileTypeFactory,
+        Helper_Monolog $monologHelper,
+        Model_Profile_Type $profileType
     ) {
         $inputDefinition->getOptions()->willReturn([$inputOption]);
         $inputDefinition->getArguments()->willReturn([$inputArgument]);

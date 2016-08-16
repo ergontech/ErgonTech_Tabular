@@ -1,5 +1,11 @@
 <?php
 
+namespace ErgonTech\Tabular;
+
+use Mage;
+use Mage_Core_Model_Abstract;
+use Varien_Object;
+
 /**
  * @method string getProfileType()
  * @method string getName()
@@ -7,7 +13,7 @@
  * @method int getStoreId()
  * @method array getStores()
  */
-class ErgonTech_Tabular_Model_Profile extends Mage_Core_Model_Abstract
+class Model_Profile extends Mage_Core_Model_Abstract
 {
     const MAX_NAME_LENGTH = 255;
 
@@ -50,7 +56,7 @@ class ErgonTech_Tabular_Model_Profile extends Mage_Core_Model_Abstract
      * @param array|string $key
      * @param null $value
      * @return $this|Varien_Object
-     * @throws ErgonTech_Tabular_Exception_Profile
+     * @throws Exception_Profile
      */
     public function setData($key, $value = null)
     {
@@ -67,7 +73,7 @@ class ErgonTech_Tabular_Model_Profile extends Mage_Core_Model_Abstract
             return parent::setData($key, $value);
         }
 
-        throw new ErgonTech_Tabular_Exception_Profile("{$key} could not be validated with the given value \"{$value}\"");
+        throw new Exception_Profile("{$key} could not be validated with the given value \"{$value}\"");
 
     }
 
@@ -75,7 +81,7 @@ class ErgonTech_Tabular_Model_Profile extends Mage_Core_Model_Abstract
      * Load a profile with the given name
      *
      * @param $name
-     * @return ErgonTech_Tabular_Model_Profile
+     * @return Model_Profile
      */
     public function loadByName($name)
     {

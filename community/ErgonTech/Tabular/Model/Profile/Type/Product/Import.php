@@ -1,12 +1,13 @@
 <?php
 
-use ErgonTech\Tabular\GoogleSheetsLoadStep;
-use ErgonTech\Tabular\HeaderTransformStep;
-use ErgonTech\Tabular\LoggingStep;
-use ErgonTech\Tabular\Processor;
-use ErgonTech\Tabular\Step\Product\FastSimpleImport;
+namespace ErgonTech\Tabular;
 
-class ErgonTech_Tabular_Model_Profile_Type_Product_Import implements ErgonTech_Tabular_Model_Profile_Type
+use ErgonTech\Tabular\Step\Product\FastSimpleImport;
+use Google_Service_Sheets;
+use LogicException;
+use Mage;
+
+class Model_Profile_Type_Product_Import implements Model_Profile_Type
 {
 
     /**
@@ -26,7 +27,6 @@ class ErgonTech_Tabular_Model_Profile_Type_Product_Import implements ErgonTech_T
 
 
     /**
-     * ErgonTech_Tabular_Model_Profile_Type_Product constructor.
      * @param Processor $processor
      */
     public function __construct(Processor $processor)
@@ -68,17 +68,17 @@ class ErgonTech_Tabular_Model_Profile_Type_Product_Import implements ErgonTech_T
     /**
      * Initialize the profile type with the given profile instance
      *
-     * @param ErgonTech_Tabular_Model_Profile $profile
+     * @param Model_Profile $profile
      * @return void
      * @throws \LogicException
      */
-    public function initialize(ErgonTech_Tabular_Model_Profile $profile)
+    public function initialize(Model_Profile $profile)
     {
         if ($this->ready) {
             throw new LogicException('Initialize can only be called once');
         }
 
-        /** @var ErgonTech_Tabular_Helper_Google_Api $googleHelper */
+        /** @var Helper_Google_Api $googleHelper */
         $googleHelper = Mage::helper('ergontech_tabular/google_api');
         /** @var array $sheetsData */
         if (is_null($this->headerTransformCallback)) {

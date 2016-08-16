@@ -1,6 +1,11 @@
 <?php
 
-class ErgonTech_Tabular_Model_Source_Profile_Type
+namespace ErgonTech\Tabular;
+
+use Mage;
+use Mage_Core_Model_Config_Element;
+
+class Model_Source_Profile_Type
 {
 
     const CONFIG_PATH_PROFILE_TYPE = 'global/ergontech/tabular/profile/type';

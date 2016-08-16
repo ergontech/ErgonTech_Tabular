@@ -9,11 +9,11 @@
     <global>
         <models>
             <ergontech_tabular>
-                <class>ErgonTech_Tabular_Model</class>
+                <class>ErgonTech\Tabular\Model</class>
                 <resourceModel>ergontech_tabular_resource</resourceModel>
             </ergontech_tabular>
             <ergontech_tabular_resource>
-                <class>ErgonTech_Tabular_Model_Resource</class>
+                <class>ErgonTech\Tabular\Model\Resource</class>
                 <entities>
                     <profile>
                         <table>tabular_profile</table>
@@ -23,10 +23,15 @@
                     </profile_store>
                 </entities>
             </ergontech_tabular_resource>
+            <core>
+                <rewrite>
+                    <layout>ErgonTech_Tabular_Model_Layout</layout>
+                </rewrite>
+            </core>
         </models>
         <helpers>
             <ergontech_tabular>
-                <class>ErgonTech_Tabular_Helper</class>
+                <class>ErgonTech\Tabular\Helper</class>
             </ergontech_tabular>
         </helpers>
         <resources>
@@ -39,7 +44,7 @@
         </resources>
         <blocks>
             <ergontech_tabular>
-                <class>ErgonTech_Tabular_Block</class>
+                <class>ErgonTech\Tabular\Block</class>
             </ergontech_tabular>
         </blocks>
 
@@ -48,7 +53,7 @@
                 <profile>
                     <type>
                         <product_import>
-                            <class>ErgonTech_Tabular_Model_Profile_Type_Product_Import</class>
+                            <class>ErgonTech\Tabular\Model_Profile_Type_Product_Import</class>
                             <extra>
                                 <spreadsheet_id>
                                     <input>text</input>
@@ -69,14 +74,14 @@
                                     <options>
                                         <spaces_to_underscores_and_lowercase>
                                             <label>Spaces to underscores and Lowercase</label>
-                                            <callback><![CDATA[ErgonTech_Tabular_Helper_HeaderTransforms::spacesToUnderscoresAndLowercase]]></callback>
+                                            <callback><![CDATA[ErgonTech\Tabular\Helper_HeaderTransforms::spacesToUnderscoresAndLowercase]]></callback>
                                         </spaces_to_underscores_and_lowercase>
                                     </options>
                                 </header_transform_callback>
                             </extra>
                         </product_import>
                         <product_categorization>
-                            <class>ErgonTech_Tabular_Model_Profile_Type_ProductCategorization</class>
+                            <class>ErgonTech\Tabular\Model_Profile_Type_ProductCategorization</class>
                             <extra>
                                 <spreadsheet_id>
                                     <input>text</input>
@@ -97,14 +102,14 @@
                                     <options>
                                         <product_categorization_mapper>
                                             <label>Product Categorization Header Mapper</label>
-                                            <callback><![CDATA[ErgonTech_Tabular_Helper_HeaderTransforms::productCategorizationMapping]]></callback>
+                                            <callback><![CDATA[ErgonTech\Tabular\Helper_HeaderTransforms::productCategorizationMapping]]></callback>
                                         </product_categorization_mapper>
                                     </options>
                                 </header_transform_callback>
                             </extra>
                         </product_categorization>
                         <category_import>
-                            <class>ErgonTech_Tabular_Model_Profile_Type_Category_Import</class>
+                            <class>ErgonTech\Tabular\Model_Profile_Type_Category_Import</class>
                             <extra>
                                 <spreadsheet_id>
                                     <input>text</input>
@@ -125,11 +130,11 @@
                                     <options>
                                         <spaces_to_underscores_and_lowercase>
                                             <label>Spaces to underscores and Lowercase</label>
-                                            <callback><![CDATA[ErgonTech_Tabular_Helper_HeaderTransforms::spacesToUnderscoresAndLowercase]]></callback>
+                                            <callback><![CDATA[ErgonTech\Tabular\Helper_HeaderTransforms::spacesToUnderscoresAndLowercase]]></callback>
                                         </spaces_to_underscores_and_lowercase>
                                         <category_type_matcher>
                                             <label>Category mapper</label>
-                                            <callback><![CDATA[ErgonTech_Tabular_Helper_HeaderTransforms::categoryHeaderMapping]]></callback>
+                                            <callback><![CDATA[ErgonTech\Tabular\Helper_HeaderTransforms::categoryHeaderMapping]]></callback>
                                         </category_type_matcher>
                                     </options>
                                 </header_transform_callback>

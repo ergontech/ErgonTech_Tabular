@@ -1,6 +1,12 @@
 <?php
 
-class ErgonTech_Tabular_Block_Adminhtml_Profile_Grid extends Mage_Adminhtml_Block_Widget_Grid
+namespace ErgonTech\Tabular;
+
+use ErgonTech\Tabular\Model\Resource_Profile_Collection;
+use Mage;
+use Mage_Adminhtml_Block_Widget_Grid;
+
+class Block_Adminhtml_Profile_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
 
     public function __construct()
@@ -13,7 +19,7 @@ class ErgonTech_Tabular_Block_Adminhtml_Profile_Grid extends Mage_Adminhtml_Bloc
 
     protected function _prepareCollection()
     {
-        /* @var $collection ErgonTech_Tabular_Model_Resource_Profile_Collection */
+        /* @var $collection Resource_Profile_Collection */
         $collection = Mage::getResourceModel('ergontech_tabular/profile_collection');
         $this->setCollection($collection);
         return parent::_prepareCollection();

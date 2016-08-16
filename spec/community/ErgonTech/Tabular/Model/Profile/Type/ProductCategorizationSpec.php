@@ -1,7 +1,8 @@
 <?php
 
-namespace spec;
+namespace spec\ErgonTech\Tabular;
 
+use ErgonTech\Tabular;
 use ErgonTech\Tabular\GoogleSheetsLoadStep;
 use ErgonTech\Tabular\HeaderTransformStep;
 use ErgonTech\Tabular\IteratorStep;
@@ -12,7 +13,7 @@ use Monolog\Logger;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class ErgonTech_Tabular_Model_Profile_Type_ProductCategorizationSpec extends ObjectBehavior
+class Model_Profile_Type_ProductCategorizationSpec extends ObjectBehavior
 {
     private $processor;
 
@@ -21,17 +22,17 @@ class ErgonTech_Tabular_Model_Profile_Type_ProductCategorizationSpec extends Obj
     private $monologHelper;
 
     /**
-     * @var \ErgonTech_Tabular_Helper_HeaderTransforms
+     * @var Tabular\Helper_HeaderTransforms
      */
     private $headerTransforms;
 
     public function let(
         Processor $processor,
-        \ErgonTech_Tabular_Helper_Google_Api $api,
-        \ErgonTech_Tabular_Helper_HeaderTransforms $headerTransforms,
+        Tabular\Helper_Google_Api $api,
+        Tabular\Helper_HeaderTransforms $headerTransforms,
         \Google_Service_Sheets $sheets,
         Logger $logger,
-        \ErgonTech_Tabular_Helper_Monolog $monologHelper,
+        Tabular\Helper_Monolog $monologHelper,
         \Mage_Core_Model_Config $config,
         \Mage_Core_Model_Config_Options $configOptions,
         \Varien_Db_Select $select,
@@ -82,7 +83,7 @@ class ErgonTech_Tabular_Model_Profile_Type_ProductCategorizationSpec extends Obj
             ->willReturn(['root category name']);
 
         $this->headerTransforms
-            ->getHeaderTransformCallbackForProfile(Argument::type(\ErgonTech_Tabular_Model_Profile::class))
+            ->getHeaderTransformCallbackForProfile(Argument::type(Tabular\Model_Profile::class))
             ->willReturn('strtolower');
 
         $this->api->getService(\Google_Service_Sheets::class, Argument::type('array'))
@@ -102,15 +103,15 @@ class ErgonTech_Tabular_Model_Profile_Type_ProductCategorizationSpec extends Obj
 
     public function it_is_initializable()
     {
-        $this->shouldHaveType(\ErgonTech_Tabular_Model_Profile_Type_ProductCategorization::class);
+        $this->shouldHaveType(Tabular\Model_Profile_Type_ProductCategorization::class);
     }
 
     public function it_is_a_profile_type()
     {
-        $this->shouldHaveType(\ErgonTech_Tabular_Model_Profile_Type::class);
+        $this->shouldHaveType(Tabular\Model_Profile_Type::class);
     }
 
-    public function it_can_only_be_initialized_once(\ErgonTech_Tabular_Model_Profile $profile)
+    public function it_can_only_be_initialized_once(Tabular\Model_Profile $profile)
     {
         $this->initialize($profile);
         $this->shouldThrow(\LogicException::class)->during('initialize', [$profile]);
@@ -121,7 +122,7 @@ class ErgonTech_Tabular_Model_Profile_Type_ProductCategorizationSpec extends Obj
         $this->shouldThrow(\LogicException::class)->during('execute');
     }
 
-    public function it_requires_a_header_transform_callback_before_running(\ErgonTech_Tabular_Model_Profile $profile)
+    public function it_requires_a_header_transform_callback_before_running(Tabular\Model_Profile $profile)
     {
         $this->headerTransforms->getHeaderTransformCallbackForProfile($profile)
             ->willReturn(null);
@@ -129,7 +130,7 @@ class ErgonTech_Tabular_Model_Profile_Type_ProductCategorizationSpec extends Obj
         $this->shouldThrow(\Exception::class)->during('execute');
     }
 
-    public function it_adds_the_right_steps_during_initialize(\ErgonTech_Tabular_Model_Profile $profile)
+    public function it_adds_the_right_steps_during_initialize(Tabular\Model_Profile $profile)
     {
 
         $this->processor->addStep(Argument::type(LoggingStep::class))->shouldBeCalledTimes(4);
@@ -140,7 +141,7 @@ class ErgonTech_Tabular_Model_Profile_Type_ProductCategorizationSpec extends Obj
         $this->initialize($profile);
     }
 
-    public function it_runs_the_processor(\ErgonTech_Tabular_Model_Profile $profile)
+    public function it_runs_the_processor(Tabular\Model_Profile $profile)
     {
         $this->initialize($profile);
         $this->execute();

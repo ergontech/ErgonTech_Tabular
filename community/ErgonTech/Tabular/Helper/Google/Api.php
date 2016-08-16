@@ -1,6 +1,13 @@
 <?php
 
-class ErgonTech_Tabular_Helper_Google_Api extends Mage_Core_Helper_Abstract
+namespace ErgonTech\Tabular;
+
+use Google_Client;
+use Google_Service;
+use Mage;
+use Mage_Core_Helper_Abstract;
+
+class Helper_Google_Api extends Mage_Core_Helper_Abstract
 {
     const CONFIG_PATH_API_KEY = 'tabular/google_api/api_key';
     const CONFIG_PATH_API_TYPE = 'tabular/google_api/type';
@@ -17,7 +24,7 @@ class ErgonTech_Tabular_Helper_Google_Api extends Mage_Core_Helper_Abstract
     public function getService($serviceClassname, array $scopes = [])
     {
         if (!class_exists($serviceClassname)) {
-            throw new ErgonTech_Tabular_Exception_Google_Api('The service ' . $serviceClassname . ' does not exist.');
+            throw new Exception_Google_Api('The service ' . $serviceClassname . ' does not exist.');
         }
 
         $client = $this->getGoogleClient();
@@ -38,7 +45,7 @@ class ErgonTech_Tabular_Helper_Google_Api extends Mage_Core_Helper_Abstract
             $type = Mage::getStoreConfig(static::CONFIG_PATH_API_TYPE);
             $apiKey = Mage::getStoreConfig(static::CONFIG_PATH_API_KEY);
             $this->client = Mage::getSingleton(Google_Client::class);
-            if ($type === ErgonTech_Tabular_Model_Source_Google_Api_Type::API_KEY) {
+            if ($type === \ErgonTech_Tabular_Model_Source_Google_Api_Type::API_KEY) {
                 $this->client->setDeveloperKey($apiKey);
             } else {
                 $this->client->setAuthConfig(Mage::helper('core')->jsonDecode($apiKey));

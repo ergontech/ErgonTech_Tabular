@@ -1,6 +1,11 @@
 <?php
 
-class ErgonTech_Tabular_Block_Adminhtml_Profile_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
+namespace ErgonTech\Tabular;
+
+use Mage;
+use Mage_Adminhtml_Block_Widget_Form_Container;
+
+class Block_Adminhtml_Profile_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
 {
     public function __construct()
     {
@@ -11,7 +16,7 @@ class ErgonTech_Tabular_Block_Adminhtml_Profile_Edit extends Mage_Adminhtml_Bloc
         parent::__construct();
 
         $runUrl = $this->getUrl('*/*/run');
-        $runFieldsetName = ErgonTech_Tabular_Block_Adminhtml_Profile_Edit_Form::RUN_FIELDSET_NAME;
+        $runFieldsetName = Block_Adminhtml_Profile_Edit_Form::RUN_FIELDSET_NAME;
 
         $this->_formScripts[] = <<<JS
 function saveAndContinueEdit() {
@@ -32,6 +37,7 @@ JS;
 
     protected function _prepareLayout()
     {
+        /** @var Helper_Data $helper */
         $helper = Mage::helper('ergontech_tabular');
         $this->_updateButton('save', 'label', $helper->__('Save Profile'));
         $this->_updateButton('delete', 'label', $helper->__('Delete Profile'));

@@ -1,17 +1,17 @@
 <?php
 
-namespace spec;
+namespace spec\ErgonTech\Tabular;
 
 use Monolog\Handler\HandlerInterface;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Psr\Log\LoggerInterface;
 
-class ErgonTech_Tabular_Helper_MonologSpec extends ObjectBehavior
+class Helper_MonologSpec extends ObjectBehavior
 {
     function it_is_initializable()
     {
-        $this->shouldHaveType(\ErgonTech_Tabular_Helper_Monolog::class);
+        $this->shouldHaveType(\ErgonTech\Tabular\Helper_Monolog::class);
     }
 
     function it_registers_a_logger_by_alias()

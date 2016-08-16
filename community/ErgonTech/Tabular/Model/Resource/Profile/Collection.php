@@ -1,6 +1,12 @@
 <?php
 
-class ErgonTech_Tabular_Model_Resource_Profile_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+namespace ErgonTech\Tabular\Model;
+
+use ErgonTech\Tabular\Model_Profile;
+use Mage;
+use Mage_Core_Model_Resource_Db_Collection_Abstract;
+
+class Resource_Profile_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Ensure the resource is available and is the singleton resource
@@ -31,7 +37,7 @@ class ErgonTech_Tabular_Model_Resource_Profile_Collection extends Mage_Core_Mode
         // THIS IS NOT SO BAD.
         // load(null) doesn't touch the database
         foreach ($this->_items as $item) {
-            /** @var ErgonTech_Tabular_Model_Profile $item */
+            /** @var Model_Profile $item */
             $item->load(null);
         }
 

@@ -1,13 +1,14 @@
 <?php
 
-namespace spec;
+namespace spec\ErgonTech\Tabular;
 
+use ErgonTech\Tabular;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class ErgonTech_Tabular_Block_Adminhtml_Profile_EditSpec extends ObjectBehavior
+class Block_Adminhtml_Profile_EditSpec extends ObjectBehavior
 {
-    function let(\ErgonTech_Tabular_Helper_Data $tabularHelper, \Mage_Adminhtml_Helper_Data $adminhtmlHelper)
+    function let(Tabular\Helper_Data $tabularHelper, \Mage_Adminhtml_Helper_Data $adminhtmlHelper)
     {
         \Mage::register('_helper/ergontech_tabular', $tabularHelper->getWrappedObject());
         \Mage::register('_helper/adminhtml', $adminhtmlHelper->getWrappedObject());
@@ -24,6 +25,6 @@ class ErgonTech_Tabular_Block_Adminhtml_Profile_EditSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType(\ErgonTech_Tabular_Block_Adminhtml_Profile_Edit::class);
+        $this->shouldHaveType(Tabular\Block_Adminhtml_Profile_Edit::class);
     }
 }

@@ -1,8 +1,15 @@
 <?php
 
-use ErgonTech\Tabular\Processor;
+namespace ErgonTech\Tabular;
 
-class ErgonTech_Tabular_Model_Profile_Type_ProductCategorization implements ErgonTech_Tabular_Model_Profile_Type
+use ErgonTech\Tabular\Processor;
+use Google_Service_Sheets;
+use LogicException;
+use Mage;
+use Mage_Catalog_Model_Resource_Category_Collection;
+use Mage_Core_Model_Resource_Store_Group_Collection;
+
+class Model_Profile_Type_ProductCategorization implements Model_Profile_Type
 {
     /**
      * @var bool
@@ -30,8 +37,8 @@ class ErgonTech_Tabular_Model_Profile_Type_ProductCategorization implements Ergo
      * Run the profile
      *
      * @return void
-     * @throws \LogicException
-     * @throws \ErgonTech\Tabular\StepExecutionException
+     * @throws LogicException
+     * @throws StepExecutionException
      */
     public function execute()
     {
@@ -45,16 +52,16 @@ class ErgonTech_Tabular_Model_Profile_Type_ProductCategorization implements Ergo
     /**
      * Initialize the profile type with the given profile instance
      *
-     * @param ErgonTech_Tabular_Model_Profile $profile
+     * @param Model_Profile $profile
      * @return void
      * @throws \LogicException
      */
-    public function initialize(ErgonTech_Tabular_Model_Profile $profile)
+    public function initialize(Model_Profile $profile)
     {
         if ($this->initialized) {
             throw new LogicException('This profile can only be initialized one time');
         }
-        /** @var ErgonTech_Tabular_Helper_Google_Api $googleHelper */
+        /** @var Helper_Google_Api $googleHelper */
         $googleHelper = Mage::helper('ergontech_tabular/google_api');
 
         if (is_null($this->headerTransformCallback)) {

@@ -1,16 +1,14 @@
 <?php
 
-namespace spec;
+namespace spec\ErgonTech\Tabular;
 
+use ErgonTech\Tabular;
 use Mage;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class ugh {
-    public function asArray() { return []; }
-}
 
-class ErgonTech_Tabular_Block_Adminhtml_Profile_Edit_FormSpec extends ObjectBehavior
+class Block_Adminhtml_Profile_Edit_FormSpec extends ObjectBehavior
 {
     private $form;
 
@@ -19,13 +17,13 @@ class ErgonTech_Tabular_Block_Adminhtml_Profile_Edit_FormSpec extends ObjectBeha
     private $profile;
 
     function let(
-        \ErgonTech_Tabular_Helper_Data $data,
+        Tabular\Helper_Data $data,
         \Varien_Data_Form $form,
         \Mage_Core_Model_Config $configModel,
         \Mage_Core_Model_Store $store,
         \Mage_Core_Model_App $app,
-        \ErgonTech_Tabular_Model_Profile $profile,
-        \ErgonTech_Tabular_Model_Source_Profile_Type $tabularProfileTypeSource,
+        Tabular\Model_Profile $profile,
+        Tabular\Model_Source_Profile_Type $tabularProfileTypeSource,
         \Varien_Data_Form_Element_Fieldset $fieldset,
         \Varien_Data_Form_Element_Abstract $element,
         \Mage_Adminhtml_Model_System_Store $adminhtmlSystemStore,
@@ -94,7 +92,7 @@ class ErgonTech_Tabular_Block_Adminhtml_Profile_Edit_FormSpec extends ObjectBeha
 
     function it_is_initializable()
     {
-        $this->shouldHaveType(\ErgonTech_Tabular_Block_Adminhtml_Profile_Edit_Form::class);
+        $this->shouldHaveType(Tabular\Block_Adminhtml_Profile_Edit_Form::class);
     }
 
     function it_prepares_the_form(\Varien_Data_Form_Element_Fieldset $fieldset)
@@ -111,4 +109,8 @@ class ErgonTech_Tabular_Block_Adminhtml_Profile_Edit_FormSpec extends ObjectBeha
         $prepareFormMethod->setAccessible(true);
         $prepareFormMethod->invoke($this->getWrappedObject());
     }
+}
+
+class ugh {
+    public function asArray() { return []; }
 }

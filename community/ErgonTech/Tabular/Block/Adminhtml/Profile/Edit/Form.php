@@ -1,14 +1,21 @@
 <?php
 
+namespace ErgonTech\Tabular;
+use Mage;
+use Mage_Adminhtml_Block_Widget_Form;
+use Mage_Core_Model_Config_Element;
+use Varien_Data_Form;
+use Varien_Data_Form_Element_Abstract;
+use Varien_Data_Form_Element_Fieldset;
+
 /**
- * Class ErgonTech_Tabular_Block_Adminhtml_Profile_Edit_Form
  * @category ErgonTech
  * @package ErgonTech_Tabular
  * @author Matthew Wells <matthew@ergon.tech>
  *
- * @method ErgonTech_Tabular_Model_Profile getProfile()
+ * @method Model_Profile getProfile()
  */
-class ErgonTech_Tabular_Block_Adminhtml_Profile_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
+class Block_Adminhtml_Profile_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
 {
     const RUN_FIELDSET_NAME = 'run_fieldset';
 
@@ -62,10 +69,10 @@ class ErgonTech_Tabular_Block_Adminhtml_Profile_Edit_Form extends Mage_Adminhtml
         /** @var Varien_Data_Form $form */
         $form = $this->getForm();
 
-        /** @var ErgonTech_Tabular_Model_Profile $profile */
+        /** @var Model_Profile $profile */
         $profile = $this->getProfile();
 
-        /** @var ErgonTech_Tabular_Helper_Data $helper */
+        /** @var Helper_Data $helper */
         $helper = Mage::helper('ergontech_tabular');
 
         /** @var Varien_Data_Form_Element_Fieldset $fieldset */
@@ -85,10 +92,10 @@ class ErgonTech_Tabular_Block_Adminhtml_Profile_Edit_Form extends Mage_Adminhtml
         /** @var Varien_Data_Form $form */
         $form = $this->getForm();
 
-        /** @var ErgonTech_Tabular_Model_Profile $profile */
+        /** @var Model_Profile $profile */
         $profile = $this->getProfile();
 
-         /** @var ErgonTech_Tabular_Helper_Data $helper */
+         /** @var Helper_Data $helper */
         $helper = Mage::helper('ergontech_tabular');
 
         /** @var Varien_Data_Form_Element_Fieldset $fieldset */
@@ -144,7 +151,7 @@ class ErgonTech_Tabular_Block_Adminhtml_Profile_Edit_Form extends Mage_Adminhtml
      */
     public function addExtraFields()
     {
-        /** @var ErgonTech_Tabular_Helper_Data $helper */
+        /** @var Helper_Data $helper */
         $helper = Mage::helper('ergontech_tabular');
 
         $profile = $this->getProfile();
@@ -156,7 +163,7 @@ class ErgonTech_Tabular_Block_Adminhtml_Profile_Edit_Form extends Mage_Adminhtml
         if ($profile->getProfileType()) {
             /** @var Mage_Core_Model_Config_Element $extraFields */
             $extraFields = Mage::getConfig()->getNode(sprintf('%s/%s/extra',
-                ErgonTech_Tabular_Model_Source_Profile_Type::CONFIG_PATH_PROFILE_TYPE,
+                Model_Source_Profile_Type::CONFIG_PATH_PROFILE_TYPE,
                 $profile->getProfileType()));
 
             foreach ($extraFields->asArray() as $extraField => $fieldConfig) {

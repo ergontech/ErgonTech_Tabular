@@ -1,13 +1,14 @@
 <?php
 
-namespace spec;
+namespace spec\ErgonTech\Tabular;
 
+use ErgonTech\Tabular;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class ErgonTech_Tabular_Block_Adminhtml_Profile_PageSpec extends ObjectBehavior
+class Block_Adminhtml_Profile_PageSpec extends ObjectBehavior
 {
-    function let(\ErgonTech_Tabular_Helper_Data $data)
+    function let(Tabular\Helper_Data $data)
     {
         \Mage::register('_helper/ergontech_tabular', $data);
     }
@@ -19,6 +20,6 @@ class ErgonTech_Tabular_Block_Adminhtml_Profile_PageSpec extends ObjectBehavior
     
     function it_is_initializable()
     {
-        $this->shouldHaveType('ErgonTech_Tabular_Block_Adminhtml_Profile_Page');
+        $this->shouldHaveType(Tabular\Block_Adminhtml_Profile_Page::class);
     }
 }

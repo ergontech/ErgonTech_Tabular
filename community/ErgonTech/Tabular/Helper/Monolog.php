@@ -1,15 +1,22 @@
 <?php
 
-class ErgonTech_Tabular_Helper_Monolog extends Mage_Core_Helper_Abstract
+namespace ErgonTech\Tabular;
+
+use LogicException;
+use Mage_Core_Helper_Abstract;
+use Monolog\Handler\HandlerInterface;
+use Monolog\Logger;
+
+class Helper_Monolog extends Mage_Core_Helper_Abstract
 {
     /**
-     * @var \Monolog\Logger[]
+     * @var Logger[]
      */
     private $loggers = [];
 
     /**
      * @param $alias
-     * @return \Monolog\Logger
+     * @return Logger
      * @throws \LogicException
      */
     public function registerLogger($alias)
@@ -18,18 +25,18 @@ class ErgonTech_Tabular_Helper_Monolog extends Mage_Core_Helper_Abstract
             throw new LogicException('Logger aliases must be unique!');
         }
 
-        $this->loggers[$alias] = new Monolog\Logger($alias);
+        $this->loggers[$alias] = new Logger($alias);
 
         return $this->loggers[$alias];
     }
 
     /**
      * @param $alias
-     * @param \Monolog\Handler\HandlerInterface $handler
+     * @param HandlerInterface $handler
      * @return void
      * @throws \LogicException
      */
-    public function pushHandler($alias, \Monolog\Handler\HandlerInterface $handler)
+    public function pushHandler($alias, HandlerInterface $handler)
     {
         if (!array_key_exists($alias, $this->loggers)) {
             throw new LogicException("Logger '{$alias}' does not exist!");
@@ -40,7 +47,7 @@ class ErgonTech_Tabular_Helper_Monolog extends Mage_Core_Helper_Abstract
 
     /**
      * @param $alias
-     * @return \Monolog\Logger|null
+     * @return Logger|null
      */
     public function getLogger($alias)
     {

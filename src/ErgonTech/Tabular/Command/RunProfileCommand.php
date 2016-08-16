@@ -2,6 +2,8 @@
 
 namespace ErgonTech\Tabular\Command;
 
+use ErgonTech\Tabular\Exception_Profile;
+use ErgonTech\Tabular\Model_Profile_Type;
 use Mage;
 use Monolog\Handler\StreamHandler;
 use N98\Magento\Command\AbstractMagentoCommand;
@@ -38,10 +40,10 @@ HELP
             $profile = Mage::getModel('ergontech_tabular/profile')->loadByName($profileName);
 
             if (!$profile->getId()) {
-                throw new \ErgonTech_Tabular_Exception_Profile("A profile named {$profileName} was not found");
+                throw new Exception_Profile("A profile named {$profileName} was not found");
             }
 
-            /** @var \ErgonTech_Tabular_Model_Profile_Type $profileType */
+            /** @var Model_Profile_Type $profileType */
             $profileType = Mage::helper('ergontech_tabular/profile_type_factory')->createProfileTypeInstance($profile);
 
             Mage::helper('ergontech_tabular/monolog')->pushHandler('tabular', new StreamHandler(STDOUT, LogLevel::DEBUG));

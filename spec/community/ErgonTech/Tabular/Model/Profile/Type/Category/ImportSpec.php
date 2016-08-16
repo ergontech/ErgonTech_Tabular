@@ -1,10 +1,15 @@
 <?php
 
-namespace spec;
+namespace spec\ErgonTech\Tabular;
 
 use ErgonTech\Tabular\GoogleSheetsLoadStep;
 use ErgonTech\Tabular\HeaderTransformStep;
+use ErgonTech\Tabular\Helper_Google_Api;
+use ErgonTech\Tabular\Helper_HeaderTransforms;
+use ErgonTech\Tabular\Helper_Monolog;
 use ErgonTech\Tabular\LoggingStep;
+use ErgonTech\Tabular\Model_Profile;
+use ErgonTech\Tabular\Model_Profile_Type;
 use ErgonTech\Tabular\Processor;
 use ErgonTech\Tabular\Rows;
 use ErgonTech\Tabular\Step\Category;
@@ -12,7 +17,7 @@ use Monolog\Logger;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class ErgonTech_Tabular_Model_Profile_Type_Category_ImportSpec extends ObjectBehavior
+class Model_Profile_Type_Category_ImportSpec extends ObjectBehavior
 {
     /**
      * @var Processor
@@ -25,8 +30,8 @@ class ErgonTech_Tabular_Model_Profile_Type_Category_ImportSpec extends ObjectBeh
         \AvS_FastSimpleImport_Model_Import $import,
         \Mage_Core_Model_Config $config,
         \Mage_Core_Model_Config_Options $configOptions,
-        \ErgonTech_Tabular_Helper_HeaderTransforms $headerTransforms,
-        \ErgonTech_Tabular_Helper_Monolog $monologHelper,
+        Helper_HeaderTransforms $headerTransforms,
+        Helper_Monolog $monologHelper,
         Logger $logger
     ) {
         $this->processor = $processor;
@@ -55,22 +60,22 @@ class ErgonTech_Tabular_Model_Profile_Type_Category_ImportSpec extends ObjectBeh
 
     public function it_is_initializable()
     {
-        $this->shouldHaveType(\ErgonTech_Tabular_Model_Profile_Type_Category_Import::class);
+        $this->shouldHaveType(\ErgonTech\Tabular\Model_Profile_Type_Category_Import::class);
     }
 
     public function it_is_a_profile_type()
     {
-        $this->shouldHaveType(\ErgonTech_Tabular_Model_Profile_Type::class);
+        $this->shouldHaveType(Model_Profile_Type::class);
     }
 
-    public function it_can_only_be_initialized_once(\ErgonTech_Tabular_Model_Profile $profile, \ErgonTech_Tabular_Helper_Google_Api $api)
+    public function it_can_only_be_initialized_once(Model_Profile $profile, Helper_Google_Api $api)
     {
         \Mage::register('_helper/ergontech_tabular/google_api', $api);
         $this->initialize($profile);
         $this->shouldThrow(\LogicException::class)->during('initialize', [$profile]);
     }
 
-    public function it_requires_a_header_transform_callback_before_running(\ErgonTech_Tabular_Model_Profile $profile, \ErgonTech_Tabular_Helper_Google_Api $api)
+    public function it_requires_a_header_transform_callback_before_running(Model_Profile $profile, Helper_Google_Api $api)
     {
         \Mage::register('_helper/ergontech_tabular/google_api', $api);
         $this->initialize($profile);
@@ -78,8 +83,8 @@ class ErgonTech_Tabular_Model_Profile_Type_Category_ImportSpec extends ObjectBeh
     }
 
     public function it_adds_the_right_steps_to_the_Processor(
-        \ErgonTech_Tabular_Model_Profile $profile,
-        \ErgonTech_Tabular_Helper_Google_Api $api,
+        Model_Profile $profile,
+        Helper_Google_Api $api,
         \Google_Service_Sheets $sheetsService)
     {
         $api->getService(\Google_Service_Sheets::class, [\Google_Service_Sheets::SPREADSHEETS_READONLY])
@@ -104,7 +109,7 @@ class ErgonTech_Tabular_Model_Profile_Type_Category_ImportSpec extends ObjectBeh
         $this->initialize($profile);
     }
 
-    public function it_runs_profile(\ErgonTech_Tabular_Model_Profile $profile, \ErgonTech_Tabular_Helper_Google_Api $api)
+    public function it_runs_profile(Model_Profile $profile, Helper_Google_Api $api)
     {
         \Mage::register('_helper/ergontech_tabular/google_api', $api);
         $this->setHeaderTransformCallback(function ($a) {

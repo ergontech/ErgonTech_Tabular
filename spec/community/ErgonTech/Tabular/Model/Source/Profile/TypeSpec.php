@@ -1,12 +1,13 @@
 <?php
 
-namespace spec;
+namespace spec\ErgonTech\Tabular;
 
+use ErgonTech\Tabular\Model_Source_Profile_Type;
 use Mage;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class ErgonTech_Tabular_Model_Source_Profile_TypeSpec extends ObjectBehavior
+class Model_Source_Profile_TypeSpec extends ObjectBehavior
 {
     const FAKE_NAME = 'foo';
     const FAKE_CLASS = 'fooclass';
@@ -15,13 +16,13 @@ class ErgonTech_Tabular_Model_Source_Profile_TypeSpec extends ObjectBehavior
     {
         Mage::app();
         Mage::getConfig()->setNode(sprintf('%s/%s/class',
-            \ErgonTech_Tabular_Model_Source_Profile_Type::CONFIG_PATH_PROFILE_TYPE, static::FAKE_NAME),
+            Model_Source_Profile_Type::CONFIG_PATH_PROFILE_TYPE, static::FAKE_NAME),
             self::FAKE_CLASS);
     }
 
     function it_is_initializable()
     {
-        $this->shouldHaveType(\ErgonTech_Tabular_Model_Source_Profile_Type::class);
+        $this->shouldHaveType(Model_Source_Profile_Type::class);
     }
 
     function it_can_create_an_option_array()

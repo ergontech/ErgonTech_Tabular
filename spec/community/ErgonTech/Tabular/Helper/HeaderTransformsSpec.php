@@ -1,15 +1,16 @@
 <?php
 
-namespace spec;
+namespace spec\ErgonTech\Tabular;
 
+use ErgonTech\Tabular;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class ErgonTech_Tabular_Helper_HeaderTransformsSpec extends ObjectBehavior
+class Helper_HeaderTransformsSpec extends ObjectBehavior
 {
     function it_is_initializable()
     {
-        $this->shouldHaveType('ErgonTech_Tabular_Helper_HeaderTransforms');
+        $this->shouldHaveType(\ErgonTech\Tabular\Helper_HeaderTransforms::class);
     }
 
     function it_can_transform_an_input_by_replacing_spaces_with_tabs_and_downcasing()
@@ -20,7 +21,7 @@ class ErgonTech_Tabular_Helper_HeaderTransformsSpec extends ObjectBehavior
         $this->spacesToUnderscoresAndLowercase($input)->shouldReturn($output);
     }
 
-    function it_can_get_the_header_transform_callback_of_a_profile(\ErgonTech_Tabular_Model_Profile $profile)
+    function it_can_get_the_header_transform_callback_of_a_profile(Tabular\Model_Profile $profile)
     {
         \Mage::app();
         $callbackName = 'callback';
@@ -30,7 +31,7 @@ class ErgonTech_Tabular_Helper_HeaderTransformsSpec extends ObjectBehavior
         $profile->getExtra('header_transform_callback')->willReturn($transformerName);
         \Mage::getConfig()->setNode(
             sprintf('%s/%s/extra/header_transform_callback/options/%s/callback',
-                \ErgonTech_Tabular_Model_Source_Profile_Type::CONFIG_PATH_PROFILE_TYPE,
+                Tabular\Model_Source_Profile_Type::CONFIG_PATH_PROFILE_TYPE,
                 $profileType,
                 $transformerName),
             $callbackName);

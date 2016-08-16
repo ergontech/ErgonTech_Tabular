@@ -1,6 +1,14 @@
 <?php
 
-class ErgonTech_Tabular_Model_Resource_Profile extends Mage_Core_Model_Resource_Db_Abstract
+namespace ErgonTech\Tabular\Model;
+
+use Mage_Core_Model_Abstract;
+use Mage_Core_Model_App;
+use Mage_Core_Model_Resource_Db_Abstract;
+use Varien_Db_Adapter_Interface;
+use Zend_Db_Select;
+
+class Resource_Profile extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
      * Resource initialization

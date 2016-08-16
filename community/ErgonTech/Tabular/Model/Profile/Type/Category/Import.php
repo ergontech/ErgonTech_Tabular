@@ -1,8 +1,12 @@
 <?php
 
-use ErgonTech\Tabular\Processor;
+namespace ErgonTech\Tabular;
 
-class ErgonTech_Tabular_Model_Profile_Type_Category_Import implements ErgonTech_Tabular_Model_Profile_Type
+use ErgonTech\Tabular\Processor;
+use LogicException;
+use Mage;
+
+class Model_Profile_Type_Category_Import implements Model_Profile_Type
 {
 
     /**
@@ -53,11 +57,11 @@ class ErgonTech_Tabular_Model_Profile_Type_Category_Import implements ErgonTech_
     /**
      * Initialize the profile type with the given profile instance
      *
-     * @param ErgonTech_Tabular_Model_Profile $profile
+     * @param Model_Profile $profile
      * @return void
      * @throws \LogicException
      */
-    public function initialize(ErgonTech_Tabular_Model_Profile $profile)
+    public function initialize(Model_Profile $profile)
     {
         if ($this->initialized) {
             throw new LogicException('May only initialize the profile one time!');
@@ -81,7 +85,7 @@ class ErgonTech_Tabular_Model_Profile_Type_Category_Import implements ErgonTech_
         $this->processor->addStep(new \ErgonTech\Tabular\HeaderTransformStep($this->headerTransformCallback));
         $this->processor->addStep(new \ErgonTech\Tabular\LoggingStep($logger));
         $this->processor->addStep(new \ErgonTech\Tabular\GoogleSheetsLoadStep(
-            Mage::helper('ergontech_tabular/google_api')->getService(Google_Service_Sheets::class, [Google_Service_Sheets::SPREADSHEETS_READONLY]),
+            Mage::helper('ergontech_tabular/google_api')->getService(\Google_Service_Sheets::class, [\Google_Service_Sheets::SPREADSHEETS_READONLY]),
             $profile->getExtra('spreadsheet_id'),
             $profile->getExtra('header_named_range'),
             $profile->getExtra('data_named_range')));

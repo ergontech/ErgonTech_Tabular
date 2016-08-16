@@ -1,6 +1,11 @@
 <?php
 
-class ErgonTech_Tabular_Helper_HeaderTransforms extends Mage_Core_Helper_Abstract
+namespace ErgonTech\Tabular;
+
+use Mage;
+use Mage_Core_Helper_Abstract;
+
+class Helper_HeaderTransforms extends Mage_Core_Helper_Abstract
 {
     public static function spacesToUnderscoresAndLowercase($input)
     {
@@ -35,10 +40,10 @@ class ErgonTech_Tabular_Helper_HeaderTransforms extends Mage_Core_Helper_Abstrac
         return static::spacesToUnderscoresAndLowercase($input);
     }
 
-    public function getHeaderTransformCallbackForProfile(ErgonTech_Tabular_Model_Profile $profile)
+    public function getHeaderTransformCallbackForProfile(Model_Profile $profile)
     {
         return Mage::getConfig()->getNode(sprintf('%s/%s/extra/header_transform_callback/options/%s/callback',
-            ErgonTech_Tabular_Model_Source_Profile_Type::CONFIG_PATH_PROFILE_TYPE,
+            Model_Source_Profile_Type::CONFIG_PATH_PROFILE_TYPE,
             $profile->getProfileType(),
             $profile->getExtra('header_transform_callback')));
     }

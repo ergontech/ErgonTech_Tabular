@@ -1,16 +1,15 @@
 <?php
 
-namespace spec;
+namespace spec\ErgonTech\Tabular;
 
-use ErgonTech_Tabular_Block_Adminhtml_Profile_Grid;
-use ErgonTech_Tabular_Helper_Data;
+use ErgonTech\Tabular;
 use Mage_Adminhtml_Block_Widget_Grid;
 use Mage_Adminhtml_Block_Widget_Grid_Column;
 use PhpParser\Node\Arg;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class ErgonTech_Tabular_Block_Adminhtml_Profile_GridSpec extends ObjectBehavior
+class Block_Adminhtml_Profile_GridSpec extends ObjectBehavior
 {
     function let(\Mage_Admin_Helper_Data $helper)
     {
@@ -24,7 +23,7 @@ class ErgonTech_Tabular_Block_Adminhtml_Profile_GridSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType(ErgonTech_Tabular_Block_Adminhtml_Profile_Grid::class);
+        $this->shouldHaveType(Tabular\Block_Adminhtml_Profile_Grid::class);
     }
 
     function it_is_an_adminhtml_grid()
@@ -34,7 +33,7 @@ class ErgonTech_Tabular_Block_Adminhtml_Profile_GridSpec extends ObjectBehavior
 
     function it_adds_columns_to_itself(
         \ArrayObject $columns,
-        ErgonTech_Tabular_Helper_Data $data,
+        Tabular\Helper_Data $data,
         \Mage_Core_Model_Layout $layout,
         \Mage_Core_Block_Template $template,
         Mage_Adminhtml_Block_Widget_Grid_Column $column

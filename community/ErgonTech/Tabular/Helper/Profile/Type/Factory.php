@@ -1,23 +1,29 @@
 <?php
 
-class ErgonTech_Tabular_Helper_Profile_Type_Factory extends Mage_Core_Helper_Abstract
+namespace ErgonTech\Tabular;
+
+use Exception;
+use Mage;
+use Mage_Core_Helper_Abstract;
+
+class Helper_Profile_Type_Factory extends Mage_Core_Helper_Abstract
 {
     /**
-     * @param ErgonTech_Tabular_Model_Profile $profile
+     * @param Model_Profile $profile
      * @return mixed
      * @throws Exception
      */
-    public function createProfileTypeInstance(ErgonTech_Tabular_Model_Profile $profile)
+    public function createProfileTypeInstance(Model_Profile $profile)
     {
         $classname = (string)Mage::getConfig()->getNode(sprintf('%s/%s/class',
-            ErgonTech_Tabular_Model_Source_Profile_Type::CONFIG_PATH_PROFILE_TYPE, $profile->getProfileType()));
+            Model_Source_Profile_Type::CONFIG_PATH_PROFILE_TYPE, $profile->getProfileType()));
         if (class_exists($classname)) {
-            /** @var ErgonTech_Tabular_Model_Profile_Type $stepTypeInstance */
-            $stepTypeInstance = new $classname(new ErgonTech\Tabular\Processor());
+            /** @var Model_Profile_Type $stepTypeInstance */
+            $stepTypeInstance = new $classname(new Processor());
             $stepTypeInstance->initialize($profile);
             return $stepTypeInstance;
         }
 
-        throw new ErgonTech_Tabular_Exception_Type($classname . ' is not an existent class');
+        throw new Exception_Type($classname . ' is not an existent class');
     }
 }

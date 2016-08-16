@@ -1,5 +1,6 @@
 <?php
+namespace ErgonTech\Tabular;
 
-class ErgonTech_Tabular_Exception_Profile extends Exception
+class Exception_Profile extends \Exception
 {
 }

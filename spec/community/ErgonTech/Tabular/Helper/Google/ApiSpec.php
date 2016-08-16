@@ -1,12 +1,13 @@
 <?php
 
-namespace spec;
+namespace spec\ErgonTech\Tabular;
 
 use Mage;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use ErgonTech\Tabular;
 
-class ErgonTech_Tabular_Helper_Google_ApiSpec extends ObjectBehavior
+class Helper_Google_ApiSpec extends ObjectBehavior
 {
     private $app;
     protected $store;
@@ -49,7 +50,7 @@ class ErgonTech_Tabular_Helper_Google_ApiSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('ErgonTech_Tabular_Helper_Google_Api');
+        $this->shouldHaveType(Tabular\Helper_Google_Api::class);
     }
 
     function it_can_get_a_service()
@@ -75,10 +76,10 @@ class ErgonTech_Tabular_Helper_Google_ApiSpec extends ObjectBehavior
     function it_reads_api_key_from_system_config(\Mage_Core_Model_Store $store)
     {
         $apiKey = 'apikey!!';
-        $this->store->getConfig(\ErgonTech_Tabular_Helper_Google_Api::CONFIG_PATH_API_TYPE)
+        $this->store->getConfig(Tabular\Helper_Google_Api::CONFIG_PATH_API_TYPE)
             ->willReturn(\ErgonTech_Tabular_Model_Source_Google_Api_Type::API_KEY)
             ->shouldBeCalled();
-        $this->store->getConfig(\ErgonTech_Tabular_Helper_Google_Api::CONFIG_PATH_API_KEY)
+        $this->store->getConfig(Tabular\Helper_Google_Api::CONFIG_PATH_API_KEY)
             ->willReturn($apiKey)
             ->shouldBeCalled();
         $this->client->setDeveloperKey($apiKey)
@@ -93,12 +94,12 @@ class ErgonTech_Tabular_Helper_Google_ApiSpec extends ObjectBehavior
         $this->dataHelper->jsonDecode($authConfigStr)->willReturn($authConfig);
 
         // We should check which api type is to be used
-        $this->store->getConfig(\ErgonTech_Tabular_Helper_Google_Api::CONFIG_PATH_API_TYPE)
+        $this->store->getConfig(Tabular\Helper_Google_Api::CONFIG_PATH_API_TYPE)
             ->willReturn(\ErgonTech_Tabular_Model_Source_Google_Api_Type::SERVICE_ACCOUNT)
             ->shouldBeCalled();
 
         // We should ask for the "auth data"
-        $this->store->getConfig(\ErgonTech_Tabular_Helper_Google_Api::CONFIG_PATH_API_KEY)
+        $this->store->getConfig(Tabular\Helper_Google_Api::CONFIG_PATH_API_KEY)
             ->willReturn($authConfigStr)
             ->shouldBeCalled();
 
