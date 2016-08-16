@@ -77,7 +77,7 @@ class Helper_Google_ApiSpec extends ObjectBehavior
     {
         $apiKey = 'apikey!!';
         $this->store->getConfig(Tabular\Helper_Google_Api::CONFIG_PATH_API_TYPE)
-            ->willReturn(\ErgonTech_Tabular_Model_Source_Google_Api_Type::API_KEY)
+            ->willReturn(Tabular\Model_Source_Google_Api_Type::API_KEY)
             ->shouldBeCalled();
         $this->store->getConfig(Tabular\Helper_Google_Api::CONFIG_PATH_API_KEY)
             ->willReturn($apiKey)
@@ -95,7 +95,7 @@ class Helper_Google_ApiSpec extends ObjectBehavior
 
         // We should check which api type is to be used
         $this->store->getConfig(Tabular\Helper_Google_Api::CONFIG_PATH_API_TYPE)
-            ->willReturn(\ErgonTech_Tabular_Model_Source_Google_Api_Type::SERVICE_ACCOUNT)
+            ->willReturn(Tabular\Model_Source_Google_Api_Type::SERVICE_ACCOUNT)
             ->shouldBeCalled();
 
         // We should ask for the "auth data"

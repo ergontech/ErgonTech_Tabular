@@ -1,6 +1,8 @@
 <?php
 
-class ErgonTech_Tabular_Model_Source_Google_Api_Type
+namespace ErgonTech\Tabular;
+
+class Model_Source_Google_Api_Type
 {
     const API_KEY = 'api_key';
 

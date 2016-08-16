@@ -45,7 +45,7 @@ class Helper_Google_Api extends Mage_Core_Helper_Abstract
             $type = Mage::getStoreConfig(static::CONFIG_PATH_API_TYPE);
             $apiKey = Mage::getStoreConfig(static::CONFIG_PATH_API_KEY);
             $this->client = Mage::getSingleton(Google_Client::class);
-            if ($type === \ErgonTech_Tabular_Model_Source_Google_Api_Type::API_KEY) {
+            if ($type === Model_Source_Google_Api_Type::API_KEY) {
                 $this->client->setDeveloperKey($apiKey);
             } else {
                 $this->client->setAuthConfig(Mage::helper('core')->jsonDecode($apiKey));
