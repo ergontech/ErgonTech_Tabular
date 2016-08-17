@@ -6,6 +6,11 @@ use Mage;
 
 class Helper_RowTransforms extends \Mage_Core_Helper_Abstract
 {
+    public function returnSelf($value)
+    {
+        return $value;
+    }
+
     /**
      * Look up in config the row transformation callback configured for this profile
      *
