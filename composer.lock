@@ -139,16 +139,16 @@
         },
         {
             "name": "ergontech/tabular-core",
-            "version": "v0.2.0",
+            "version": "v0.2.1",
             "source": {
                 "type": "git",
                 "url": "git@github.com:ergontech/tabular-processor.git",
-                "reference": "929bced5a87a042a520daa9500b1c19e80773c26"
+                "reference": "f6312847725a4157d292dd881e27565bac7cec61"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ergontech/tabular-processor/zipball/929bced5a87a042a520daa9500b1c19e80773c26",
-                "reference": "929bced5a87a042a520daa9500b1c19e80773c26",
+                "url": "https://api.github.com/repos/ergontech/tabular-processor/zipball/f6312847725a4157d292dd881e27565bac7cec61",
+                "reference": "f6312847725a4157d292dd881e27565bac7cec61",
                 "shasum": ""
             },
             "require": {
@@ -174,10 +174,10 @@
                 }
             ],
             "support": {
-                "source": "https://github.com/ergontech/tabular-processor/tree/v0.2.0",
+                "source": "https://github.com/ergontech/tabular-processor/tree/v0.2.1",
                 "issues": "https://github.com/ergontech/tabular-processor/issues"
             },
-            "time": "2016-08-11 22:15:03"
+            "time": "2016-08-17 01:02:47"
         },
         {
             "name": "firebase/php-jwt",
