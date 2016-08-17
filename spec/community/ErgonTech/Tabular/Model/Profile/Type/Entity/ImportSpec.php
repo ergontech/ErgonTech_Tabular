@@ -75,10 +75,10 @@ class Model_Profile_Type_Entity_ImportSpec extends ObjectBehavior
 
         $profile->getProfileType()
             ->willReturn($profileType);
-
         // Generic return value
         $profile->getExtra(Argument::type('string'))
             ->willReturn('asdf');
+        $profile->getStores()->willReturn([1,2]);
 
         $config->getOptions()->willReturn($configOptions);
         $config->getModelInstance($classId, Argument::type('array'))->willReturn($abstractModel->getWrappedObject());
@@ -135,10 +135,11 @@ class Model_Profile_Type_Entity_ImportSpec extends ObjectBehavior
         EntitySaveStep $entitySaveStep,
         Tabular\LoggingStep $loggingStep
     ) {
-        $this->processor->addStep(Argument::type(Tabular\LoggingStep::class))->shouldBeCalledTimes(4);
+        $this->processor->addStep(Argument::type(Tabular\LoggingStep::class))->shouldBeCalledTimes(5);
         $this->processor->addStep(Argument::type(Tabular\GoogleSheetsLoadStep::class))->shouldBeCalled();
         $this->processor->addStep(Argument::type(Tabular\HeaderTransformStep::class))->shouldBeCalled();
         $this->processor->addStep(Argument::type(Tabular\RowsTransformStep::class))->shouldBeCalled();
+        $this->processor->addStep(Argument::type(Tabular\IteratorStep::class))->shouldBeCalled();
         $this->processor->addStep(Argument::type(EntitySaveStep::class))->shouldBeCalled();
 
         $this->initialize($this->profile);

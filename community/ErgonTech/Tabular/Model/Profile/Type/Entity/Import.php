@@ -98,6 +98,8 @@ class Model_Profile_Type_Entity_Import implements Model_Profile_Type
 
         $this->processor->addStep(new EntitySaveStep( $classId));
         $this->processor->addStep(new LoggingStep($logger));
+        $this->processor->addStep(new IteratorStep([$profile->getStores()], 'stores'));
+        $this->processor->addStep(new LoggingStep($logger));
         $this->processor->addStep(new RowsTransformStep($this->rowTransformCallback));
         $this->processor->addStep(new LoggingStep($logger));
         $this->processor->addStep(new HeaderTransformStep($this->headerTransformCallback));
