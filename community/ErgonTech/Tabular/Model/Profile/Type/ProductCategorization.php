@@ -93,15 +93,15 @@ class Model_Profile_Type_ProductCategorization implements Model_Profile_Type
                 Mage::getBaseDir('var'), $profile->getProfileType())));
 
         $this->processor->addStep(new \ErgonTech\Tabular\Step\ProductCategorization\FastSimpleImport(Mage::getModel('fastsimpleimport/import')));
-        $this->processor->addStep(new \ErgonTech\Tabular\LoggingStep(new \Psr\Log\NullLogger()));
+        $this->processor->addStep(new \ErgonTech\Tabular\LoggingStep($logger));
         $this->processor->addStep(new \ErgonTech\Tabular\IteratorStep($rootCategoryNames, '_root'));
-        $this->processor->addStep(new \ErgonTech\Tabular\LoggingStep(new \Psr\Log\NullLogger()));
+        $this->processor->addStep(new \ErgonTech\Tabular\LoggingStep($logger));
         $this->processor->addStep(new \ErgonTech\Tabular\HeaderTransformStep($this->headerTransformCallback));
-        $this->processor->addStep(new \ErgonTech\Tabular\LoggingStep(new \Psr\Log\NullLogger()));
+        $this->processor->addStep(new \ErgonTech\Tabular\LoggingStep($logger));
         $this->processor->addStep(new \ErgonTech\Tabular\GoogleSheetsLoadStep(
             $googleHelper->getService(Google_Service_Sheets::class, [Google_Service_Sheets::SPREADSHEETS_READONLY]),
             $spreadsheetId, $headerNamedRange, $dataNamedRange));
-        $this->processor->addStep(new \ErgonTech\Tabular\LoggingStep(new \Psr\Log\NullLogger()));
+        $this->processor->addStep(new \ErgonTech\Tabular\LoggingStep($logger));
 
         $this->initialized = true;
     }
