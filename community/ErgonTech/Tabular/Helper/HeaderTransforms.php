@@ -7,9 +7,9 @@ use Mage_Core_Helper_Abstract;
 
 class Helper_HeaderTransforms extends Mage_Core_Helper_Abstract
 {
-    public function spacesToUnderscoresAndLowercase($input)
+    public function normalizeHeader($input)
     {
-        return str_replace(' ', '_', strtolower($input));
+        return preg_replace('[\W]', '', str_replace(' ', '_', strtolower($input)));
     }
 
     public function categoryHeaderMapping($input)
@@ -23,7 +23,7 @@ class Helper_HeaderTransforms extends Mage_Core_Helper_Abstract
             return $mappings[$input];
         }
 
-        return Mage::helper('ergontech_tabular/headerTransforms')->spacesToUnderscoresAndLowercase($input);
+        return Mage::helper('ergontech_tabular/headerTransforms')->normalizeHeader($input);
     }
 
     public function productCategorizationMapping($input)
@@ -37,7 +37,7 @@ class Helper_HeaderTransforms extends Mage_Core_Helper_Abstract
             return $mappings[$input];
         }
 
-        return Mage::helper('ergontech_tabular/headerTransforms')->spacesToUnderscoresAndLowercase($input);
+        return Mage::helper('ergontech_tabular/headerTransforms')->normalizeHeader($input);
     }
 
     public function getHeaderTransformCallbackForProfile(Model_Profile $profile)

@@ -16,10 +16,10 @@ class Helper_HeaderTransformsSpec extends ObjectBehavior
 
     function it_can_transform_an_input_by_replacing_spaces_with_tabs_and_downcasing()
     {
-        $input = 'HELLO WORLD';
+        $input = 'HELLO WORLD!';
         $output = 'hello_world';
 
-        $this->spacesToUnderscoresAndLowercase($input)->shouldReturn($output);
+        $this->normalizeHeader($input)->shouldReturn($output);
     }
 
     function it_can_get_the_header_transform_callback_of_a_profile(

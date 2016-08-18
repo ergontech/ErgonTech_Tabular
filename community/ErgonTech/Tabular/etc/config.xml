@@ -75,7 +75,7 @@
                                     <options>
                                         <spaces_to_underscores_and_lowercase>
                                             <label>Spaces to underscores and Lowercase</label>
-                                            <callback><![CDATA[ErgonTech\Tabular\Helper_HeaderTransforms::spacesToUnderscoresAndLowercase]]></callback>
+                                            <callback><![CDATA[ErgonTech\Tabular\Helper_HeaderTransforms::normalizeHeader]]></callback>
                                         </spaces_to_underscores_and_lowercase>
                                     </options>
                                 </header_transform_callback>
@@ -114,7 +114,7 @@
                                     <options>
                                         <spaces_to_underscores_and_lowercase>
                                             <label>Spaces to underscores and Lowercase</label>
-                                            <callback><![CDATA[ErgonTech\Tabular\Helper_HeaderTransforms::spacesToUnderscoresAndLowercase]]></callback>
+                                            <callback><![CDATA[ErgonTech\Tabular\Helper_HeaderTransforms::normalizeHeader]]></callback>
                                         </spaces_to_underscores_and_lowercase>
                                     </options>
                                 </header_transform_callback>
@@ -161,7 +161,7 @@
                                     <options>
                                         <spaces_to_underscores_and_lowercase>
                                             <label>Spaces to underscores and Lowercase</label>
-                                            <callback><![CDATA[ErgonTech\Tabular\Helper_HeaderTransforms::spacesToUnderscoresAndLowercase]]></callback>
+                                            <callback><![CDATA[ErgonTech\Tabular\Helper_HeaderTransforms::normalizeHeader]]></callback>
                                         </spaces_to_underscores_and_lowercase>
                                     </options>
                                 </header_transform_callback>
@@ -217,7 +217,7 @@
                                     <options>
                                         <spaces_to_underscores_and_lowercase>
                                             <label>Spaces to underscores and Lowercase</label>
-                                            <callback><![CDATA[ErgonTech\Tabular\Helper_HeaderTransforms::spacesToUnderscoresAndLowercase]]></callback>
+                                            <callback><![CDATA[ErgonTech\Tabular\Helper_HeaderTransforms::normalizeHeader]]></callback>
                                         </spaces_to_underscores_and_lowercase>
                                         <category_type_matcher>
                                             <label>Category mapper</label>
