@@ -74,7 +74,7 @@
                                     <label>Header Column Transform Options</label>
                                     <options>
                                         <spaces_to_underscores_and_lowercase>
-                                            <label>Spaces to underscores and Lowercase</label>
+                                            <label>Normalize Header for Magento</label>
                                             <callback><![CDATA[ErgonTech\Tabular\Helper_HeaderTransforms::normalizeHeader]]></callback>
                                         </spaces_to_underscores_and_lowercase>
                                     </options>
@@ -113,7 +113,7 @@
                                     <label>Header Column Transform Options</label>
                                     <options>
                                         <spaces_to_underscores_and_lowercase>
-                                            <label>Spaces to underscores and Lowercase</label>
+                                            <label>Normalize Header for Magento</label>
                                             <callback><![CDATA[ErgonTech\Tabular\Helper_HeaderTransforms::normalizeHeader]]></callback>
                                         </spaces_to_underscores_and_lowercase>
                                     </options>
@@ -160,7 +160,7 @@
                                     <label>Header Column Transform Options</label>
                                     <options>
                                         <spaces_to_underscores_and_lowercase>
-                                            <label>Spaces to underscores and Lowercase</label>
+                                            <label>Normalize Header for Magento</label>
                                             <callback><![CDATA[ErgonTech\Tabular\Helper_HeaderTransforms::normalizeHeader]]></callback>
                                         </spaces_to_underscores_and_lowercase>
                                     </options>
@@ -216,7 +216,7 @@
                                     <label>Header Column Transform Options</label>
                                     <options>
                                         <spaces_to_underscores_and_lowercase>
-                                            <label>Spaces to underscores and Lowercase</label>
+                                            <label>Normalize Header for Magento</label>
                                             <callback><![CDATA[ErgonTech\Tabular\Helper_HeaderTransforms::normalizeHeader]]></callback>
                                         </spaces_to_underscores_and_lowercase>
                                         <category_type_matcher>
