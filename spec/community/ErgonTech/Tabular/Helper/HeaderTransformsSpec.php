@@ -2,6 +2,7 @@
 
 namespace spec\ErgonTech\Tabular;
 
+use Closure;
 use ErgonTech\Tabular;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -21,23 +22,30 @@ class Helper_HeaderTransformsSpec extends ObjectBehavior
         $this->spacesToUnderscoresAndLowercase($input)->shouldReturn($output);
     }
 
-    function it_can_get_the_header_transform_callback_of_a_profile(Tabular\Model_Profile $profile)
-    {
-        \Mage::app();
-        $callbackName = 'callback';
+    function it_can_get_the_header_transform_callback_of_a_profile(
+        Tabular\Model_Profile $profile,
+        \Mage_Core_Model_Config $config
+    ) {
+        $refMage = new \ReflectionClass(\Mage::class);
+        $refConfig = $refMage->getProperty('_config');
+        $refConfig->setAccessible(true);
+        $refConfig->setValue($config->getWrappedObject());
+
+        $callbackName = headertransform::class . '::blah';
         $profileType = 'profile_type';
         $profile->getProfileType()->willReturn($profileType);
         $transformerName = 'transformer';
         $profile->getExtra('header_transform_callback')->willReturn($transformerName);
-        \Mage::getConfig()->setNode(
-            sprintf('%s/%s/extra/header_transform_callback/options/%s/callback',
+        $config->getNode(sprintf('%s/%s/extra/header_transform_callback/options/%s/callback',
                 Tabular\Model_Source_Profile_Type::CONFIG_PATH_PROFILE_TYPE,
                 $profileType,
-                $transformerName),
-            $callbackName);
+                $transformerName))
+            ->willReturn($callbackName);
 
         $output = $this->getHeaderTransformCallbackForProfile($profile);
-        $output->__toString()->shouldReturn($callbackName);
-
+        $output->shouldHaveType(Closure::class);
+        $output->shouldBeCallable();
     }
 }
+
+class headertransform { public function blah() {} }

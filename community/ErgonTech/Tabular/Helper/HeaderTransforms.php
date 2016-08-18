@@ -7,12 +7,12 @@ use Mage_Core_Helper_Abstract;
 
 class Helper_HeaderTransforms extends Mage_Core_Helper_Abstract
 {
-    public static function spacesToUnderscoresAndLowercase($input)
+    public function spacesToUnderscoresAndLowercase($input)
     {
         return str_replace(' ', '_', strtolower($input));
     }
 
-    public static function categoryHeaderMapping($input)
+    public function categoryHeaderMapping($input)
     {
         $mappings = [
             'Root Category' => '_root',
@@ -23,10 +23,10 @@ class Helper_HeaderTransforms extends Mage_Core_Helper_Abstract
             return $mappings[$input];
         }
 
-        return static::spacesToUnderscoresAndLowercase($input);
+        return Mage::helper('ergontech_tabular/headerTransforms')->spacesToUnderscoresAndLowercase($input);
     }
 
-    public static function productCategorizationMapping($input)
+    public function productCategorizationMapping($input)
     {
         $mappings = [
             'SKU' => '_sku',
@@ -37,14 +37,20 @@ class Helper_HeaderTransforms extends Mage_Core_Helper_Abstract
             return $mappings[$input];
         }
 
-        return static::spacesToUnderscoresAndLowercase($input);
+        return Mage::helper('ergontech_tabular/headerTransforms')->spacesToUnderscoresAndLowercase($input);
     }
 
     public function getHeaderTransformCallbackForProfile(Model_Profile $profile)
     {
-        return Mage::getConfig()->getNode(sprintf('%s/%s/extra/header_transform_callback/options/%s/callback',
+        $cb = Mage::getConfig()->getNode(sprintf('%s/%s/extra/header_transform_callback/options/%s/callback',
             Model_Source_Profile_Type::CONFIG_PATH_PROFILE_TYPE,
             $profile->getProfileType(),
             $profile->getExtra('header_transform_callback')));
+
+        list($className, $method) = explode('::', $cb);
+        $class = new $className;
+        $reflectedCb = new \ReflectionMethod($class, $method);
+
+        return $reflectedCb->getClosure($class)->bindTo($profile);
     }
 }

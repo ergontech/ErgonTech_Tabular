@@ -11,28 +11,38 @@ use Mage;
 
 class Helper_Profile_Type_FactorySpec extends ObjectBehavior
 {
+    private $config;
+
+    public function let(\Mage_Core_Model_Config $config)
+    {
+        $refMage = new \ReflectionClass(\Mage::class);
+        $refConfig = $refMage->getProperty('_config');
+        $refConfig->setAccessible(true);
+        $refConfig->setValue($config->getWrappedObject());
+        $this->config = $config;
+    }
+
+    public function letGo()
+    {
+        Mage::reset();
+    }
+
     public function it_is_initializable()
     {
         $this->shouldHaveType(Tabular\Helper_Profile_Type_Factory::class);
     }
 
-    public function let()
+    public function it_generates_a_profile_type_instance_given_a_profile_instance(
+        Tabular\Model_Profile $profile)
     {
-    }
 
-    public function letGo()
-    {
-    }
-
-    public function it_generates_a_profile_type_instance_given_a_profile_instance(Tabular\Model_Profile $profile)
-    {
         $modelSuffix = 'foo';
         $modelConfigPath = Tabular\Model_Source_Profile_Type::CONFIG_PATH_PROFILE_TYPE
             . '/' . $modelSuffix
             . '/class';
 
-        $config = Mage::getConfig();
-        $config->setNode($modelConfigPath, FactorySpecTestClass::class);
+        $this->config->getNode($modelConfigPath)
+            ->willReturn(FactorySpecTestClass::class);
 
         $profile->getProfileType()->willReturn($modelSuffix);
 
@@ -46,8 +56,8 @@ class Helper_Profile_Type_FactorySpec extends ObjectBehavior
             . '/' . $modelSuffix
             . '/class';
 
-        $config = Mage::getConfig();
-        $config->setNode($modelConfigPath, 'nope_not_a_class_that_exists_i_hope');
+        $this->config->getNode($modelConfigPath)
+            ->willReturn('nope_not_a_class_that_exists_i_hope');
 
         $profile->getProfileType()->willReturn($modelSuffix);
 

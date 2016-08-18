@@ -3,6 +3,7 @@
 namespace ErgonTech\Tabular;
 
 use ErgonTech\Tabular\Processor;
+use ErgonTech\Tabular\Step\ProfileStoresToRootCategoriesIterator;
 use Google_Service_Sheets;
 use LogicException;
 use Mage;
@@ -42,7 +43,7 @@ class Model_Profile_Type_ProductCategorization implements Model_Profile_Type
      */
     public function execute()
     {
-        if (!is_callable($this->headerTransformCallback)) {
+        if (!$this->initialized) {
             throw new LogicException('A header transform callback is required for execution of this profile');
         }
 
@@ -64,27 +65,12 @@ class Model_Profile_Type_ProductCategorization implements Model_Profile_Type
         /** @var Helper_Google_Api $googleHelper */
         $googleHelper = Mage::helper('ergontech_tabular/google_api');
 
-        if (is_null($this->headerTransformCallback)) {
-            $callback = Mage::helper('ergontech_tabular/headerTransforms')->getHeaderTransformCallbackForProfile($profile);
-            $this->headerTransformCallback = (string)$callback;
-        }
+        $this->headerTransformCallback = Mage::helper('ergontech_tabular/headerTransforms')
+            ->getHeaderTransformCallbackForProfile($profile);
 
         $spreadsheetId = $profile->getExtra('spreadsheet_id');
         $headerNamedRange = $profile->getExtra('header_named_range');
         $dataNamedRange = $profile->getExtra('data_named_range');
-
-        /** @var Mage_Core_Model_Resource_Store_Group_Collection $storeGroups */
-        $storeGroups = Mage::getResourceModel('core/store_group_collection');
-        $storeGroups->join(['cs' => 'core/store'], 'cs.group_id = main_table.group_id', null);
-        $storeGroups->getSelect()->where('cs.store_id in (?)', $profile->getStores());
-
-        $rootCategoryIds = array_column($storeGroups->getData(), 'root_category_id');
-
-        /** @var Mage_Catalog_Model_Resource_Category_Collection $rootCategoryNames */
-        $rootCategoryNames = Mage::getResourceModel('catalog/category_collection')
-            ->addAttributeToSelect('name')
-            ->addIdFilter(array_unique($rootCategoryIds))
-            ->getColumnValues('name');
 
         /** @var \Monolog\Logger $logger */
         $logger = Mage::helper('ergontech_tabular/monolog')->registerLogger('tabular');
@@ -92,16 +78,16 @@ class Model_Profile_Type_ProductCategorization implements Model_Profile_Type
             new \Monolog\Handler\StreamHandler(sprintf('%s/log/tabular/%s.log',
                 Mage::getBaseDir('var'), $profile->getProfileType())));
 
-        $this->processor->addStep(new \ErgonTech\Tabular\Step\ProductCategorization\FastSimpleImport(Mage::getModel('fastsimpleimport/import')));
-        $this->processor->addStep(new \ErgonTech\Tabular\LoggingStep($logger));
-        $this->processor->addStep(new \ErgonTech\Tabular\IteratorStep($rootCategoryNames, '_root'));
-        $this->processor->addStep(new \ErgonTech\Tabular\LoggingStep($logger));
-        $this->processor->addStep(new \ErgonTech\Tabular\HeaderTransformStep($this->headerTransformCallback));
-        $this->processor->addStep(new \ErgonTech\Tabular\LoggingStep($logger));
-        $this->processor->addStep(new \ErgonTech\Tabular\GoogleSheetsLoadStep(
+        $this->processor->addStep(new Step\ProductCategorization\FastSimpleImport(Mage::getModel('fastsimpleimport/import')));
+        $this->processor->addStep(new LoggingStep($logger));
+        $this->processor->addStep(new ProfileStoresToRootCategoriesIterator('_root', $profile));
+        $this->processor->addStep(new LoggingStep($logger));
+        $this->processor->addStep(new HeaderTransformStep($this->headerTransformCallback));
+        $this->processor->addStep(new LoggingStep($logger));
+        $this->processor->addStep(new GoogleSheetsLoadStep(
             $googleHelper->getService(Google_Service_Sheets::class, [Google_Service_Sheets::SPREADSHEETS_READONLY]),
             $spreadsheetId, $headerNamedRange, $dataNamedRange));
-        $this->processor->addStep(new \ErgonTech\Tabular\LoggingStep($logger));
+        $this->processor->addStep(new LoggingStep($logger));
 
         $this->initialized = true;
     }

@@ -45,8 +45,6 @@ class Model_Profile_Type_ProductCategorizationSpec extends ObjectBehavior
         $this->headerTransforms = $headerTransforms;
         $this->monologHelper = $monologHelper;
 
-        \Mage::app();
-
         $refMage = new \ReflectionClass(\Mage::class);
         $refConfig = $refMage->getProperty('_config');
         $refConfig->setAccessible(true);
@@ -122,21 +120,13 @@ class Model_Profile_Type_ProductCategorizationSpec extends ObjectBehavior
         $this->shouldThrow(\LogicException::class)->during('execute');
     }
 
-    public function it_requires_a_header_transform_callback_before_running(Tabular\Model_Profile $profile)
-    {
-        $this->headerTransforms->getHeaderTransformCallbackForProfile($profile)
-            ->willReturn(null);
-        $this->initialize($profile);
-        $this->shouldThrow(\Exception::class)->during('execute');
-    }
-
     public function it_adds_the_right_steps_during_initialize(Tabular\Model_Profile $profile)
     {
 
         $this->processor->addStep(Argument::type(LoggingStep::class))->shouldBeCalledTimes(4);
         $this->processor->addStep(Argument::type(GoogleSheetsLoadStep::class))->shouldBeCalled();
         $this->processor->addStep(Argument::type(HeaderTransformStep::class))->shouldBeCalled();
-        $this->processor->addStep(Argument::type(IteratorStep::class))->shouldBeCalled();
+        $this->processor->addStep(Argument::type(Tabular\Step\ProfileStoresToRootCategoriesIterator::class))->shouldBeCalled();
         $this->processor->addStep(Argument::type(FastSimpleImport::class))->shouldBeCalled();
         $this->initialize($profile);
     }

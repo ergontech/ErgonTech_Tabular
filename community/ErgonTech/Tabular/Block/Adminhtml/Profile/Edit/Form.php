@@ -166,6 +166,8 @@ class Block_Adminhtml_Profile_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
                 Model_Source_Profile_Type::CONFIG_PATH_PROFILE_TYPE,
                 $profile->getProfileType()));
 
+            // TODO: clean this up
+            //  - extract the "if" statements into individual "extra handlers"
             foreach ($extraFields->asArray() as $extraField => $fieldConfig) {
                 $fieldName = "extra[{$extraField}]";
 
@@ -189,6 +191,12 @@ class Block_Adminhtml_Profile_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
                     $field->setData('values', $options);
                 }
 
+                if (array_key_exists('source_model', $fieldConfig)) {
+                    $model = Mage::getModel($fieldConfig['source_model']);
+                    if ($model) {
+                        $field->setData('values', $model->toOptionArray());
+                    }
+                }
                 $field->setValue($profile->getExtra($extraField));
             }
         }

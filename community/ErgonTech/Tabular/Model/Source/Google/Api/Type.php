@@ -10,7 +10,7 @@ class Model_Source_Google_Api_Type
 
     public function toOptionArray()
     {
-        $helper = Mage::helper('ergontech_tabular');
+        $helper = \Mage::helper('ergontech_tabular');
         return [
             [
                 'label' => $helper->__('API key (Public Access)'),

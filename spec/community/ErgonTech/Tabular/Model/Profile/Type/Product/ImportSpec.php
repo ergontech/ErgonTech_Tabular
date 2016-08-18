@@ -86,12 +86,6 @@ class Model_Profile_Type_Product_ImportSpec extends ObjectBehavior
         $this->shouldThrow(\LogicException::class)->during('initialize', [$profile]);
     }
 
-    public function it_requires_a_header_transform_callback_before_running(Tabular\Model_Profile $profile)
-    {
-        $this->initialize($profile);
-        $this->shouldThrow(\LogicException::class)->during('execute');
-    }
-
     public function it_adds_the_right_steps_to_the_Processor(Tabular\Model_Profile $profile)
     {
         $this->api->getService(\Google_Service_Sheets::class, [\Google_Service_Sheets::SPREADSHEETS_READONLY])

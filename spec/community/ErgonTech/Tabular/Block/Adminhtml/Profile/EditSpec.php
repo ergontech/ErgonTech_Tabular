@@ -20,7 +20,8 @@ class Block_Adminhtml_Profile_EditSpec extends ObjectBehavior
     {
         \Mage::unregister('_helper/ergontech_tabular');
         \Mage::unregister('_helper/ergontech_tabular/data');
-        \Mage::reset();
+        \Mage::unregister('_helper/adminhtml/data');
+        \Mage::unregister('_helper/adminhtml');
     }
 
     function it_is_initializable()

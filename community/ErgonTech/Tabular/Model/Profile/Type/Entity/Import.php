@@ -67,15 +67,11 @@ class Model_Profile_Type_Entity_Import implements Model_Profile_Type
             throw new Exception_Profile('Can only initialize the profile one time');
         }
 
-        if (is_null($this->headerTransformCallback)) {
-            $callback = Mage::helper('ergontech_tabular/headerTransforms')->getHeaderTransformCallbackForProfile($profile);
-            $this->headerTransformCallback = (string)$callback;
-        }
+        $this->headerTransformCallback = Mage::helper('ergontech_tabular/headerTransforms')
+            ->getHeaderTransformCallbackForProfile($profile);
 
-        if (is_null($this->rowTransformCallback)) {
-            $callback = Mage::helper('ergontech_tabular/rowTransforms')->getRowTransformCallbackForProfile($profile);
-            $this->rowTransformCallback = (string)$callback;
-        }
+        $this->rowTransformCallback = Mage::helper('ergontech_tabular/rowTransforms')
+            ->getRowTransformCallbackForProfile($profile);
 
         /** @var Helper_Google_Api $googleHelper */
         $googleHelper = Mage::helper('ergontech_tabular/google_api');
@@ -96,13 +92,13 @@ class Model_Profile_Type_Entity_Import implements Model_Profile_Type
         /** @var Logger $logger */
         $logger = $logHelper->registerLogger('tabular');
 
-        $this->processor->addStep(new EntitySaveStep( $classId));
-        $this->processor->addStep(new LoggingStep($logger));
-        $this->processor->addStep(new IteratorStep([$profile->getStores()], 'stores'));
+        $this->processor->addStep(new EntitySaveStep($classId));
         $this->processor->addStep(new LoggingStep($logger));
         $this->processor->addStep(new RowsTransformStep($this->rowTransformCallback));
         $this->processor->addStep(new LoggingStep($logger));
         $this->processor->addStep(new HeaderTransformStep($this->headerTransformCallback));
+        $this->processor->addStep(new LoggingStep($logger));
+        $this->processor->addStep(new IteratorStep([$profile->getStores()], 'stores'));
         $this->processor->addStep(new LoggingStep($logger));
         $this->processor->addStep(new GoogleSheetsLoadStep(
             $sheetsService, $spreadsheetId, $headerNamedRange, $dataNamedRange));

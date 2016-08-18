@@ -22,7 +22,7 @@ class Helper_RowTransformsSpec extends ObjectBehavior
     {
         $profileType = 'asdf';
         $configRowTransform = 'blah';
-        $rowTransformCallback = 'haha';
+        $rowTransformCallback = rowtransform::class . '::blah';
 
         $profile->getProfileType()
             ->willReturn($profileType)
@@ -43,6 +43,9 @@ class Helper_RowTransformsSpec extends ObjectBehavior
                 $configRowTransform))
             ->willReturn($rowTransformCallback);
 
-        $this->getRowTransformCallbackForProfile($profile)->shouldReturn($rowTransformCallback);
+        $cb = $this->getRowTransformCallbackForProfile($profile);
+        $cb->shouldHaveType(\Closure::class);
     }
 }
+
+class rowtransform { public function blah() {} }

@@ -27,7 +27,4 @@ class Model_Source_Profile_Type
         $node = Mage::getConfig()->getNode(static::CONFIG_PATH_PROFILE_TYPE);
         return $node->asArray();
     }
-
-
-
 }

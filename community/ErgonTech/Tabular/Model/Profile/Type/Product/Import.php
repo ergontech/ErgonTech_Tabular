@@ -43,10 +43,6 @@ class Model_Profile_Type_Product_Import implements Model_Profile_Type
             throw new LogicException('Must initialize first!');
         }
 
-        if (!is_callable($this->headerTransformCallback)) {
-            throw new LogicException('Must set header transformation callback first');
-        }
-
         $this->processor->run();
     }
 
@@ -80,11 +76,9 @@ class Model_Profile_Type_Product_Import implements Model_Profile_Type
 
         /** @var Helper_Google_Api $googleHelper */
         $googleHelper = Mage::helper('ergontech_tabular/google_api');
-        /** @var array $sheetsData */
-        if (is_null($this->headerTransformCallback)) {
-            $callback = Mage::helper('ergontech_tabular/headerTransforms')->getHeaderTransformCallbackForProfile($profile);
-            $this->setHeaderTransformCallback((string)$callback);
-        }
+
+        $this->headerTransformCallback = Mage::helper('ergontech_tabular/headerTransforms')
+            ->getHeaderTransformCallbackForProfile($profile);
 
         /** @var \Monolog\Logger $logger */
         $logger = Mage::helper('ergontech_tabular/monolog')->registerLogger('tabular');

@@ -91,6 +91,54 @@
                                 </row_transform_callback>
                             </extra>
                         </cms_block_import>
+                        <widget_import>
+                            <class>ErgonTech\Tabular\Model_Profile_Type_Entity_Import</class>
+                            <entity><![CDATA[widget/widget_instance]]></entity>
+                            <extra>
+                                <spreadsheet_id>
+                                    <input>text</input>
+                                    <label>Spreadsheet ID</label>
+                                    <comment><![CDATA[<a target="_blank" href="http://webapps.stackexchange.com/questions/74205/what-is-the-key-in-my-google-spreadsheets-url">Info</a> on finding your spreadsheet key.]]></comment>
+                                </spreadsheet_id>
+                                <header_named_range translate="label">
+                                    <input>text</input>
+                                    <label>Header Named Range</label>
+                                </header_named_range>
+                                <data_named_range>
+                                    <input>text</input>
+                                    <label>Data Named Range</label>
+                                </data_named_range>
+                                <header_transform_callback>
+                                    <input>select</input>
+                                    <label>Header Column Transform Options</label>
+                                    <options>
+                                        <spaces_to_underscores_and_lowercase>
+                                            <label>Spaces to underscores and Lowercase</label>
+                                            <callback><![CDATA[ErgonTech\Tabular\Helper_HeaderTransforms::spacesToUnderscoresAndLowercase]]></callback>
+                                        </spaces_to_underscores_and_lowercase>
+                                    </options>
+                                </header_transform_callback>
+                                <widget_type>
+                                    <input>select</input>
+                                    <label>Widget Type</label>
+                                    <source_model>ergontech_tabular/source_widget_type</source_model>
+                                </widget_type>
+                                <row_transform_callback>
+                                    <input>select</input>
+                                    <label>Row Transformation Options</label>
+                                    <options>
+                                        <widget_default>
+                                            <label>Preserve Widget Options</label>
+                                            <callback><![CDATA[\ErgonTech\Tabular\Helper_RowTransforms::widgetRowTransform]]></callback>
+                                        </widget_default>
+                                        <leave_alone>
+                                            <label>Do not modify</label>
+                                            <callback><![CDATA[ErgonTech\Tabular\Helper_RowTransforms::returnSelf]]></callback>
+                                        </leave_alone>
+                                    </options>
+                                </row_transform_callback>
+                            </extra>
+                        </widget_import>
                         <product_import>
                             <class>ErgonTech\Tabular\Model_Profile_Type_Product_Import</class>
                             <extra>
