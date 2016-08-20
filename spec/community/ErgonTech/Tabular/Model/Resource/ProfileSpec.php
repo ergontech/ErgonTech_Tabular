@@ -3,18 +3,31 @@
 namespace spec\ErgonTech\Tabular\Model;
 
 use ErgonTech\Tabular\Model_Profile as TabularProfile;
+use ErgonTech\Tabular\Model_Profile;
 use PhpParser\Node\Arg;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class Resource_ProfileSpec extends ObjectBehavior
 {
+    /**
+     * @var \Mage_Core_Model_Resource
+     */
     protected $resource;
 
+    /**
+     * @var Model_Profile
+     */
     protected $profile;
 
+    /**
+     * @var \Varien_Db_Adapter_Interface
+     */
     protected $adapter;
 
+    /**
+     * @var \Zend_Db_Select
+     */
     protected $select;
 
     public function let(
@@ -23,32 +36,32 @@ class Resource_ProfileSpec extends ObjectBehavior
         \Varien_Db_Adapter_Pdo_Mysql $adapter,
         \Varien_Db_Select $select
     ) {
-        \Mage::app();
         $this->profile = $profile;
         $this->resource = $resource;
         $this->adapter = $adapter;
         $this->select = $select;
 
-        $this->profile->getStoreId()->willReturn(null);
-        $this->profile->getId()->willReturn(null);
+        $profile->getStoreId()->willReturn(null);
+        $profile->getId()->willReturn(null);
 
+        $resource->getConnection(Argument::type('string'))->willReturn($adapter);
+        $tabularTableName = 'tabular_profile';
+        $resource->getTableName('ergontech_tabular/profile')->willReturn($tabularTableName);
+        $resource->getTableName('ergontech_tabular/profile_store')->willReturn('tabular_profile_store');
 
-        $this->resource->getConnection(Argument::type('string'))->willReturn($this->adapter);
-        $this->resource->getTableName('ergontech_tabular/profile')->willReturn('tabular_profile');
-        $this->resource->getTableName('ergontech_tabular/profile_store')->willReturn('tabular_profile_store');
+        $adapter->getTransactionLevel()->willReturn(0);
+        $adapter->quoteIdentifier(Argument::type('string'))->willReturn('');
+        $adapter->select()->willReturn($select);
+        $adapter->fetchRow(Argument::type(\Varien_Db_Select::class))->willReturn([]);
+        $adapter->describeTable($tabularTableName)->willReturn([]);
 
-        $this->adapter->getTransactionLevel()->willReturn(0);
-        $this->adapter->quoteIdentifier(Argument::type('string'))->willReturn('');
-        $this->adapter->select()->willReturn($this->select);
-        $this->adapter->fetchRow(Argument::type(\Varien_Db_Select::class))->willReturn([]);
-
-        $this->select->from(Argument::any(), Argument::any())->willReturn($this->select);
-        $this->select->where(Argument::any(), Argument::any())->willReturn($this->select);
-        $this->select->order(Argument::any())->willReturn($this->select);
-        $this->select->limit(Argument::any())->willReturn($this->select);
+        $select->from(Argument::any(), Argument::any())->willReturn($select);
+        $select->where(Argument::any(), Argument::any())->willReturn($select);
+        $select->order(Argument::any())->willReturn($select);
+        $select->limit(Argument::any())->willReturn($select);
 
         \Mage::unregister('_singleton/core/resource');
-        \Mage::register('_singleton/core/resource', $this->resource->getWrappedObject());
+        \Mage::register('_singleton/core/resource', $resource->getWrappedObject());
     }
 
     public function letGo()
@@ -79,9 +92,7 @@ class Resource_ProfileSpec extends ObjectBehavior
         $this->load($this->profile, 1);
     }
 
-    public function it_checks_store_association_when_the_profile_has_a_store_id(
-        TabularProfile $profile
-    )
+    public function it_checks_store_association_when_the_profile_has_a_store_id()
     {
         $extra = ['asdf' => 'fdas'];
         $serializedExtra = serialize($extra);
@@ -96,14 +107,14 @@ class Resource_ProfileSpec extends ObjectBehavior
         $this->profile->getData('extra')->willReturn($serializedExtra);
         $this->profile->setData('extra', $extra)->shouldBeCalled();
 
-        $profile->getStoreId()->willReturn(1)->shouldBeCalled();
+        $this->profile->getStoreId()->willReturn(1)->shouldBeCalled();
         $this->select->join(
             Argument::type('array'),
             Argument::type('string'),
             Argument::type('array')
         )->willReturn($this->select)->shouldBeCalled();
 
-        $this->load($profile, 1);
+        $this->load($this->profile, 1);
     }
 
     public function it_can_retrieve_associated_store_ids_and_does_so_upon_load()

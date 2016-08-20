@@ -10,10 +10,8 @@ use Prophecy\Argument;
 
 class RootCategoryCreatorSpec extends ObjectBehavior
 {
-    /**
-     * @var \Mage_Catalog_Model_Resource_Category
-     */
-    protected $categoryResource;
+    private $category;
+
     /**
      * @var \Mage_Catalog_Model_Resource_Category_Collection
      */
@@ -21,13 +19,26 @@ class RootCategoryCreatorSpec extends ObjectBehavior
 
     function let(
         \Mage_Catalog_Model_Resource_Category_Collection $collection,
-        \Mage_Catalog_Model_Resource_Category $categoryResource)
+        \Mage_Catalog_Model_Category $category,
+        \Mage_Core_Model_Config $config)
     {
-        $this->categoryResource = $categoryResource;
-        \Mage::unregister('_resource_singleton/catalog/category');
-        \Mage::register('_resource_singleton/catalog/category', $this->categoryResource->getWrappedObject());
+        $this->category = $category;
+
+        $refMage = new \ReflectionClass(\Mage::class);
+        $refConfig = $refMage->getProperty('_config');
+        $refConfig->setAccessible(true);
+        $refConfig->setValue($config->getWrappedObject());
+
+        $config->getModelInstance('catalog/category', [])
+            ->willReturn($category);
+
         $this->collection = $collection;
         $this->beConstructedWith($collection, '_root');
+    }
+
+    function letGo()
+    {
+        \Mage::reset();
     }
 
     function it_is_initializable()
@@ -48,25 +59,11 @@ class RootCategoryCreatorSpec extends ObjectBehavior
         $rows->getColumnHeaders()->willReturn(['_category', '_root']);
         $rows->getRows()->willReturn([['foo', 'root1'], ['bar', 'root2']]);
 
+        // The collection looks for root1 and root2
         $this->collection->addAttributeToFilter('name', ['in' => ['root1', 'root2']])
             ->willReturn($this->collection)
             ->shouldBeCalled();
-
-        $this->categoryResource->beginTransaction()->willReturn(null);
-        $this->categoryResource->addCommitCallback(Argument::type('callable'))
-            ->willReturn($this->categoryResource);
-
-        $this->categoryResource->getIdFieldName()
-            ->willReturn('pbbth');
-
-        $this->categoryResource->save(Argument::type(\Mage_Catalog_Model_Category::class))
-            ->willReturn(null)
-            ->shouldBeCalled();
-
-        $this->categoryResource->commit()
-            ->shouldBeCalled()
-            ->willReturn(null);
-
+        // The collection only returns root1
         $this->collection->getData()
             ->willReturn([
                 [
@@ -83,6 +80,19 @@ class RootCategoryCreatorSpec extends ObjectBehavior
                     'name' => 'root1',
                 ],
             ]);
+
+        // Thus, we should only create a root2
+        $this->category
+            ->setData([
+                'name' => 'root2',
+                'path' => \Mage_Catalog_Model_Category::TREE_ROOT_ID,
+                'is_active' => 1,
+                'include_in_menu' => 1
+            ])
+            ->willReturn($this->category)
+            ->shouldBeCalled();
+        $this->category->save()->shouldBeCalled();
+
 
 
         $this->__invoke($rows, function ($rows) {

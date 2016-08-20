@@ -9,15 +9,23 @@ use Prophecy\Argument;
 
 class Model_Source_Profile_TypeSpec extends ObjectBehavior
 {
-    const FAKE_NAME = 'foo';
-    const FAKE_CLASS = 'fooclass';
-
-    function let()
+    function let(\Mage_Core_Model_Config $config, ConfigNode $configNode)
     {
-        Mage::app();
-        Mage::getConfig()->setNode(sprintf('%s/%s/class',
-            Model_Source_Profile_Type::CONFIG_PATH_PROFILE_TYPE, static::FAKE_NAME),
-            self::FAKE_CLASS);
+        $refMage = new \ReflectionClass(\Mage::class);
+        $refConfig = $refMage->getProperty('_config');
+        $refConfig->setAccessible(true);
+        $refConfig->setValue($config->getWrappedObject());
+
+        $config->getNode(Model_Source_Profile_Type::CONFIG_PATH_PROFILE_TYPE)
+            ->willReturn($configNode);
+
+        $configNode->asArray()->willReturn(
+            [
+                'asdf' => [
+                    'class' => 'asdf'
+                ]
+            ]
+        );
     }
 
     function it_is_initializable()
@@ -37,6 +45,10 @@ class Model_Source_Profile_TypeSpec extends ObjectBehavior
         $profileTypes = $this->getProfileTypes();
 
         $profileTypes->shouldBeArray();
-        $profileTypes[static::FAKE_NAME]['class']->shouldBeLike(static::FAKE_CLASS);
+        $profileTypes['asdf']['class']->shouldBeLike('asdf');
     }
+}
+
+class ConfigNode {
+    public function asArray() {}
 }

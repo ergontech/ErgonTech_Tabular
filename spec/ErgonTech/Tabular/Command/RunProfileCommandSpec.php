@@ -65,7 +65,6 @@ class RunProfileCommandSpec extends ObjectBehavior
         $this->monologHelper = $monologHelper;
         $this->profileType = $profileType;
 
-//        Mage::app();
         $this->app = $app;
         $this->app->getHelperSet()->willReturn($helperSet);
         $this->app->getDefinition()->willReturn($inputDefinition);

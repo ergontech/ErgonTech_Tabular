@@ -61,7 +61,6 @@ class Model_Profile_Type_Entity_ImportSpec extends ObjectBehavior
         $this->monologHelper->registerLogger('tabular')->willReturn($logger);
 
         $this->beConstructedWith($processor);
-        Mage::app();
 
         $refMage = new \ReflectionClass(Mage::class);
         $refConfig = $refMage->getProperty('_config');
@@ -90,6 +89,11 @@ class Model_Profile_Type_Entity_ImportSpec extends ObjectBehavior
             ->willReturn($classId);
 
         $configOptions->getDir('var')->willReturn('/tmp');
+
+        $rowTransforms->getRowTransformCallbackForProfile(Argument::type(Model_Profile::class))
+            ->willReturn('strtolower');
+        $headerTransforms->getHeaderTransformCallbackForProfile(Argument::type(Model_Profile::class))
+            ->willReturn('strtolower');
 
         Mage::register('_helper/ergontech_tabular/google_api', $api->getWrappedObject());
         Mage::register('_helper/ergontech_tabular/monolog', $this->monologHelper->getWrappedObject());

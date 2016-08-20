@@ -15,7 +15,6 @@ class FastSimpleImportSpec extends ObjectBehavior
 
     function let(\AvS_FastSimpleImport_Model_Import $import)
     {
-        \Mage::app();
         $this->rowsReturner = function ($rows) { return $rows; };
         $this->beConstructedWith($import);
     }

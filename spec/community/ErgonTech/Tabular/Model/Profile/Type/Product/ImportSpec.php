@@ -6,6 +6,7 @@ use ErgonTech\Tabular;
 use ErgonTech\Tabular\GoogleSheetsLoadStep;
 use ErgonTech\Tabular\HeaderTransformStep;
 use ErgonTech\Tabular\LoggingStep;
+use ErgonTech\Tabular\Model_Profile;
 use ErgonTech\Tabular\Processor;
 use ErgonTech\Tabular\Rows;
 use ErgonTech\Tabular\Step\Product\FastSimpleImport;
@@ -49,7 +50,6 @@ class Model_Profile_Type_Product_ImportSpec extends ObjectBehavior
         $this->monologHelper->registerLogger('tabular')->willReturn($logger);
 
         $this->beConstructedWith($this->processor);
-        \Mage::app();
 
         $refMage = new \ReflectionClass(\Mage::class);
         $refConfig = $refMage->getProperty('_config');
@@ -59,6 +59,9 @@ class Model_Profile_Type_Product_ImportSpec extends ObjectBehavior
         $config->getModelInstance('fastsimpleimport/import', Argument::any())->willReturn($import);
         $config->getOptions()->willReturn($configOptions);
         $configOptions->getDir('var')->willReturn('/tmp');
+
+        $headerTransforms->getHeaderTransformCallbackForProfile(Argument::type(Model_Profile::class))
+            ->willReturn('strtolower');
 
         \Mage::register('_resource_singleton/catalog/product', $productResource->getWrappedObject());
         \Mage::register('_helper/ergontech_tabular/headerTransforms', $headerTransforms->getWrappedObject());

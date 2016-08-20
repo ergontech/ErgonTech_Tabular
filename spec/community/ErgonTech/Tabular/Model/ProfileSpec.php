@@ -12,12 +12,38 @@ use Prophecy\Argument;
 
 class Model_ProfileSpec extends ObjectBehavior
 {
-    public function let()
+    private $profileType;
+
+    public function let(
+        \Mage_Core_Model_Config $config,
+        Model_Source_Profile_Type $profileType,
+        Resource_Profile $resourceProfile,
+        Model_Profile $profile,
+        Resource_Profile_Collection $resourceProfileCollection)
     {
-        \Mage::app();
-        \Mage::getConfig()->setNode('global/models/ergontech_tabular/resourceModel', 'ergontech_tabular_resource');
-        \Mage::getConfig()->setNode('global/models/ergontech_tabular/class', 'ErgonTech\Tabular\Model');
-        \Mage::getConfig()->setNode('global/models/ergontech_tabular_resource/class', 'ErgonTech\Tabular\Model\Resource');
+        $refMage = new \ReflectionClass(\Mage::class);
+        $refConfig = $refMage->getProperty('_config');
+        $refConfig->setAccessible(true);
+        $refConfig->setValue($refMage, $config->getWrappedObject());
+
+        $this->profileType = $profileType;
+
+        $config->getModelInstance('ergontech_tabular/source_profile_type', [])
+            ->willReturn($profileType);
+        $config->getModelInstance('ergontech_tabular/profile', [])
+            ->willReturn($profile);
+        $config->getResourceModelInstance('ergontech_tabular/profile', [])
+            ->willReturn($resourceProfile);
+        $config->getResourceModelInstance('ergontech_tabular/profile_collection', [])
+            ->willReturn($resourceProfileCollection);
+        $config->getResourceModelInstance('ergontech_tabular/profile_collection', Argument::type(Resource_Profile::class))
+            ->willReturn($resourceProfileCollection);
+
+        $profile->load(Argument::type('string'), 'name')
+            ->willReturn($profile);
+
+        $profileType->getProfileTypes()
+            ->willReturn([]);
     }
 
     public function letGo()
@@ -42,7 +68,7 @@ class Model_ProfileSpec extends ObjectBehavior
         $validClassName = 'Pretend\Class\Name';
         $badTypeId = 'invalid';
 
-        \Mage::getConfig()->setNode(Model_Source_Profile_Type::CONFIG_PATH_PROFILE_TYPE . '/' . $validTypeId, $validClassName);
+        $this->profileType->getProfileTypes()->willReturn([$validTypeId => $validClassName]);
 
         $this->shouldThrow(ProfileException::class)->during('setData', ['type_id', $badTypeId]);
     }

@@ -78,7 +78,6 @@ class Block_Adminhtml_Profile_Edit_FormSpec extends ObjectBehavior
         $refLayout->setAccessible(true);
         $refLayout->setValue($this->getWrappedObject(), $layout->getWrappedObject());
 
-        Mage::app();
         $refMage = new \ReflectionClass(Mage::class);
         $refConfig = $refMage->getProperty('_config');
         $refConfig->setAccessible(true);
