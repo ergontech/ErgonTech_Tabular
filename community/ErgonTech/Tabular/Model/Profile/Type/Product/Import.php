@@ -2,6 +2,7 @@
 
 namespace ErgonTech\Tabular;
 
+use ErgonTech\Tabular\Step\EntityTransformStep;
 use ErgonTech\Tabular\Step\Product\FastSimpleImport;
 use Google_Service_Sheets;
 use LogicException;
@@ -87,6 +88,8 @@ class Model_Profile_Type_Product_Import implements Model_Profile_Type
                 Mage::getBaseDir('var'), $profile->getProfileType())));
 
         $this->processor->addStep(new FastSimpleImport(Mage::getModel('fastsimpleimport/import')));
+        $this->processor->addStep(new LoggingStep($logger));
+        $this->processor->addStep(new EntityTransformStep(Mage::getResourceModel('catalog/product')));
         $this->processor->addStep(new LoggingStep($logger));
         $this->processor->addStep(new HeaderTransformStep($this->headerTransformCallback));
         $this->processor->addStep(new LoggingStep($logger));

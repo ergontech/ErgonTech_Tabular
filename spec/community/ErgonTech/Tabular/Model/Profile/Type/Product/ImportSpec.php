@@ -10,6 +10,7 @@ use ErgonTech\Tabular\Model_Profile;
 use ErgonTech\Tabular\Processor;
 use ErgonTech\Tabular\Rows;
 use ErgonTech\Tabular\Step\Product\FastSimpleImport;
+use ErgonTech\Tabular\Step\EntityTransformStep;
 use Monolog\Handler\HandlerInterface;
 use Monolog\Logger;
 use PhpSpec\ObjectBehavior;
@@ -56,6 +57,7 @@ class Model_Profile_Type_Product_ImportSpec extends ObjectBehavior
         $refConfig->setAccessible(true);
         $refConfig->setValue($config->getWrappedObject());
         $config->getResourceModelInstance('catalog/category_collection', Argument::any())->willReturn($categoryCollection);
+        $config->getResourceModelInstance('catalog/product', Argument::type('array'))->willReturn($productResource);
         $config->getModelInstance('fastsimpleimport/import', Argument::any())->willReturn($import);
         $config->getOptions()->willReturn($configOptions);
         $configOptions->getDir('var')->willReturn('/tmp');
@@ -71,11 +73,6 @@ class Model_Profile_Type_Product_ImportSpec extends ObjectBehavior
     public function letGo()
     {
         \Mage::reset();
-    }
-
-    public function it_is_initializable()
-    {
-        $this->shouldHaveType(Tabular\Model_Profile_Type_Product_Import::class);
     }
 
     public function it_is_a_profile_type()
@@ -94,9 +91,10 @@ class Model_Profile_Type_Product_ImportSpec extends ObjectBehavior
         $this->api->getService(\Google_Service_Sheets::class, [\Google_Service_Sheets::SPREADSHEETS_READONLY])
             ->shouldBeCalled();
 
-        $this->processor->addStep(Argument::type(LoggingStep::class))->shouldBeCalledTimes(3);
+        $this->processor->addStep(Argument::type(LoggingStep::class))->shouldBeCalledTimes(4);
         $this->processor->addStep(Argument::type(GoogleSheetsLoadStep::class))->shouldBeCalled();
         $this->processor->addStep(Argument::type(HeaderTransformStep::class))->shouldBeCalled();
+        $this->processor->addStep(Argument::type(EntityTransformStep::class))->shouldBeCalled();
         $this->processor->addStep(Argument::type(FastSimpleImport::class))->shouldBeCalled();
 
         $profile->getExtra('spreadsheet_id')->shouldBeCalled();
