@@ -227,6 +227,45 @@
                                 </header_transform_callback>
                             </extra>
                         </category_import>
+                        <tabular_profile_import>
+                            <class>ErgonTech\Tabular\Model_Profile_Type_Entity_Import</class>
+                            <entity><![CDATA[ergontech_tabular/profile]]></entity>
+                            <extra>
+                                <spreadsheet_id>
+                                    <input>text</input>
+                                    <label>Spreadsheet ID</label>
+                                    <comment><![CDATA[<a target="_blank" href="http://webapps.stackexchange.com/questions/74205/what-is-the-key-in-my-google-spreadsheets-url">Info</a> on finding your spreadsheet key.]]></comment>
+                                </spreadsheet_id>
+                                <header_named_range translate="label">
+                                    <input>text</input>
+                                    <label>Header Named Range</label>
+                                </header_named_range>
+                                <data_named_range>
+                                    <input>text</input>
+                                    <label>Data Named Range</label>
+                                </data_named_range>
+                                <header_transform_callback>
+                                    <input>select</input>
+                                    <label>Header Column Transform Options</label>
+                                    <options>
+                                        <spaces_to_underscores_and_lowercase>
+                                            <label>Normalize Header for Magento</label>
+                                            <callback><![CDATA[ErgonTech\Tabular\Helper_HeaderTransforms::normalizeHeader]]></callback>
+                                        </spaces_to_underscores_and_lowercase>
+                                    </options>
+                                </header_transform_callback>
+                                <row_transform_callback>
+                                    <input>select</input>
+                                    <label>Row Transformation Options</label>
+                                    <options>
+                                        <tabular_profile_transform>
+                                            <label>Transform for Tabular Profiles</label>
+                                            <callback><![CDATA[ErgonTech\Tabular\Helper_RowTransforms::tabularProfileTransform]]></callback>
+                                        </tabular_profile_transform>
+                                    </options>
+                                </row_transform_callback>
+                            </extra>
+                        </tabular_profile_import>
                     </type>
                 </profile>
             </tabular>

@@ -39,6 +39,29 @@ class Helper_RowTransforms extends \Mage_Core_Helper_Abstract
         return array_merge($defaultValues, $row, $preferredValues);
     }
 
+    public function tabularProfileTransform(array $row)
+    {
+        /** @var Model_Profile $this */
+
+        $extraFieldKeys = array_keys(
+            Mage::getConfig()
+                ->getNode(sprintf('%s/%s/extra',
+                    Model_Source_Profile_Type::CONFIG_PATH_PROFILE_TYPE,
+                    $this->getProfileType()))
+                ->asArray());
+
+        return array_merge(
+            $row,
+            [
+                'extra' => array_reduce($extraFieldKeys, function ($extraFields, $extraFieldKey) use($row) {
+                    return isset($row[$extraFieldKey])
+                        ? array_merge($extraFields, [$extraFieldKey => $row[$extraFieldKey]])
+                        : $extraFields;
+                }, [])
+            ]
+        );
+    }
+
     /**
      * Look up in config the row transformation callback configured for this profile
      *
