@@ -35,9 +35,9 @@ class Model_Profile extends Mage_Core_Model_Abstract
     /**
      * Pass data hash through setData to retroactively validate data
      */
-    public function __construct()
+    public function __construct($args = [])
     {
-        parent::__construct();
+        parent::__construct($args);
         $this->setData($this->getData());
 
         $this->validations = [
