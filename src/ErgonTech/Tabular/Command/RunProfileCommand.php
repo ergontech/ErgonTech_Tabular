@@ -46,7 +46,8 @@ HELP
             /** @var Model_Profile_Type $profileType */
             $profileType = Mage::helper('ergontech_tabular/profile_type_factory')->createProfileTypeInstance($profile);
 
-            Mage::helper('ergontech_tabular/monolog')->pushHandler('tabular', new StreamHandler(STDOUT, LogLevel::DEBUG));
+            Mage::helper('ergontech_tabular/monolog')->pushHandler($profile->getProfileType(),
+                new StreamHandler(STDOUT, LogLevel::DEBUG));
             $profileType->execute();
         } catch (\Exception $e) {
             $output->write(sprintf('<error>%s</error>',$e->getMessage()));

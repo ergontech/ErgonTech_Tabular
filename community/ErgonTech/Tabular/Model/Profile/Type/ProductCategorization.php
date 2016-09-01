@@ -73,10 +73,10 @@ class Model_Profile_Type_ProductCategorization implements Model_Profile_Type
         $dataNamedRange = $profile->getExtra('data_named_range');
 
         /** @var \Monolog\Logger $logger */
-        $logger = Mage::helper('ergontech_tabular/monolog')->registerLogger('tabular');
+        $logger = Mage::helper('ergontech_tabular/monolog')->registerLogger($profile->getProfileType());
         $logger->pushHandler(
-            new \Monolog\Handler\StreamHandler(sprintf('%s/log/tabular/%s.log',
-                Mage::getBaseDir('var'), $profile->getProfileType())));
+            new \Monolog\Handler\StreamHandler(sprintf('%s/log/tabular/%s/%s.log',
+                Mage::getBaseDir('var'), $profile->getProfileType(), $profile->getName())));
 
         $this->processor->addStep(new Step\ProductCategorization\FastSimpleImport(Mage::getModel('fastsimpleimport/import')));
         $this->processor->addStep(new LoggingStep($logger));

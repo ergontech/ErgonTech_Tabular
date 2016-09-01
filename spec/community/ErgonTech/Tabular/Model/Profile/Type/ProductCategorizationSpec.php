@@ -25,6 +25,7 @@ class Model_Profile_Type_ProductCategorizationSpec extends ObjectBehavior
      * @var Tabular\Helper_HeaderTransforms
      */
     private $headerTransforms;
+    private $profile;
 
     public function let(
         Processor $processor,
@@ -38,12 +39,25 @@ class Model_Profile_Type_ProductCategorizationSpec extends ObjectBehavior
         \Varien_Db_Select $select,
         \Mage_Catalog_Model_Resource_Category_Collection $categoryCollection,
         \Mage_Core_Model_Resource_Store_Group_Collection $storeGroupCollection,
-        \AvS_FastSimpleImport_Model_Import $import
-    ) {
+        \AvS_FastSimpleImport_Model_Import $import,
+        Tabular\Model_Profile $profile
+    )
+    {
+
         $this->processor = $processor;
+        $this->profile = $profile;
         $this->api = $api;
         $this->headerTransforms = $headerTransforms;
         $this->monologHelper = $monologHelper;
+
+        $profile->getProfileType()
+            ->willReturn('asdf');
+        $profile->getName()
+            ->willReturn('asdf');
+        // Generic return value
+        $profile->getExtra(Argument::type('string'))
+            ->willReturn('asdf');
+        $profile->getStores()->willReturn([1,2]);
 
         $refMage = new \ReflectionClass(\Mage::class);
         $refConfig = $refMage->getProperty('_config');
@@ -86,11 +100,12 @@ class Model_Profile_Type_ProductCategorizationSpec extends ObjectBehavior
 
         $this->api->getService(\Google_Service_Sheets::class, Argument::type('array'))
             ->willReturn($sheets);
-        $this->monologHelper->registerLogger('tabular')->willReturn($logger);
+        $this->monologHelper->registerLogger(Argument::type('string'))->willReturn($logger);
 
         \Mage::register('_helper/ergontech_tabular/headerTransforms', $headerTransforms->getWrappedObject());
         \Mage::register('_helper/ergontech_tabular/google_api', $api->getWrappedObject());
         \Mage::register('_helper/ergontech_tabular/monolog', $this->monologHelper->getWrappedObject());
+
         $this->beConstructedWith($this->processor);
     }
 
@@ -99,20 +114,15 @@ class Model_Profile_Type_ProductCategorizationSpec extends ObjectBehavior
         \Mage::reset();
     }
 
-    public function it_is_initializable()
-    {
-        $this->shouldHaveType(Tabular\Model_Profile_Type_ProductCategorization::class);
-    }
-
     public function it_is_a_profile_type()
     {
         $this->shouldHaveType(Tabular\Model_Profile_Type::class);
     }
 
-    public function it_can_only_be_initialized_once(Tabular\Model_Profile $profile)
+    public function it_can_only_be_initialized_once()
     {
-        $this->initialize($profile);
-        $this->shouldThrow(\LogicException::class)->during('initialize', [$profile]);
+        $this->initialize($this->profile);
+        $this->shouldThrow(\LogicException::class)->during('initialize', [$this->profile]);
     }
 
     public function it_must_be_initialized_before_executing()
@@ -120,7 +130,7 @@ class Model_Profile_Type_ProductCategorizationSpec extends ObjectBehavior
         $this->shouldThrow(\LogicException::class)->during('execute');
     }
 
-    public function it_adds_the_right_steps_during_initialize(Tabular\Model_Profile $profile)
+    public function it_adds_the_right_steps_during_initialize()
     {
 
         $this->processor->addStep(Argument::type(LoggingStep::class))->shouldBeCalledTimes(4);
@@ -128,12 +138,12 @@ class Model_Profile_Type_ProductCategorizationSpec extends ObjectBehavior
         $this->processor->addStep(Argument::type(HeaderTransformStep::class))->shouldBeCalled();
         $this->processor->addStep(Argument::type(Tabular\Step\ProfileStoresToRootCategoriesIterator::class))->shouldBeCalled();
         $this->processor->addStep(Argument::type(FastSimpleImport::class))->shouldBeCalled();
-        $this->initialize($profile);
+        $this->initialize($this->profile);
     }
 
-    public function it_runs_the_processor(Tabular\Model_Profile $profile)
+    public function it_runs_the_processor()
     {
-        $this->initialize($profile);
+        $this->initialize($this->profile);
         $this->execute();
     }
 }

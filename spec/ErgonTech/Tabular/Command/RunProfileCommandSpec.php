@@ -98,6 +98,9 @@ class RunProfileCommandSpec extends ObjectBehavior
         $this->input->getOption('profile-name')
             ->willReturn($this->profileName);
 
+        $profile->getProfileType()
+            ->willReturn('asdf');
+
         $mageReflection = new \ReflectionClass(Mage::class);
         /** @var \ReflectionProperty $configRef */
         $configRef = $mageReflection->getProperty('_config');
@@ -111,11 +114,6 @@ class RunProfileCommandSpec extends ObjectBehavior
     function letGo()
     {
         Mage::reset();
-    }
-
-    function it_is_initializable()
-    {
-        $this->shouldHaveType(RunProfileCommand::class);
     }
 
     function it_offers_help()
@@ -143,8 +141,8 @@ HELP;
             ->willReturn(1)
             ->shouldBeCalled();
 
-        $this->monologHelper->getLogger('tabular')->willReturn($this->logger);
-        $this->monologHelper->pushHandler('tabular', Argument::type(HandlerInterface::class))->shouldBeCalled();
+        $this->monologHelper->getLogger(Argument::type('string'))->willReturn($this->logger);
+        $this->monologHelper->pushHandler(Argument::type('string'), Argument::type(HandlerInterface::class))->shouldBeCalled();
 
         $this->profileTypeFactory->createProfileTypeInstance($this->profile)
             ->shouldBeCalled();

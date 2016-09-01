@@ -58,7 +58,7 @@ class Model_Profile_Type_Entity_ImportSpec extends ObjectBehavior
 
         $api->getService(\Google_Service_Sheets::class, [\Google_Service_Sheets::SPREADSHEETS_READONLY])
             ->willReturn($sheetsService);
-        $this->monologHelper->registerLogger('tabular')->willReturn($logger);
+        $this->monologHelper->registerLogger(Argument::type('string'))->willReturn($logger);
 
         $this->beConstructedWith($processor);
 
@@ -74,6 +74,8 @@ class Model_Profile_Type_Entity_ImportSpec extends ObjectBehavior
 
         $profile->getProfileType()
             ->willReturn($profileType);
+        $profile->getName()
+            ->willReturn('asdf');
         // Generic return value
         $profile->getExtra(Argument::type('string'))
             ->willReturn('asdf');
@@ -107,11 +109,6 @@ class Model_Profile_Type_Entity_ImportSpec extends ObjectBehavior
         Mage::reset();
     }
 
-    function it_is_initializable()
-    {
-        $this->shouldHaveType(\ErgonTech\Tabular\Model_Profile_Type_Entity_Import::class);
-    }
-
     function it_is_a_profile_type()
     {
         $this->shouldHaveType(Model_Profile_Type::class);
@@ -131,7 +128,7 @@ class Model_Profile_Type_Entity_ImportSpec extends ObjectBehavior
 
     function it_creates_a_logger_during_initialize()
     {
-        $this->monologHelper->registerLogger('tabular')->shouldBeCalled();
+        $this->monologHelper->registerLogger(Argument::type('string'))->shouldBeCalled();
         $this->initialize($this->profile);
     }
 

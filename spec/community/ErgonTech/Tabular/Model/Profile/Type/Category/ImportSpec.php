@@ -21,6 +21,7 @@ use Prophecy\Argument;
 
 class Model_Profile_Type_Category_ImportSpec extends ObjectBehavior
 {
+    private $profile;
     /**
      * @var Processor
      */
@@ -38,9 +39,11 @@ class Model_Profile_Type_Category_ImportSpec extends ObjectBehavior
         Helper_Google_Api $api,
         Helper_Monolog $monologHelper,
         \Google_Service_Sheets $sheetsService,
-        Logger $logger
+        Logger $logger,
+        Model_Profile $profile
     )
     {
+        $this->profile = $profile;
         $this->processor = $processor;
 
         $this->beConstructedWith($this->processor);
@@ -49,6 +52,15 @@ class Model_Profile_Type_Category_ImportSpec extends ObjectBehavior
         $refConfig = $refMage->getProperty('_config');
         $refConfig->setAccessible(true);
         $refConfig->setValue($config->getWrappedObject());
+
+        $profile->getProfileType()
+            ->willReturn('asdf');
+        $profile->getName()
+            ->willReturn('asdf');
+        // Generic return value
+        $profile->getExtra(Argument::type('string'))
+            ->willReturn('asdf');
+        $profile->getStores()->willReturn([1,2]);
 
         $config->getResourceModelInstance('catalog/category_collection', Argument::type('array'))
             ->willReturn($categoryCollection);
@@ -106,23 +118,18 @@ class Model_Profile_Type_Category_ImportSpec extends ObjectBehavior
         \Mage::reset();
     }
 
-    public function it_is_initializable()
-    {
-        $this->shouldHaveType(\ErgonTech\Tabular\Model_Profile_Type_Category_Import::class);
-    }
-
     public function it_is_a_profile_type()
     {
         $this->shouldHaveType(Model_Profile_Type::class);
     }
 
-    public function it_can_only_be_initialized_once(Model_Profile $profile)
+    public function it_can_only_be_initialized_once()
     {
-        $this->initialize($profile);
-        $this->shouldThrow(Exception_Profile::class)->during('initialize', [$profile]);
+        $this->initialize($this->profile);
+        $this->shouldThrow(Exception_Profile::class)->during('initialize', [$this->profile]);
     }
 
-    public function it_adds_the_right_steps_to_the_Processor(Model_Profile $profile)
+    public function it_adds_the_right_steps_to_the_Processor()
     {
         $this->processor->addStep(Argument::type(LoggingStep::class))->shouldBeCalledTimes(4);
         $this->processor->addStep(Argument::type(GoogleSheetsLoadStep::class))->shouldBeCalled();
@@ -130,21 +137,21 @@ class Model_Profile_Type_Category_ImportSpec extends ObjectBehavior
         $this->processor->addStep(Argument::type(Category\FastSimpleImport::class))->shouldBeCalled();
         $this->processor->addStep(Argument::type(IteratorStep::class))->shouldBeCalled();
 
-        $profile->getExtra('spreadsheet_id')->shouldBeCalled();
-        $profile->getExtra('header_named_range')->shouldBeCalled();
-        $profile->getExtra('data_named_range')->shouldBeCalled();
-        $profile->getProfileType()->willReturn('blah')->shouldBeCalled();
-        $profile->getStores()->willReturn([1,2,3]);
+        $this->profile->getExtra('spreadsheet_id')->shouldBeCalled();
+        $this->profile->getExtra('header_named_range')->shouldBeCalled();
+        $this->profile->getExtra('data_named_range')->shouldBeCalled();
+        $this->profile->getProfileType()->willReturn('blah')->shouldBeCalled();
+        $this->profile->getStores()->willReturn([1,2,3]);
 
-        $profile->getExtra('header_transform_callback')
+        $this->profile->getExtra('header_transform_callback')
             ->willReturn('strtolower');
 
-        $this->initialize($profile);
+        $this->initialize($this->profile);
     }
 
-    public function it_runs_profile(Model_Profile $profile)
+    public function it_runs_profile()
     {
-        $this->initialize($profile);
+        $this->initialize($this->profile);
         $this->processor->run()->shouldBeCalled();
 
         $this->execute();

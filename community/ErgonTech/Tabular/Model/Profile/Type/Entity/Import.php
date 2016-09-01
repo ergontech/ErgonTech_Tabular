@@ -86,11 +86,11 @@ class Model_Profile_Type_Entity_Import implements Model_Profile_Type
             Model_Source_Profile_Type::CONFIG_PATH_PROFILE_TYPE,
             $profile->getProfileType()));
 
-        /** @var Helper_Monolog $logHelper */
-        $logHelper = Mage::helper('ergontech_tabular/monolog');
-
-        /** @var Logger $logger */
-        $logger = $logHelper->registerLogger('tabular');
+        /** @var \Monolog\Logger $logger */
+        $logger = Mage::helper('ergontech_tabular/monolog')->registerLogger($profile->getProfileType());
+        $logger->pushHandler(
+            new \Monolog\Handler\StreamHandler(sprintf('%s/log/tabular/%s/%s.log',
+                Mage::getBaseDir('var'), $profile->getProfileType(), $profile->getName())));
 
         $this->processor->addStep(new EntitySaveStep($classId));
         $this->processor->addStep(new LoggingStep($logger));

@@ -22,6 +22,7 @@ class Model_Profile_Type_Product_ImportSpec extends ObjectBehavior
     private $api;
     private $monologHelper;
     private $logger;
+    private $profile;
     /**
      * @var Processor
      */
@@ -37,10 +38,21 @@ class Model_Profile_Type_Product_ImportSpec extends ObjectBehavior
                         Tabular\Helper_Google_Api $api,
                         \Mage_Core_Model_Config $config,
                         \Mage_Core_Model_Config_Options $configOptions,
-                        \AvS_FastSimpleImport_Model_Import $import)
+                        \AvS_FastSimpleImport_Model_Import $import,
+                        Model_Profile $profile)
     {
+        $this->profile = $profile;
         $this->processor = $processor;
         $this->api = $api;
+
+        $profile->getProfileType()
+            ->willReturn('asdf');
+
+        $profile->getName()
+            ->willReturn('asdf');
+
+        $profile->getExtra(Argument::type('string'))
+            ->willReturn('asdf');
 
         $this->api->getService(\Google_Service_Sheets::class, [\Google_Service_Sheets::SPREADSHEETS_READONLY])
             ->willReturn($sheetsService);
@@ -48,7 +60,7 @@ class Model_Profile_Type_Product_ImportSpec extends ObjectBehavior
         $this->monologHelper = $monologHelper;
         $this->logger = $logger;
         \Mage::register('_helper/ergontech_tabular/monolog', $this->monologHelper->getWrappedObject());
-        $this->monologHelper->registerLogger('tabular')->willReturn($logger);
+        $this->monologHelper->registerLogger(Argument::type('string'))->willReturn($logger);
 
         $this->beConstructedWith($this->processor);
 
@@ -80,13 +92,13 @@ class Model_Profile_Type_Product_ImportSpec extends ObjectBehavior
         $this->shouldHaveType(Tabular\Model_Profile_Type::class);
     }
 
-    public function it_can_only_be_initialized_once(Tabular\Model_Profile $profile)
+    public function it_can_only_be_initialized_once()
     {
-        $this->initialize($profile);
-        $this->shouldThrow(\LogicException::class)->during('initialize', [$profile]);
+        $this->initialize($this->profile);
+        $this->shouldThrow(\LogicException::class)->during('initialize', [$this->profile]);
     }
 
-    public function it_adds_the_right_steps_to_the_Processor(Tabular\Model_Profile $profile)
+    public function it_adds_the_right_steps_to_the_Processor()
     {
         $this->api->getService(\Google_Service_Sheets::class, [\Google_Service_Sheets::SPREADSHEETS_READONLY])
             ->shouldBeCalled();
@@ -97,32 +109,34 @@ class Model_Profile_Type_Product_ImportSpec extends ObjectBehavior
         $this->processor->addStep(Argument::type(EntityTransformStep::class))->shouldBeCalled();
         $this->processor->addStep(Argument::type(FastSimpleImport::class))->shouldBeCalled();
 
-        $profile->getExtra('spreadsheet_id')->shouldBeCalled();
-        $profile->getExtra('header_named_range')->shouldBeCalled();
-        $profile->getExtra('data_named_range')->shouldBeCalled();
-        $profile->getProfileType()->shouldBeCalled();
+        $this->profile->getExtra('spreadsheet_id')->shouldBeCalled();
+        $this->profile->getExtra('header_named_range')->shouldBeCalled();
+        $this->profile->getExtra('data_named_range')->shouldBeCalled();
+        $this->profile->getProfileType()
+            ->willReturn('asdf')
+            ->shouldBeCalled();
 
-        $profile->getExtra('header_transform_callback')
+        $this->profile->getExtra('header_transform_callback')
             ->willReturn('strtolower');
 
-        $this->initialize($profile);
+        $this->initialize($this->profile);
     }
 
-    public function it_adds_a_logger(Tabular\Model_Profile $profile)
+    public function it_adds_a_logger()
     {
-        $this->monologHelper->registerLogger('tabular')->shouldBeCalled();
+        $this->monologHelper->registerLogger(Argument::type('string'))->shouldBeCalled();
         $this->logger->pushHandler(Argument::type(HandlerInterface::class))->shouldBeCalled();
 
-        $this->initialize($profile);
+        $this->initialize($this->profile);
     }
 
-    public function it_runs_profile(Tabular\Model_Profile $profile, Tabular\Helper_Google_Api $api)
+    public function it_runs_profile(Tabular\Helper_Google_Api $api)
     {
         $this->headerTransforms
             ->getHeaderTransformCallbackForProfile(Argument::type(Tabular\Model_Profile::class))
             ->willReturn('spec\ErgonTech\Tabular\ProductImportSpecTest::transform');
 
-        $this->initialize($profile);
+        $this->initialize($this->profile);
         $this->processor->run()->shouldBeCalled();
 
         $this->execute();

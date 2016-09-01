@@ -67,6 +67,7 @@ class ErgonTech_Tabular_Adminhtml_Tabular_ProfileController extends Mage_Adminht
             return;
         }
 
+        /** @var \ErgonTech\Tabular\Model_Profile $profile */
         $profile = Mage::getModel('ergontech_tabular/profile');
         $id = $request->getPost('entity_id');
 
@@ -81,7 +82,7 @@ class ErgonTech_Tabular_Adminhtml_Tabular_ProfileController extends Mage_Adminht
 
         /** @var ErgonTech\Tabular\Model_Profile_Type $profileType */
         $profileType = Mage::helper('ergontech_tabular/profile_type_factory')->createProfileTypeInstance($profile);
-        Mage::helper('ergontech_tabular/monolog')->pushHandler('tabular',
+        Mage::helper('ergontech_tabular/monolog')->pushHandler($profile->getProfileType(),
             new \Monolog\Handler\StreamHandler(fopen('php://output', 'w')));
 
         $profileType->execute();
