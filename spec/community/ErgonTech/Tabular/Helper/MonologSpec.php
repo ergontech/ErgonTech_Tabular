@@ -21,8 +21,8 @@ class Helper_MonologSpec extends ObjectBehavior
 
     function it_requires_logger_aliases_be_unique()
     {
-        $this->registerLogger('logger');
-        $this->shouldThrow(\LogicException::class)->during('registerLogger', ['logger']);
+        $logger = $this->registerLogger('logger');
+        $this->registerLogger('logger')->shouldReturn($logger);
     }
 
     function it_can_add_a_handler_to_a_logger(

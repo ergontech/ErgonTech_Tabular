@@ -17,17 +17,15 @@ class Helper_Monolog extends Mage_Core_Helper_Abstract
     /**
      * @param $alias
      * @return Logger
-     * @throws \LogicException
      */
     public function registerLogger($alias)
     {
-        if (array_key_exists($alias, $this->loggers)) {
-            throw new LogicException('Logger aliases must be unique!');
+        $logger = $this->getLogger($alias);
+        if (is_null($logger)) {
+            $logger = $this->loggers[$alias] = new Logger($alias);
         }
 
-        $this->loggers[$alias] = new Logger($alias);
-
-        return $this->loggers[$alias];
+        return $logger;
     }
 
     /**
@@ -38,11 +36,12 @@ class Helper_Monolog extends Mage_Core_Helper_Abstract
      */
     public function pushHandler($alias, HandlerInterface $handler)
     {
-        if (!array_key_exists($alias, $this->loggers)) {
+        $logger = $this->getLogger($alias);
+        if (is_null($logger)) {
             throw new LogicException("Logger '{$alias}' does not exist!");
         }
 
-        $this->loggers[$alias]->pushHandler($handler);
+        $logger->pushHandler($handler);
     }
 
     /**
