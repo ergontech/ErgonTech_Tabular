@@ -39,6 +39,25 @@ class Helper_RowTransforms extends \Mage_Core_Helper_Abstract
         return array_merge($defaultValues, $row, $preferredValues);
     }
 
+    public function enterpriseBannerRowTransform(array $row)
+    {
+        /**
+         * Row structure
+         *
+         * name
+         * types (csv)
+         * default_content
+         */
+        return [
+            'name' => $row['name'],
+            'types' => $row['types'],
+            'is_enabled' => 1,
+            'store_contents' => [
+                \Mage_Core_Model_App::ADMIN_STORE_ID => $row['default_content']
+            ]
+        ];
+    }
+
     public function tabularProfileTransform(array $row)
     {
         /** @var Model_Profile $this */

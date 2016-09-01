@@ -91,6 +91,45 @@
                                 </row_transform_callback>
                             </extra>
                         </cms_block_import>
+                        <enterprise_banner_import>
+                            <class>ErgonTech\Tabular\Model_Profile_Type_Entity_Import</class>
+                            <entity><![CDATA[enterprise_banner/banner]]></entity>
+                            <extra>
+                                <spreadsheet_id>
+                                    <input>text</input>
+                                    <label>Spreadsheet ID</label>
+                                    <comment><![CDATA[<a target="_blank" href="http://webapps.stackexchange.com/questions/74205/what-is-the-key-in-my-google-spreadsheets-url">Info</a> on finding your spreadsheet key.]]></comment>
+                                </spreadsheet_id>
+                                <header_named_range translate="label">
+                                    <input>text</input>
+                                    <label>Header Named Range</label>
+                                </header_named_range>
+                                <data_named_range>
+                                    <input>text</input>
+                                    <label>Data Named Range</label>
+                                </data_named_range>
+                                <header_transform_callback>
+                                    <input>select</input>
+                                    <label>Header Column Transform Options</label>
+                                    <options>
+                                        <spaces_to_underscores_and_lowercase>
+                                            <label>Normalize Header for Magento</label>
+                                            <callback><![CDATA[ErgonTech\Tabular\Helper_HeaderTransforms::normalizeHeader]]></callback>
+                                        </spaces_to_underscores_and_lowercase>
+                                    </options>
+                                </header_transform_callback>
+                                <row_transform_callback>
+                                    <input>select</input>
+                                    <label>Row Transformation Options</label>
+                                    <options>
+                                        <enterprise_banner>
+                                            <label>Enterprise Banner row transform</label>
+                                            <callback><![CDATA[ErgonTech\Tabular\Helper_RowTransforms::enterpriseBannerRowTransform]]></callback>
+                                        </enterprise_banner>
+                                    </options>
+                                </row_transform_callback>
+                            </extra>
+                        </enterprise_banner_import>
                         <widget_import>
                             <class>ErgonTech\Tabular\Model_Profile_Type_Entity_Import</class>
                             <entity><![CDATA[widget/widget_instance]]></entity>
