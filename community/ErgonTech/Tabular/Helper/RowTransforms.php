@@ -39,6 +39,29 @@ class Helper_RowTransforms extends \Mage_Core_Helper_Abstract
         return array_merge($defaultValues, $row, $preferredValues);
     }
 
+    public function widgetLayoutRowTransform(array $row)
+    {
+        return [
+            'instance_id' => $row['widget_id'],
+            'page_groups' => [
+                [
+                    'page_group' => $row['page_group'],
+                    $row['page_group'] => [
+                        'page_id' => '0',
+                        'instance_id' => $row['widget_id'],
+                        'page_group' => $row['page_group'],
+                        'layout_handle' => $row['layout_handle'],
+                        'block' => $row['block'],
+                        'for' => $row['entities'] ? 'specific' : 'all',
+                        'entities' => $row['entities'],
+                        'template' => $row['template']
+                    ]
+                ]
+            ],
+            'store_ids' => $row['stores']
+        ];
+    }
+
     public function enterpriseBannerRowTransform(array $row)
     {
         /**
