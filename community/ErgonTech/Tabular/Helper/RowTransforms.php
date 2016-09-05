@@ -41,23 +41,42 @@ class Helper_RowTransforms extends \Mage_Core_Helper_Abstract
 
     public function widgetLayoutRowTransform(array $row)
     {
+        $instance = Mage::getModel('widget/widget_instance', [
+            'instance_id' => $row['widget_id']
+        ]);
+        $instance->getResource()->afterLoad($instance);
+        $origPageGroups = $instance->getData('page_groups');
+        $pageGroupsTransformed = array_map(function ($pageGroup) {
+            return [
+                'page_group' => $pageGroup['page_group'],
+                $pageGroup['page_group'] => [
+                    'page_id' => $pageGroup['page_id'],
+                    'instance_id' => $pageGroup['instance_id'],
+                    'page_group' => $pageGroup['page_group'],
+                    'layout_handle' => $pageGroup['layout_handle'],
+                    'block' => $pageGroup['block_reference'],
+                    'for' => $pageGroup['page_for'],
+                    'entities' => $pageGroup['entities'],
+                    'template' => $pageGroup['page_template']
+                ]
+            ];
+        }, $origPageGroups);
+        $pageGroupsTransformed[] = [
+            'page_group' => $row['page_group'],
+            $row['page_group'] => [
+                'page_id' => '0',
+                'instance_id' => $row['widget_id'],
+                'page_group' => $row['page_group'],
+                'layout_handle' => $row['layout_handle'],
+                'block' => $row['block'],
+                'for' => $row['entities'] ? 'specific' : 'all',
+                'entities' => $row['entities'],
+                'template' => $row['template']
+            ]
+        ];
         return [
             'instance_id' => $row['widget_id'],
-            'page_groups' => [
-                [
-                    'page_group' => $row['page_group'],
-                    $row['page_group'] => [
-                        'page_id' => '0',
-                        'instance_id' => $row['widget_id'],
-                        'page_group' => $row['page_group'],
-                        'layout_handle' => $row['layout_handle'],
-                        'block' => $row['block'],
-                        'for' => $row['entities'] ? 'specific' : 'all',
-                        'entities' => $row['entities'],
-                        'template' => $row['template']
-                    ]
-                ]
-            ],
+            'page_groups' => $pageGroupsTransformed,
             'store_ids' => $row['stores']
         ];
     }
@@ -95,7 +114,7 @@ class Helper_RowTransforms extends \Mage_Core_Helper_Abstract
         return array_merge(
             $row,
             [
-                'extra' => array_reduce($extraFieldKeys, function ($extraFields, $extraFieldKey) use($row) {
+                'extra' => array_reduce($extraFieldKeys, function ($extraFields, $extraFieldKey) use ($row) {
                     return isset($row[$extraFieldKey])
                         ? array_merge($extraFields, [$extraFieldKey => $row[$extraFieldKey]])
                         : $extraFields;
