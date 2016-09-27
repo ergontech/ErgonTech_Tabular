@@ -41,18 +41,25 @@ class Helper_RowTransforms extends \Mage_Core_Helper_Abstract
 
     public function widgetLayoutRowTransform(array $row)
     {
+        // We set the bound $this here to an ErgonTech\Tabular\Model_Profile instance
         /** @var Model_Profile $this */
 
+        // Always returns an array, but we only want the first one
         $widgetIds = Helper_RowTransforms::getEntityIdsFromColumn($row['widget'], $this);
         if (empty($widgetIds)) {
             throw new RowValidationException('No valid entities were found from the provided widget references. Do you need to run a widget import first?');
         }
         $widgetId = $widgetIds[0];
+
         $instance = Mage::getModel('widget/widget_instance', [
             'instance_id' => $widgetId
         ]);
+
+        // afterLoad on a widget instance sets the page_groups!
+        // TODO: Multiple rows for the same widget will overwrite eachother
         $instance->getResource()->afterLoad($instance);
         $origPageGroups = $instance->getData('page_groups');
+
         $pageGroupsTransformed = array_map(function ($pageGroup) {
             return [
                 'page_group' => $pageGroup['page_group'],
@@ -68,6 +75,7 @@ class Helper_RowTransforms extends \Mage_Core_Helper_Abstract
                 ]
             ];
         }, $origPageGroups);
+
         $pageGroupsTransformed[] = [
             'page_group' => $row['page_group'],
             $row['page_group'] => [
@@ -77,10 +85,11 @@ class Helper_RowTransforms extends \Mage_Core_Helper_Abstract
                 'layout_handle' => $row['layout_handle'],
                 'block' => $row['block'],
                 'for' => $row['entities'] ? 'specific' : 'all',
-                'entities' => implode(',',Helper_RowTransforms::getEntityIdsFromColumn($row['entities'], $this)),
+                'entities' => implode(',', Helper_RowTransforms::getEntityIdsFromColumn($row['entities'], $this)),
                 'template' => $row['template']
             ]
         ];
+
         return [
             'instance_id' => $widgetId,
             'page_groups' => $pageGroupsTransformed,
