@@ -195,6 +195,11 @@
                                     <input>text</input>
                                     <label>Data Named Range</label>
                                 </data_named_range>
+                                <entity_specification_separator>
+                                    <input>text</input>
+                                    <label>Entity Specification Separator</label>
+                                    <comment><![CDATA[Used to separate "entity name" from "attribute" from "value"<br/>For example: "catalog/product:sku:123" would have an "entity specification separator of ":" and refer to the product with a SKU of "123"]]></comment>
+                                </entity_specification_separator>
                                 <header_transform_callback>
                                     <input>select</input>
                                     <label>Header Column Transform Options</label>

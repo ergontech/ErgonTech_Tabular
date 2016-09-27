@@ -41,8 +41,15 @@ class Helper_RowTransforms extends \Mage_Core_Helper_Abstract
 
     public function widgetLayoutRowTransform(array $row)
     {
+        /** @var Model_Profile $this */
+
+        $widgetIds = Helper_RowTransforms::getEntityIdsFromColumn($row['widget'], $this);
+        if (empty($widgetIds)) {
+            throw new RowValidationException('No valid entities were found from the provided widget references. Do you need to run a widget import first?');
+        }
+        $widgetId = $widgetIds[0];
         $instance = Mage::getModel('widget/widget_instance', [
-            'instance_id' => $row['widget_id']
+            'instance_id' => $widgetId
         ]);
         $instance->getResource()->afterLoad($instance);
         $origPageGroups = $instance->getData('page_groups');
@@ -65,20 +72,64 @@ class Helper_RowTransforms extends \Mage_Core_Helper_Abstract
             'page_group' => $row['page_group'],
             $row['page_group'] => [
                 'page_id' => '0',
-                'instance_id' => $row['widget_id'],
+                'instance_id' => $widgetId,
                 'page_group' => $row['page_group'],
                 'layout_handle' => $row['layout_handle'],
                 'block' => $row['block'],
                 'for' => $row['entities'] ? 'specific' : 'all',
-                'entities' => $row['entities'],
+                'entities' => implode(',',Helper_RowTransforms::getEntityIdsFromColumn($row['entities'], $this)),
                 'template' => $row['template']
             ]
         ];
         return [
-            'instance_id' => $row['widget_id'],
+            'instance_id' => $widgetId,
             'page_groups' => $pageGroupsTransformed,
             'store_ids' => $row['stores']
         ];
+    }
+
+    /**
+     * Take a string in the following format:
+     * "catalog/product:sku:foo, catalog/product:sku:bar"
+     * And return an array of entity IDs:
+     * [1,2]
+     *
+     * @param string $cellValue
+     * @param Model_Profile $profile
+     * @return array
+     */
+    public static function getEntityIdsFromColumn($cellValue, Model_Profile $profile)
+    {
+        // When the cell is empty there's nothing to do
+        if (is_null($cellValue)) {
+            return [];
+        }
+
+        $specificationSeparator = $profile->getExtra('entity_specification_separator') ?: ':';
+        $itemSeparator = $profile->getExtra('item_separator') ?: ',';
+
+        // The separated values of this cell. Each one is a
+        $values = array_map('trim', explode($itemSeparator, $cellValue));
+
+        // Turn the supplied values into a simple arry of entity IDs
+        return array_reduce($values, function ($ids, $value) use($specificationSeparator){
+
+            // i.e. "catalog/product:sku:foo-sku"
+            list($type, $attribute, $attributeValue) = explode($specificationSeparator, $value);
+
+            $entity = Mage::getModel($type);
+
+            // catalog EAV models have `loadByAttribute` and can't use `load` like other models
+            // *shrug*
+            $entity = method_exists($entity, 'loadByAttribute')
+                ? $entity = $entity->loadByAttribute($attribute, $attributeValue)
+                : $entity = $entity->load($attributeValue, $attribute);
+
+            // If the entity exists, we add its ID to the list, otherwise we keep going
+            return !$entity->getId()
+                ? $ids
+                : array_merge($ids, [$entity->getId()]);
+        }, []);
     }
 
     public function enterpriseBannerRowTransform(array $row)
