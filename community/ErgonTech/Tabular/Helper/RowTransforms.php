@@ -168,7 +168,7 @@ class Helper_RowTransforms extends \Mage_Core_Helper_Abstract
             Mage::getConfig()
                 ->getNode(sprintf('%s/%s/extra',
                     Model_Source_Profile_Type::CONFIG_PATH_PROFILE_TYPE,
-                    $this->getProfileType()))
+                    $row['profile_type']))
                 ->asArray());
 
         return array_merge(
