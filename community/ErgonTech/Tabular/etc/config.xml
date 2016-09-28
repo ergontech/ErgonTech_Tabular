@@ -170,6 +170,10 @@
                                             <label>Preserve Widget Options</label>
                                             <callback><![CDATA[\ErgonTech\Tabular\Helper_RowTransforms::widgetRowTransform]]></callback>
                                         </widget_default>
+                                        <banner_widget>
+                                            <label>Enterprise Banner Widget</label>
+                                            <callback><![CDATA[\ErgonTech\Tabular\Helper_RowTransforms::bannerContainerRowTransform]]></callback>
+                                        </banner_widget>
                                         <leave_alone>
                                             <label>Do not modify</label>
                                             <callback><![CDATA[ErgonTech\Tabular\Helper_RowTransforms::returnSelf]]></callback>

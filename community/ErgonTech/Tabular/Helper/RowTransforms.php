@@ -39,6 +39,27 @@ class Helper_RowTransforms extends \Mage_Core_Helper_Abstract
         return array_merge($defaultValues, $row, $preferredValues);
     }
 
+    /**
+     * Get banner ids from a widget-transformed row
+     *
+     * @param array $row
+     * @return array
+     */
+    public function bannerContainerRowTransform(array $row)
+    {
+        /** @var Model_Profile $this */
+
+        $defaultWidgetRowTransform = (new \ReflectionMethod(Helper_RowTransforms::class, 'widgetRowTransform'))
+                ->getClosure(Mage::helper('ergontech_tabular/rowTransforms'))->bindTo($this);
+
+        $row = $defaultWidgetRowTransform($row);
+
+        $row['widget_parameters']['banner_ids'] = implode(',',
+            Helper_RowTransforms::getEntityIdsFromColumn($row['widget_parameters']['banner_ids'], $this));
+
+        return $row;
+    }
+
     public function widgetLayoutRowTransform(array $row)
     {
         // We set the bound $this here to an ErgonTech\Tabular\Model_Profile instance
