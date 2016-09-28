@@ -181,6 +181,12 @@ class Helper_RowTransforms extends \Mage_Core_Helper_Abstract
         ];
     }
 
+    /**
+     * Transform a flat row into a data hash appropriate for saving as a Tabular profile
+     * @see \ErgonTech\Tabular\Model_Profile
+     * @param array $row
+     * @return array
+     */
     public function tabularProfileTransform(array $row)
     {
         /** @var Model_Profile $this */
@@ -192,16 +198,13 @@ class Helper_RowTransforms extends \Mage_Core_Helper_Abstract
                     $row['profile_type']))
                 ->asArray());
 
-        return array_merge(
-            $row,
-            [
-                'extra' => array_reduce($extraFieldKeys, function ($extraFields, $extraFieldKey) use ($row) {
-                    return isset($row[$extraFieldKey])
-                        ? array_merge($extraFields, [$extraFieldKey => $row[$extraFieldKey]])
-                        : $extraFields;
-                }, [])
-            ]
-        );
+        $row['extra'] = array_reduce($extraFieldKeys, function ($extraFields, $extraFieldKey) use ($row) {
+            return isset($row[$extraFieldKey])
+                ? array_merge($extraFields, [$extraFieldKey => $row[$extraFieldKey]])
+                : $extraFields;
+        }, []);
+
+        return $row;
     }
 
     /**
