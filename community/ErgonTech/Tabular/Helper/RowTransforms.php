@@ -72,13 +72,9 @@ class Helper_RowTransforms extends \Mage_Core_Helper_Abstract
         }
         $widgetId = $widgetIds[0];
 
-        $instance = Mage::getModel('widget/widget_instance', [
-            'instance_id' => $widgetId
-        ]);
+        /** @var \Mage_Widget_Model_Widget_Instance $instance */
+        $instance = Mage::getModel('widget/widget_instance')->load($widgetId);
 
-        // afterLoad on a widget instance sets the page_groups!
-        // TODO: Multiple rows for the same widget will overwrite eachother
-        $instance->getResource()->afterLoad($instance);
         $origPageGroups = $instance->getData('page_groups');
 
         $pageGroupsTransformed = array_map(function ($pageGroup) {
@@ -113,6 +109,8 @@ class Helper_RowTransforms extends \Mage_Core_Helper_Abstract
 
         return [
             'instance_id' => $widgetId,
+            'type' => $instance->getType(),
+            'package_theme' => $instance->getPackageTheme(),
             'page_groups' => $pageGroupsTransformed,
             'store_ids' => $row['stores']
         ];
@@ -131,7 +129,7 @@ class Helper_RowTransforms extends \Mage_Core_Helper_Abstract
     public static function getEntityIdsFromColumn($cellValue, Model_Profile $profile)
     {
         // When the cell is empty there's nothing to do
-        if (is_null($cellValue)) {
+        if (!$cellValue) {
             return [];
         }
 
