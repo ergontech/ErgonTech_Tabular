@@ -6,6 +6,26 @@ use Mage;
 
 class Helper_RowTransforms extends \Mage_Core_Helper_Abstract
 {
+    /**
+     * Look up in config the row transformation callback configured for this profile
+     *
+     * @param Model_Profile $profile
+     * @return string
+     */
+    public function getRowTransformCallbackForProfile(Model_Profile $profile)
+    {
+        $cb = Mage::getConfig()->getNode(sprintf('%s/%s/extra/row_transform_callback/options/%s/callback',
+            Model_Source_Profile_Type::CONFIG_PATH_PROFILE_TYPE,
+            $profile->getProfileType(),
+            $profile->getExtra('row_transform_callback')));
+
+        list($className, $method) = explode('::', $cb);
+        $class = new $className;
+        $reflectedCb = new \ReflectionMethod($class, $method);
+
+        return $reflectedCb->getClosure($class)->bindTo($profile);
+    }
+
     public function returnSelf($value)
     {
         return $value;
@@ -203,25 +223,5 @@ class Helper_RowTransforms extends \Mage_Core_Helper_Abstract
         }, []);
 
         return $row;
-    }
-
-    /**
-     * Look up in config the row transformation callback configured for this profile
-     *
-     * @param Model_Profile $profile
-     * @return string
-     */
-    public function getRowTransformCallbackForProfile(Model_Profile $profile)
-    {
-        $cb = Mage::getConfig()->getNode(sprintf('%s/%s/extra/row_transform_callback/options/%s/callback',
-            Model_Source_Profile_Type::CONFIG_PATH_PROFILE_TYPE,
-            $profile->getProfileType(),
-            $profile->getExtra('row_transform_callback')));
-
-        list($className, $method) = explode('::', $cb);
-        $class = new $className;
-        $reflectedCb = new \ReflectionMethod($class, $method);
-
-        return $reflectedCb->getClosure($class)->bindTo($profile);
     }
 }
