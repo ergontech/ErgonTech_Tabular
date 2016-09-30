@@ -68,4 +68,4 @@ Most Transform Helpers are picked as an "extra profile data" option. Existing Pr
 </extra>
 ```
 
-For an example of how to retrieve the callback configuration and turn it into a valid `callable`, see [`ErgonTech\Tabular\Helper_RowTransforms::getRowTransformCallbackForProfile`](community/ErgonTech/Tabular/Helper/RowTransforms#L9-L27)
+For an example of how to retrieve the callback configuration and turn it into a valid `callable`, see [`ErgonTech\Tabular\Helper_RowTransforms::getRowTransformCallbackForProfile`](community/ErgonTech/Tabular/Helper/RowTransforms.php#L9-L27)
