@@ -9,7 +9,7 @@ use Varien_Object;
 /**
  * @method string getProfileType()
  * @method string getName()
- * @method mixed getExtra($key = null)
+ * @method mixed getExtra($key = null) Data provided by the `extra` key of the given `profile_type`
  * @method int getStoreId()
  * @method array getStores()
  */
