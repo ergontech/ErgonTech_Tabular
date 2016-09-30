@@ -111,5 +111,3 @@ Any `$type` value that can be passed to `Varien_Data_Form_Element_Fieldset::addF
 *Note: The Header Transform functionality of Tabular is deprecated and will be removed in the future!*
 
 Currently, most profile types have both a `ErgonTech\Tabular\HeaderTransformStep` and `ErgonTech\Tabular\RowTransformStep`(see their contents in `ergontech/tabular-core`). As of the pre-1.0 release phase, these both accept just one callback.
-
-It's convention 
