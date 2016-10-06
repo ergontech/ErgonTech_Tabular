@@ -81,6 +81,6 @@ JS;
      */
     protected function getProfile()
     {
-        return Mage::registry('ergontech_tabular_profile') ?: Mage::getModel('ergontech_tabular/profile');
+        return Mage::registry('ergontech_tabular_profile') ?: Mage::getSingleton('ergontech_tabular/profile');
     }
 }
