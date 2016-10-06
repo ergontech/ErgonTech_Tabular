@@ -134,6 +134,47 @@ class ErgonTech_Tabular_Adminhtml_Tabular_ProfileController extends Mage_Adminht
     }
 
     /**
+     * Delete the profile
+     */
+    public function deleteAction()
+    {
+        if ($id = $this->getRequest()->getParam('entity_id')) {
+            try {
+                // init model and delete
+                $model = Mage::getModel('ergontech_tabular/profile');
+                $model->load($id);
+                if (!$model->getId()) {
+                    Mage::throwException(Mage::helper('')->__('Unable to find a Profile to delete.'));
+                }
+                $model->delete();
+                // display success message
+                $this->_getSession()->addSuccess(
+                    Mage::helper('ergontech_tabular')->__('The profile has been deleted.')
+                );
+                // go to grid
+                $this->_redirect('*/*/');
+                return;
+            } catch (Mage_Core_Exception $e) {
+                $this->_getSession()->addError($e->getMessage());
+            } catch (Exception $e) {
+                $this->_getSession()->addError(
+                    Mage::helper('ergontech_tabular')->__('An error occurred while deleting profile data. Please review log and try again.')
+                );
+                Mage::logException($e);
+            }
+            // redirect to edit form
+            $this->_redirect('*/*/', array('id' => $id));
+            return;
+        }
+        // display error message
+        $this->_getSession()->addError(
+            Mage::helper('ergontech_tabular')->__('Unable to find a profile to delete.')
+        );
+        // go to grid
+        $this->_redirect('*/*/');
+    }
+
+    /**
      * @param $id
      */
     protected function addProfileLoadErrorMessage($id)
