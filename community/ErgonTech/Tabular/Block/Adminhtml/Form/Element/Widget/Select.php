@@ -22,7 +22,10 @@ class Block_Adminhtml_Form_Element_Widget_Select extends \Varien_Data_Form_Eleme
                     ->getData('parameters');
 
             if ($widgetParams) {
-                $types[$type] = $widgetParams;
+                $types[$type] = array_map(
+                    function ($key) {
+                        return str_replace('_', ' ', $key);
+                    }, array_keys($widgetParams));
             }
 
             return $types;
@@ -34,7 +37,7 @@ class Block_Adminhtml_Form_Element_Widget_Select extends \Varien_Data_Form_Eleme
         $html = parent::getElementHtml();
         $widgetConfigs = Mage::helper('core')->jsonEncode($this->_widgetConfigs);
         $htmlId = $this->getHtmlId();
-        $intro = $this->__('Use the following additional columns for this widget type');
+        $intro = Mage::helper('ergontech_tabular')->__('Use the following additional columns for this widget type');
         return $html . <<<HTML
 <div id="{$htmlId}_info"></div>
 <script>
