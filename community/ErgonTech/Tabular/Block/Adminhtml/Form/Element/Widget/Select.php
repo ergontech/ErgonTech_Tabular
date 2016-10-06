@@ -34,6 +34,7 @@ class Block_Adminhtml_Form_Element_Widget_Select extends \Varien_Data_Form_Eleme
         $html = parent::getElementHtml();
         $widgetConfigs = Mage::helper('core')->jsonEncode($this->_widgetConfigs);
         $htmlId = $this->getHtmlId();
+        $intro = $this->__('Use the following additional columns for this widget type');
         return $html . <<<HTML
 <div id="{$htmlId}_info"></div>
 <script>
@@ -44,7 +45,7 @@ class Block_Adminhtml_Form_Element_Widget_Select extends \Varien_Data_Form_Eleme
         var type = e.target.value;
         if (widgetConfigs[type]) {
             helperElem.update(
-                'Use the following additional columns for this widget type: <strong>' 
+                '{$intro}: <strong>' 
                 + widgetConfigs[type].join(', ')
                 + '</strong>');
         }
