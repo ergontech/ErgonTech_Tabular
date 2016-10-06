@@ -17,15 +17,18 @@ class Block_Adminhtml_Form_Element_Widget_Select extends \Varien_Data_Form_Eleme
     {
         parent::_prepareOptions();
         $this->_widgetConfigs = array_reduce(array_keys($this->getOptions()), function ($types, $type) {
-            $widgetParams = Mage::getSingleton('widget/widget')->getConfigAsObject($type)->getData('parameters');
-            return $widgetParams
-                ? array_merge($types, [
-                    $type => array_map(
-                        function ($key) {
-                            return str_replace('_', ' ', $key);
-                        }, array_keys($widgetParams))
-                ])
-                : $types;
+            $widgetParams = Mage::getSingleton('widget/widget')
+                ->getConfigAsObject($type)
+                    ->getData('parameters');
+
+            if ($widgetParams) {
+                $types[$type] = array_map(
+                    function ($key) {
+                        return str_replace('_', ' ', $key);
+                    }, array_keys($widgetParams));
+            }
+
+            return $types;
         }, []);
     }
 
@@ -34,6 +37,7 @@ class Block_Adminhtml_Form_Element_Widget_Select extends \Varien_Data_Form_Eleme
         $html = parent::getElementHtml();
         $widgetConfigs = Mage::helper('core')->jsonEncode($this->_widgetConfigs);
         $htmlId = $this->getHtmlId();
+        $intro = Mage::helper('ergontech_tabular')->__('Use the following additional columns for this widget type');
         return $html . <<<HTML
 <div id="{$htmlId}_info"></div>
 <script>
@@ -44,7 +48,7 @@ class Block_Adminhtml_Form_Element_Widget_Select extends \Varien_Data_Form_Eleme
         var type = e.target.value;
         if (widgetConfigs[type]) {
             helperElem.update(
-                'Use the following additional columns for this widget type: <strong>' 
+                '{$intro}: <strong>' 
                 + widgetConfigs[type].join(', ')
                 + '</strong>');
         }
