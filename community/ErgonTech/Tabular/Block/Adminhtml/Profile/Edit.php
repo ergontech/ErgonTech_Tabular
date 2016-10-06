@@ -48,11 +48,13 @@ JS;
             'class' => 'save'
         ], -100);
 
-        $this->_addButton('runprofile', [
-            'label' => $helper->__('Run Profile Now'),
-            'onclick' => 'runprofile()',
-            'class' => 'success'
-        ], -101);
+        if ($this->getProfile()->getProfileType()) {
+            $this->_addButton('runprofile', [
+                'label' => $helper->__('Run Profile Now'),
+                'onclick' => 'runprofile()',
+                'class' => 'success'
+            ], -101);
+        }
 
 
         return parent::_prepareLayout();
@@ -61,7 +63,7 @@ JS;
     public function getHeaderText()
     {
         return Mage::helper('ergontech_tabular')
-            ->__(Mage::registry('ergontech_tabular_profile')->getId()
+            ->__($this->getProfile()->getId()
                 ? 'Edit Profile' : 'New Profile');
     }
 
@@ -72,5 +74,13 @@ JS;
             return $this->getData('form_action_url');
         }
         return $this->getUrl('*/*/save');
+    }
+
+    /**
+     * @return Model_Profile
+     */
+    protected function getProfile()
+    {
+        return Mage::registry('ergontech_tabular_profile') ?: Mage::getModel('ergontech_tabular/profile');
     }
 }
