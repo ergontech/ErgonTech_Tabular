@@ -17,15 +17,15 @@ class Block_Adminhtml_Form_Element_Widget_Select extends \Varien_Data_Form_Eleme
     {
         parent::_prepareOptions();
         $this->_widgetConfigs = array_reduce(array_keys($this->getOptions()), function ($types, $type) {
-            $widgetParams = Mage::getSingleton('widget/widget')->getConfigAsObject($type)->getData('parameters');
-            return $widgetParams
-                ? array_merge($types, [
-                    $type => array_map(
-                        function ($key) {
-                            return str_replace('_', ' ', $key);
-                        }, array_keys($widgetParams))
-                ])
-                : $types;
+            $widgetParams = Mage::getSingleton('widget/widget')
+                ->getConfigAsObject($type)
+                    ->getData('parameters');
+
+            if ($widgetParams) {
+                $types[$type] = $widgetParams;
+            }
+
+            return $types;
         }, []);
     }
 
