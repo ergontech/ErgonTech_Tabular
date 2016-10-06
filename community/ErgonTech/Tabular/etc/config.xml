@@ -157,11 +157,6 @@
                                         </spaces_to_underscores_and_lowercase>
                                     </options>
                                 </header_transform_callback>
-                                <widget_type>
-                                    <input>select</input>
-                                    <label>Widget Type</label>
-                                    <source_model>ergontech_tabular/source_widget_type</source_model>
-                                </widget_type>
                                 <row_transform_callback>
                                     <input>select</input>
                                     <label>Row Transformation Options</label>
@@ -180,6 +175,11 @@
                                         </leave_alone>
                                     </options>
                                 </row_transform_callback>
+                                <widget_type>
+                                    <input>widget_select</input>
+                                    <label>Widget Type</label>
+                                    <source_model>ergontech_tabular/source_widget_type</source_model>
+                                </widget_type>
                             </extra>
                         </widget_import>
                         <widget_layout_import>

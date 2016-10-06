@@ -123,7 +123,8 @@ class Block_Adminhtml_Profile_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
             'label' => $helper->__('Profile Type'),
             'title' => $helper->__('Profile Type'),
             'required' => true,
-            'options' => array_combine($profileTypes, $profileTypes)
+            'options' => array_combine($profileTypes, $profileTypes),
+            'disabled' => (bool)$profile->getProfileType()
         ]);
 
         if (!Mage::app()->isSingleStoreMode()) {
@@ -161,6 +162,7 @@ class Block_Adminhtml_Profile_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
         /** @var Varien_Data_Form_Element_Fieldset $fieldset */
         $fieldset = $form->getElement('base_fieldset');
         if ($profile->getProfileType()) {
+            $fieldset->addType('widget_select', Block_Adminhtml_Form_Element_Widget_Select::class);
             /** @var Mage_Core_Model_Config_Element $extraFields */
             $extraFields = Mage::getConfig()->getNode(sprintf('%s/%s/extra',
                 Model_Source_Profile_Type::CONFIG_PATH_PROFILE_TYPE,
@@ -170,17 +172,16 @@ class Block_Adminhtml_Profile_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
             //  - extract the "if" statements into individual "extra handlers"
             foreach ($extraFields->asArray() as $extraField => $fieldConfig) {
                 $fieldName = "extra[{$extraField}]";
-
                 /** @var Varien_Data_Form_Element_Abstract $field */
-                $field = $fieldset->addField($fieldName, $fieldConfig['input'], [
+                $config = [
                     'name' => $fieldName,
                     'label' => $helper->__($fieldConfig['label']),
                     'title' => $helper->__($fieldConfig['label']),
                     'required' => true,
-                ]);
+                ];
 
                 if (array_key_exists('comment', $fieldConfig)) {
-                    $field->setData('after_element_html', $fieldConfig['comment']);
+                    $config['after_element_html'] = $fieldConfig['comment'];
                 }
 
                 if (array_key_exists('options', $fieldConfig)) {
@@ -188,15 +189,18 @@ class Block_Adminhtml_Profile_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
                     foreach ($fieldConfig['options'] as $optionKey => $optionConfig) {
                         $options[$optionKey] = $optionConfig['label'];
                     }
-                    $field->setData('values', $options);
+                    $config['values'] = $options;
                 }
 
                 if (array_key_exists('source_model', $fieldConfig)) {
                     $model = Mage::getModel($fieldConfig['source_model']);
-                    if ($model) {
-                        $field->setData('values', $model->toOptionArray());
+                    if ($model && method_exists($model, 'toOptionHash')) {
+                        $config['options'] = $model->toOptionHash();
+                    } elseif ($model) {
+                        $config['values'] = $model->toOptionArray();
                     }
                 }
+                $field = $fieldset->addField("extra_{$extraField}", $fieldConfig['input'], $config);
                 $field->setValue($profile->getExtra($extraField));
             }
         }
