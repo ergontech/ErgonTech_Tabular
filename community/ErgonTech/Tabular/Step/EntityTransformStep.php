@@ -7,6 +7,8 @@ use ErgonTech\Tabular\Step;
 use ErgonTech\Tabular\StepExecutionException;
 use Mage;
 use Mage_Eav_Model_Entity_Abstract;
+use Mage_Eav_Model_Entity_Attribute_Abstract;
+use Mage_Eav_Model_Entity_Attribute_Backend_Array;
 
 /**
  * Given a $classId (`cms/block` or the like), this step iterates over all given $rows.
@@ -36,6 +38,31 @@ class EntityTransformStep implements Step
         $this->resourceModel = $resourceModel;
     }
 
+    private function isMultiselect($attributeCode)
+    {
+        $attribute = $this->resourceModel->getAttribute($attributeCode);
+
+        if (!$attribute) {
+            return false;
+        }
+
+        $backend = $attribute->getBackend();
+
+        if (!$backend) {
+            return false;
+        }
+
+        if ($backend instanceof Mage_Eav_Model_Entity_Attribute_Backend_Array) {
+            return true;
+        }
+
+        if ($attribute->getFrontendInput() === 'multiselect') {
+            return true;
+        }
+
+        return false;
+    }
+
     /**
      * Accepts a Rows object and returns a rows object
      *
@@ -51,8 +78,7 @@ class EntityTransformStep implements Step
         }
 
         $arrayBackendCodes = array_reduce($rows->getColumnHeaders(), function ($codes, $code) {
-            $attribute = $this->resourceModel->getAttribute($code);
-            return $attribute && $attribute->getBackend() instanceof \Mage_Eav_Model_Entity_Attribute_Backend_Array
+            return $this->isMultiselect($code)
                 ? array_merge($codes, [$code])
                 : $codes;
         }, []);
