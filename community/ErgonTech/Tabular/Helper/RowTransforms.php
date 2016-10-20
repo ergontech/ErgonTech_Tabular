@@ -76,6 +76,7 @@ class Helper_RowTransforms extends \Mage_Core_Helper_Abstract
 
         $row['widget_parameters']['banner_ids'] = implode(',',
             Helper_RowTransforms::getEntityIdsFromColumn($row['widget_parameters']['banner_ids'], $this));
+        $row['widget_parameters']['unique_id'] = md5(microtime(1));
 
         return $row;
     }
