@@ -256,6 +256,16 @@
                                         </spaces_to_underscores_and_lowercase>
                                     </options>
                                 </header_transform_callback>
+                                <row_transform_callback>
+                                    <input>select</input>
+                                    <label>Row Transformation Options</label>
+                                    <options>
+                                        <no_transform>
+                                            <label>No Transformation</label>
+                                            <callback><![CDATA[ErgonTech\Tabular\Helper_RowTransforms::returnSelf]]></callback>
+                                        </no_transform>
+                                    </options>
+                                </row_transform_callback>
                             </extra>
                         </product_import>
                         <product_categorization>

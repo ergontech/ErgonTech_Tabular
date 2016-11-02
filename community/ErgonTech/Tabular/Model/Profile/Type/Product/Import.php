@@ -22,6 +22,11 @@ class Model_Profile_Type_Product_Import implements Model_Profile_Type
     protected $headerTransformCallback;
 
     /**
+     * @var callable
+     */
+    protected $rowTransformCallback;
+
+    /**
      * @var bool
      */
     protected $ready = false;
@@ -81,6 +86,9 @@ class Model_Profile_Type_Product_Import implements Model_Profile_Type
         $this->headerTransformCallback = Mage::helper('ergontech_tabular/headerTransforms')
             ->getHeaderTransformCallbackForProfile($profile);
 
+        $this->rowTransformCallback = Mage::helper('ergontech_tabular/rowTransforms')
+            ->getRowTransformCallbackForProfile($profile);
+
         /** @var \Monolog\Logger $logger */
         $logger = Mage::helper('ergontech_tabular/monolog')->registerLogger($profile->getProfileType());
         $logger->pushHandler(
@@ -88,6 +96,8 @@ class Model_Profile_Type_Product_Import implements Model_Profile_Type
                 Mage::getBaseDir('var'), $profile->getProfileType(), $profile->getName())));
 
         $this->processor->addStep(new FastSimpleImport(Mage::getModel('fastsimpleimport/import')));
+        $this->processor->addStep(new LoggingStep($logger));
+        $this->processor->addStep(new RowsTransformStep($this->rowTransformCallback));
         $this->processor->addStep(new LoggingStep($logger));
         $this->processor->addStep(new EntityTransformStep(Mage::getResourceModel('catalog/product')));
         $this->processor->addStep(new LoggingStep($logger));

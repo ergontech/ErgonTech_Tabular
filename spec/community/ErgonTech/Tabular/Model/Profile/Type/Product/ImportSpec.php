@@ -5,6 +5,7 @@ namespace spec\ErgonTech\Tabular;
 use ErgonTech\Tabular;
 use ErgonTech\Tabular\GoogleSheetsLoadStep;
 use ErgonTech\Tabular\HeaderTransformStep;
+use ErgonTech\Tabular\RowsTransformStep;
 use ErgonTech\Tabular\LoggingStep;
 use ErgonTech\Tabular\Model_Profile;
 use ErgonTech\Tabular\Processor;
@@ -19,6 +20,7 @@ use Prophecy\Argument;
 class Model_Profile_Type_Product_ImportSpec extends ObjectBehavior
 {
     private $headerTransforms;
+    private $rowTransforms;
     private $api;
     private $monologHelper;
     private $logger;
@@ -31,6 +33,7 @@ class Model_Profile_Type_Product_ImportSpec extends ObjectBehavior
     public function let(Processor $processor,
                         \Mage_Catalog_Model_Resource_Product $productResource,
                         Tabular\Helper_HeaderTransforms $headerTransforms,
+                        Tabular\Helper_RowTransforms $rowTransforms,
                         \Mage_Catalog_Model_Resource_Category_Collection $categoryCollection,
                         Logger $logger,
                         Tabular\Helper_Monolog $monologHelper,
@@ -76,10 +79,14 @@ class Model_Profile_Type_Product_ImportSpec extends ObjectBehavior
 
         $headerTransforms->getHeaderTransformCallbackForProfile(Argument::type(Model_Profile::class))
             ->willReturn('strtolower');
+        $rowTransforms->getRowTransformCallbackForProfile(Argument::type(Model_Profile::class))
+            ->willReturn('strtolower');
 
         \Mage::register('_resource_singleton/catalog/product', $productResource->getWrappedObject());
         \Mage::register('_helper/ergontech_tabular/headerTransforms', $headerTransforms->getWrappedObject());
+        \Mage::register('_helper/ergontech_tabular/rowTransforms', $rowTransforms->getWrappedObject());
         $this->headerTransforms = $headerTransforms;
+        $this->rowTransforms = $rowTransforms;
     }
 
     public function letGo()
@@ -103,9 +110,10 @@ class Model_Profile_Type_Product_ImportSpec extends ObjectBehavior
         $this->api->getService(\Google_Service_Sheets::class, [\Google_Service_Sheets::SPREADSHEETS_READONLY])
             ->shouldBeCalled();
 
-        $this->processor->addStep(Argument::type(LoggingStep::class))->shouldBeCalledTimes(4);
+        $this->processor->addStep(Argument::type(LoggingStep::class))->shouldBeCalledTimes(5);
         $this->processor->addStep(Argument::type(GoogleSheetsLoadStep::class))->shouldBeCalled();
         $this->processor->addStep(Argument::type(HeaderTransformStep::class))->shouldBeCalled();
+        $this->processor->addStep(Argument::type(RowsTransformStep::class))->shouldBeCalled();
         $this->processor->addStep(Argument::type(EntityTransformStep::class))->shouldBeCalled();
         $this->processor->addStep(Argument::type(FastSimpleImport::class))->shouldBeCalled();
 
@@ -134,6 +142,9 @@ class Model_Profile_Type_Product_ImportSpec extends ObjectBehavior
     {
         $this->headerTransforms
             ->getHeaderTransformCallbackForProfile(Argument::type(Tabular\Model_Profile::class))
+            ->willReturn('spec\ErgonTech\Tabular\ProductImportSpecTest::transform');
+        $this->rowTransforms
+            ->getRowTransformCallbackForProfile(Argument::type(Tabular\Model_Profile::class))
             ->willReturn('spec\ErgonTech\Tabular\ProductImportSpecTest::transform');
 
         $this->initialize($this->profile);
