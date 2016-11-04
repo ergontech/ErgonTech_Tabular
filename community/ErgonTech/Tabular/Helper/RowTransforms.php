@@ -195,7 +195,7 @@ class Helper_RowTransforms extends \Mage_Core_Helper_Abstract
          * types (csv)
          * default_content
          */
-        return array_merge($banner->getData(), [
+        return array_merge(['banner_id' => $banner->getId()], [
             'name' => $row['name'],
             'types' => $row['types'],
             'is_enabled' => 1,
@@ -231,6 +231,6 @@ class Helper_RowTransforms extends \Mage_Core_Helper_Abstract
                 : $extraFields;
         }, []);
 
-        return array_merge($profile->getData(), $row);
+        return array_merge(['entity_id' => $profile->getId()], $row);
     }
 }
