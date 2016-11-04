@@ -34,11 +34,15 @@ class Helper_RowTransforms extends \Mage_Core_Helper_Abstract
     public function widgetRowTransform(array $row)
     {
         $instanceType = $this->getExtra('widget_type');
+
         // TODO: This loads from XML config for *every row*.
         //   Quite slow at large N, but it's unlikely we'll ever seen more than 30 rows.
+        /** @var \Varien_Object $widgetConfig */
         $widgetConfig = Mage::getSingleton('widget/widget')->getConfigAsObject($instanceType);
 
         $widgetParameterKeys = array_keys($widgetConfig->getParameters());
+
+        $widgetInstance = Mage::getModel('widget/widget_instance')->load($row['title'], 'title');
 
         $defaultValues = [
             'store_ids' => $row['stores'] ?: [0],
@@ -49,14 +53,14 @@ class Helper_RowTransforms extends \Mage_Core_Helper_Abstract
             'widget_parameters' => array_combine(
                 $widgetParameterKeys,
                 array_map(function ($key) use ($row) {
-                    return $row[$key];
+                    return array_key_exists($key, $row)? $row[$key] : null;
                 }, $widgetParameterKeys))
 
         ];
 
         // Ensure that at least some value for commonly-forgotten columns exists
         // Override potentially incorrect values for instance_type and widget_parameters
-        return array_merge($defaultValues, $row, $preferredValues);
+        return array_merge(['instance_id' => $widgetInstance->getId()], $defaultValues, $row, $preferredValues);
     }
 
     /**
