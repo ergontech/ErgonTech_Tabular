@@ -211,6 +211,9 @@ class Helper_RowTransforms extends \Mage_Core_Helper_Abstract
     {
         /** @var Model_Profile $this */
 
+        /** @var Model_Profile $profile */
+        $profile = Mage::getModel('ergontech_tabular/profile')->load($row['name'], 'name');
+
         $extraFieldKeys = array_keys(
             Mage::getConfig()
                 ->getNode(sprintf('%s/%s/extra',
@@ -224,6 +227,6 @@ class Helper_RowTransforms extends \Mage_Core_Helper_Abstract
                 : $extraFields;
         }, []);
 
-        return $row;
+        return array_merge($profile->getData(), $row);
     }
 }
