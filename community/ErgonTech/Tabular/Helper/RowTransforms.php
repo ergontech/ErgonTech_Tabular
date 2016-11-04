@@ -183,6 +183,7 @@ class Helper_RowTransforms extends \Mage_Core_Helper_Abstract
 
     public function enterpriseBannerRowTransform(array $row)
     {
+        $banner = Mage::getModel('enterprise_banner/banner')->load($row['name'], 'name');
         /**
          * Row structure
          *
@@ -190,14 +191,14 @@ class Helper_RowTransforms extends \Mage_Core_Helper_Abstract
          * types (csv)
          * default_content
          */
-        return [
+        return array_merge($banner->getData(), [
             'name' => $row['name'],
             'types' => $row['types'],
             'is_enabled' => 1,
             'store_contents' => [
                 \Mage_Core_Model_App::ADMIN_STORE_ID => $row['default_content']
             ]
-        ];
+        ]);
     }
 
     /**
