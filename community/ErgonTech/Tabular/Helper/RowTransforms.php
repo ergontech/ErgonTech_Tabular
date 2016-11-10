@@ -137,7 +137,8 @@ class Helper_RowTransforms extends \Mage_Core_Helper_Abstract
             'type' => $instance->getType(),
             'package_theme' => $instance->getPackageTheme(),
             'page_groups' => $pageGroupsTransformed,
-            'store_ids' => $row['stores']
+            'store_ids' => $row['stores'],
+            'widget_parameters' => $instance->getWidgetParameters()
         ];
     }
 
