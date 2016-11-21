@@ -403,6 +403,10 @@
                                         </sku_transform>
                                     </options>
                                 </row_transform_callback>
+                                <product_column>
+                                    <input>text</input>
+                                    <label>Main Product Column Name</label>
+                                </product_column>
                                 <link_type>
                                     <input>select</input>
                                     <label>Product Link Type</label>

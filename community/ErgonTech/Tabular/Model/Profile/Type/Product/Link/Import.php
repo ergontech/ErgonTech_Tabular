@@ -55,6 +55,9 @@ class Model_Profile_Type_Product_Link_Import implements Model_Profile_Type
             new \Monolog\Handler\StreamHandler(sprintf('%s/log/tabular/%s/%s.log',
                 Mage::getBaseDir('var'), $profile->getProfileType(), $profile->getName())));
 
+        /** @var callable $headerTransformer */
+        $headerTransformer = Mage::helper('ergontech_tabular/headerTransforms')->getHeaderTransformCallbackForProfile($profile);
+
         // Save product links
         $this->processor->addStep(new ProductLinkSaveStep(
             Mage::getResourceModel('catalog/product_link'), $profile->getExtra('link_type')));
@@ -66,12 +69,11 @@ class Model_Profile_Type_Product_Link_Import implements Model_Profile_Type
         $this->processor->addStep(new LoggingStep($logger));
 
         // Merge rows with common entity IDs
-        $this->processor->addStep(new MergeStep('sku'));
+        $this->processor->addStep(new MergeStep($headerTransformer($profile->getExtra('product_column'))));
         $this->processor->addStep(new LoggingStep($logger));
 
         // Transform column headers
-        $this->processor->addStep(new HeaderTransformStep(
-            Mage::helper('ergontech_tabular/headerTransforms')->getHeaderTransformCallbackForProfile($profile)));
+        $this->processor->addStep(new HeaderTransformStep($headerTransformer));
         $this->processor->addStep(new LoggingStep($logger));
 
         // Read data from Google Sheets
