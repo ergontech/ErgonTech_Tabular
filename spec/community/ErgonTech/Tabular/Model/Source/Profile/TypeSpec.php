@@ -28,6 +28,11 @@ class Model_Source_Profile_TypeSpec extends ObjectBehavior
         );
     }
 
+    function letGo()
+    {
+        Mage::reset();
+    }
+
     function it_is_initializable()
     {
         $this->shouldHaveType(Model_Source_Profile_Type::class);

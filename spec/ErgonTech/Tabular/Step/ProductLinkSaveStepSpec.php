@@ -5,8 +5,10 @@ namespace spec\ErgonTech\Tabular\Step;
 use ErgonTech\Tabular\Model_Profile;
 use ErgonTech\Tabular\Rows;
 use ErgonTech\Tabular\Step;
+use Mage;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use ReflectionClass;
 
 class ProductLinkSaveStepSpec extends ObjectBehavior
 {
@@ -31,11 +33,28 @@ class ProductLinkSaveStepSpec extends ObjectBehavior
     private $profile;
 
     function let(
+        \Mage_Catalog_Model_Product $product,
         \Mage_Catalog_Model_Resource_Product_Link $linkRes,
+        \Mage_Catalog_Model_Resource_Product_Collection $collection,
+        \Mage_Core_Model_Config $config,
         Rows $rows,
         Model_Profile $profile,
-        MyNext $next
+        SaveStepNext $next
     ) {
+        $refMage = new ReflectionClass(Mage::class);
+        $refConfig = $refMage->getProperty('_config');
+        $refConfig->setAccessible(true);
+        $refConfig->setValue($config->getWrappedObject());
+
+        $config->getResourceModelInstance('catalog/product_collection', Argument::type('array'))
+            ->willReturn($collection);
+
+        $collection->addIdFilter(Argument::type('array'))
+            ->willReturn($collection);
+
+        $collection->getItemById(Argument::type('numeric'))
+            ->willReturn($product);
+
         $this->profile = $profile;
         $this->next = $next;
         $this->rows = $rows;
@@ -47,6 +66,11 @@ class ProductLinkSaveStepSpec extends ObjectBehavior
         ]);
         $this->linkRes = $linkRes;
         $this->beConstructedWith($linkRes, \Mage_Catalog_Model_Product_Link::LINK_TYPE_RELATED);
+    }
+
+    function letGo()
+    {
+        Mage::reset();
     }
 
     function it_is_a_step()
@@ -117,7 +141,7 @@ class ProductLinkSaveStepSpec extends ObjectBehavior
 }
 
 // Fake "next" callable for ensuring it gets called
-class MyNext
+class SaveStepNext
 {
     public function __invoke($x) { return $x; }
 }
