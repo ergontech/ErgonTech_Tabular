@@ -367,6 +367,53 @@
                                 </row_transform_callback>
                             </extra>
                         </tabular_profile_import>
+                        <product_link_import>
+                            <class>ErgonTech\Tabular\Model_Profile_Type_Product_Link_Import</class>
+                            <extra>
+                                <spreadsheet_id>
+                                    <input>text</input>
+                                    <label>Spreadsheet ID</label>
+                                    <comment><![CDATA[<a target="_blank" href="http://webapps.stackexchange.com/questions/74205/what-is-the-key-in-my-google-spreadsheets-url">Info</a> on finding your spreadsheet key.]]></comment>
+                                </spreadsheet_id>
+                                <header_named_range translate="label">
+                                    <input>text</input>
+                                    <label>Header Named Range</label>
+                                </header_named_range>
+                                <data_named_range>
+                                    <input>text</input>
+                                    <label>Data Named Range</label>
+                                </data_named_range>
+                                <header_transform_callback>
+                                    <input>select</input>
+                                    <label>Header Column Transform Options</label>
+                                    <options>
+                                        <spaces_to_underscores_and_lowercase>
+                                            <label>Normalize Header for Magento</label>
+                                            <callback><![CDATA[ErgonTech\Tabular\Helper_HeaderTransforms::normalizeHeader]]></callback>
+                                        </spaces_to_underscores_and_lowercase>
+                                    </options>
+                                </header_transform_callback>
+                                <row_transform_callback>
+                                    <input>select</input>
+                                    <label>Row Transformation Options</label>
+                                    <options>
+                                        <sku_transform>
+                                            <label>Use SKUs for products</label>
+                                            <callback><![CDATA[ErgonTech\Tabular\Helper_RowTransforms::transformProductLinkBySku]]></callback>
+                                        </sku_transform>
+                                    </options>
+                                </row_transform_callback>
+                                <product_column>
+                                    <input>text</input>
+                                    <label>Main Product Column Name</label>
+                                </product_column>
+                                <link_type>
+                                    <input>select</input>
+                                    <label>Product Link Type</label>
+                                    <source_model>ergontech_tabular/source_product_link</source_model>
+                                </link_type>
+                            </extra>
+                        </product_link_import>
                     </type>
                 </profile>
             </tabular>

@@ -51,6 +51,11 @@ class EntitySaveStepSpec extends ObjectBehavior
         $configModel->getModelInstance(null, Argument::type('array'))->willReturn(false);
     }
 
+    function letGo()
+    {
+        Mage::reset();
+    }
+
     function it_is_initializable()
     {
         $this->shouldHaveType(Step\EntitySaveStep::class);

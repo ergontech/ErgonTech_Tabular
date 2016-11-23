@@ -142,6 +142,16 @@ class Helper_RowTransforms extends \Mage_Core_Helper_Abstract
         ];
     }
 
+    public function transformProductLinkBySku(array $row)
+    {
+        return [
+            'entity_id' => Mage::getResourceSingleton('catalog/product')->getIdBySku($row['sku']),
+            'data' => array_flip(array_map(function ($sku) {
+                return Mage::getResourceSingleton('catalog/product')->getIdBySku($sku);
+            }, $row['linked_sku']))
+        ];
+    }
+
     /**
      * Take a string in the following format:
      * "catalog/product:sku:foo, catalog/product:sku:bar"

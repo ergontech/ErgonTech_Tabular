@@ -29,6 +29,11 @@ class Model_Source_Widget_TypeSpec extends ObjectBehavior
         $this->instance = $instance;
     }
 
+    function letGo()
+    {
+        Mage::reset();
+    }
+
     function it_is_initializable()
     {
         $this->shouldHaveType(\ErgonTech\Tabular\Model_Source_Widget_Type::class);
