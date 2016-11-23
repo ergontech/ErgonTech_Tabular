@@ -176,18 +176,18 @@ class Helper_RowTransforms extends \Mage_Core_Helper_Abstract
         $values = array_map('trim', explode($itemSeparator, $cellValue));
 
         // Turn the supplied values into a simple arry of entity IDs
-        return array_reduce($values, function ($ids, $value) use($specificationSeparator){
+        return array_reduce($values, function ($ids, $value) use($specificationSeparator) {
 
-            // i.e. "catalog/product:sku:foo-sku"
-            list($type, $attribute, $attributeValue) = explode($specificationSeparator, $value);
+            if (strpos($value, $specificationSeparator) === false) {
+                return array_merge($ids, [$value]);
+            }
+
+            // i.e. "catalog/product:loadByAttribute:foo-sku"
+            list($type, $method, $args) = preg_split("/{$specificationSeparator}/", $value, 3);
 
             $entity = Mage::getModel($type);
 
-            // catalog EAV models have `loadByAttribute` and can't use `load` like other models
-            // *shrug*
-            $entity = method_exists($entity, 'loadByAttribute')
-                ? $entity = $entity->loadByAttribute($attribute, $attributeValue)
-                : $entity = $entity->load($attributeValue, $attribute);
+            $entity = call_user_func_array([$entity, $method], explode($specificationSeparator, $args));
 
             // If the entity exists, we add its ID to the list, otherwise we keep going
             return !$entity->getId()
