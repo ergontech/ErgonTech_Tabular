@@ -63,6 +63,25 @@
                         </api_key>
                     </fields>
                 </google_api>
+                <security>
+                    <label>Security</label>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <sort_order>10</sort_order>
+                    <fields>
+                        <entity_specification_method_whitelist translate="label">
+                            <label>Entity Specification Method Whitelist</label>
+                            <frontend_model>ergontech_tabular/adminhtml_system_config_form_field_array</frontend_model>
+                            <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <sort_order>10</sort_order>
+                            <comment>Use regular expressions to allow method calls through the entity specification whitelist</comment>
+                        </entity_specification_method_whitelist>
+                    </fields>
+                </security>
             </groups>
         </tabular>
     </sections>

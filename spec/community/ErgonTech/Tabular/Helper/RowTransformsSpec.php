@@ -108,6 +108,34 @@ class Helper_RowTransformsSpec extends ObjectBehavior
         $cb = $this->getRowTransformCallbackForProfile($profile);
         $cb->shouldHaveType(\Closure::class);
     }
+
+    function it_can_collect_ids_for_entities_with_different_attributes(
+        \Mage_Core_Model_Config $config,
+        \Mage_Customer_Model_Customer $customer,
+        \Mage_Catalog_Model_Category $category,
+        Model_Profile $profile)
+    {
+        $refMage = new \ReflectionClass(Mage::class);
+        $refConfig = $refMage->getProperty('_config');
+        $refConfig->setAccessible(true);
+        $refConfig->setValue($config->getWrappedObject());
+
+        $config->getModelInstance('customer/customer', [])->willReturn($customer);
+        $config->getModelInstance('catalog/category', [])->willReturn($category);
+
+        $customer->loadByEmail('me@me.me')
+            ->shouldBeCalled()
+            ->willReturn($customer);
+        $customer->getId()->willReturn(1);
+
+        $category->loadByAttribute('name', 'CATS')
+            ->shouldBeCalled()
+            ->willReturn($category);
+        $category->getId()->willReturn(1);
+
+        $this->getEntityIdsFromColumn('customer/customer:loadByEmail:me@me.me', $profile);
+        $this->getEntityIdsFromColumn('catalog/category:loadByAttribute:name:CATS', $profile);
+    }
 }
 
 class rowtransform { public function blah() {} }

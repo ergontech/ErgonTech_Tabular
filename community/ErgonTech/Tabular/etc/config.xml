@@ -450,6 +450,9 @@
             <general>
                 <enabled>1</enabled>
             </general>
+            <security>
+                <entity_specification_method_whitelist backend_model="adminhtml/system_config_backend_serialized_array"><![CDATA[a:1:{s:17:"_1479943248073_73";a:1:{s:6:"regexp";s:6:"/load/";}}]]></entity_specification_method_whitelist>
+            </security>
         </tabular>
     </default>
 
