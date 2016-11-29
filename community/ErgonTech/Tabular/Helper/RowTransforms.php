@@ -76,6 +76,24 @@ class Helper_RowTransforms extends \Mage_Core_Helper_Abstract
         return array_merge(['instance_id' => $widgetInstance->getId()], $defaultValues, $row, $preferredValues);
     }
 
+    public function cmsBlockTransform(array $row)
+    {
+        $entity = Mage::getResourceModel('cms/block_collection')
+            ->addStoreFilter($row['stores'])
+            ->addFieldToFilter('identifier', $row['identifier'])
+            ->setPageSize(1)
+            ->getFirstItem();
+
+        return [
+            'block_id' => $entity->getId(),
+            'title' => $row['title'],
+            'identifier' => $row['identifier'],
+            'content' => $row['content'],
+            'stores' => $row['stores'],
+            'is_active' => '1'
+        ];
+    }
+
     /**
      * Get banner ids from a widget-transformed row
      *
