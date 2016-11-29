@@ -78,9 +78,11 @@ class Helper_RowTransforms extends \Mage_Core_Helper_Abstract
 
     public function cmsBlockTransform(array $row)
     {
-        $entity = Mage::getModel('cms/block')
-            ->load($row['identifier'], 'identifier')
-            ->setStores($row['stores']);
+        $entity = Mage::getResourceModel('cms/block_collection')
+            ->addStoreFilter($row['stores'])
+            ->addFieldToFilter('identifier', $row['identifier'])
+            ->setPageSize(1)
+            ->getFirstItem();
 
         return [
             'block_id' => $entity->getId(),
