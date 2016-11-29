@@ -83,10 +83,10 @@
                                     <input>select</input>
                                     <label>Row Transformation Options</label>
                                     <options>
-                                        <leave_alone>
-                                            <label>Do not modify</label>
-                                            <callback><![CDATA[ErgonTech\Tabular\Helper_RowTransforms::returnSelf]]></callback>
-                                        </leave_alone>
+                                        <cms_block_default>
+                                            <label>Default CMS Block Transform</label>
+                                            <callback><![CDATA[\ErgonTech\Tabular\Helper_RowTransforms::cmsBlockTransform]]></callback>
+                                        </cms_block_default>
                                     </options>
                                 </row_transform_callback>
                             </extra>
