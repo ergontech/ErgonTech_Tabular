@@ -4,7 +4,6 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "131315a48bf4a62ba31db9d580c1713d",
     "content-hash": "c6da381b19c774afb2d54d2302d857a1",
     "packages": [
         {
@@ -31,7 +30,7 @@
                 "source": "https://github.com/avstudnitz/AvS_FastSimpleImport/tree/0.7.0",
                 "issues": "https://github.com/avstudnitz/AvS_FastSimpleImport/issues"
             },
-            "time": "2016-02-14 19:22:54"
+            "time": "2016-02-14T19:22:54+00:00"
         },
         {
             "name": "eloquent/composer-config-reader",
@@ -84,7 +83,7 @@
                 "parser",
                 "reader"
             ],
-            "time": "2016-06-23 07:33:20"
+            "time": "2016-06-23T07:33:20+00:00"
         },
         {
             "name": "eloquent/enumeration",
@@ -135,20 +134,20 @@
                 "set",
                 "type"
             ],
-            "time": "2015-11-03 22:21:38"
+            "time": "2015-11-03T22:21:38+00:00"
         },
         {
             "name": "ergontech/tabular-core",
-            "version": "v0.4.0",
+            "version": "v0.4.1",
             "source": {
                 "type": "git",
                 "url": "git@github.com:ergontech/tabular-processor.git",
-                "reference": "6fab64f4e6f2535b818f0d9d6c672ab6a78f0d45"
+                "reference": "96294bfc576e7dd8c806316f2372975bf1b3c45c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ergontech/tabular-processor/zipball/6fab64f4e6f2535b818f0d9d6c672ab6a78f0d45",
-                "reference": "6fab64f4e6f2535b818f0d9d6c672ab6a78f0d45",
+                "url": "https://api.github.com/repos/ergontech/tabular-processor/zipball/96294bfc576e7dd8c806316f2372975bf1b3c45c",
+                "reference": "96294bfc576e7dd8c806316f2372975bf1b3c45c",
                 "shasum": ""
             },
             "require": {
@@ -174,10 +173,10 @@
                 }
             ],
             "support": {
-                "source": "https://github.com/ergontech/tabular-processor/tree/v0.4.0",
+                "source": "https://github.com/ergontech/tabular-processor/tree/v0.4.1",
                 "issues": "https://github.com/ergontech/tabular-processor/issues"
             },
-            "time": "2016-11-21 18:13:18"
+            "time": "2017-01-10T23:34:24+00:00"
         },
         {
             "name": "firebase/php-jwt",
@@ -220,7 +219,7 @@
             ],
             "description": "A simple library to encode and decode JSON Web Tokens (JWT) in PHP. Should conform to the current spec.",
             "homepage": "https://github.com/firebase/php-jwt",
-            "time": "2016-07-18 04:51:16"
+            "time": "2016-07-18T04:51:16+00:00"
         },
         {
             "name": "google/apiclient",
@@ -279,7 +278,7 @@
             "keywords": [
                 "google"
             ],
-            "time": "2016-11-02 14:28:02"
+            "time": "2016-11-02T14:28:02+00:00"
         },
         {
             "name": "google/apiclient-services",
@@ -313,7 +312,7 @@
             "keywords": [
                 "google"
             ],
-            "time": "2016-10-18 01:01:16"
+            "time": "2016-10-18T01:01:16+00:00"
         },
         {
             "name": "google/auth",
@@ -361,7 +360,7 @@
                 "google",
                 "oauth2"
             ],
-            "time": "2016-11-02 14:59:14"
+            "time": "2016-11-02T14:59:14+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -423,7 +422,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2016-10-08 15:01:37"
+            "time": "2016-10-08T15:01:37+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -474,7 +473,7 @@
             "keywords": [
                 "promise"
             ],
-            "time": "2016-11-18 17:47:58"
+            "time": "2016-11-18T17:47:58+00:00"
         },
         {
             "name": "guzzlehttp/psr7",
@@ -532,7 +531,7 @@
                 "stream",
                 "uri"
             ],
-            "time": "2016-06-24 23:00:38"
+            "time": "2016-06-24T23:00:38+00:00"
         },
         {
             "name": "icecave/isolator",
@@ -590,7 +589,7 @@
                 "test",
                 "unit"
             ],
-            "time": "2015-03-27 05:04:19"
+            "time": "2015-03-27T05:04:19+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
@@ -656,7 +655,7 @@
                 "json",
                 "schema"
             ],
-            "time": "2016-06-02 10:59:52"
+            "time": "2016-06-02T10:59:52+00:00"
         },
         {
             "name": "magento-hackathon/magento-composer-installer",
@@ -753,7 +752,7 @@
                 "source": "https://github.com/Cotya/magento-composer-installer/tree/3.0.6",
                 "issues": "https://github.com/Cotya/magento-composer-installer/issues"
             },
-            "time": "2015-10-21 21:00:24"
+            "time": "2015-10-21T21:00:24+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -831,7 +830,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2016-07-29 03:23:52"
+            "time": "2016-07-29T03:23:52+00:00"
         },
         {
             "name": "phpseclib/phpseclib",
@@ -923,7 +922,7 @@
                 "x.509",
                 "x509"
             ],
-            "time": "2016-10-04 00:57:04"
+            "time": "2016-10-04T00:57:04+00:00"
         },
         {
             "name": "psr/cache",
@@ -969,7 +968,7 @@
                 "psr",
                 "psr-6"
             ],
-            "time": "2016-08-06 20:24:11"
+            "time": "2016-08-06T20:24:11+00:00"
         },
         {
             "name": "psr/http-message",
@@ -1019,7 +1018,7 @@
                 "request",
                 "response"
             ],
-            "time": "2016-08-06 14:39:51"
+            "time": "2016-08-06T14:39:51+00:00"
         },
         {
             "name": "psr/log",
@@ -1066,7 +1065,7 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2016-10-10 12:19:37"
+            "time": "2016-10-10T12:19:37+00:00"
         },
         {
             "name": "symfony/console",
@@ -1126,7 +1125,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2016-06-29 07:02:14"
+            "time": "2016-06-29T07:02:14+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -1185,7 +1184,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2016-05-18 14:26:46"
+            "time": "2016-05-18T14:26:46+00:00"
         }
     ],
     "packages-dev": [
@@ -1232,7 +1231,7 @@
                 }
             ],
             "description": "A composer plugin for managing Magento Core",
-            "time": "2015-09-07 22:38:45"
+            "time": "2015-09-07T22:38:45+00:00"
         },
         {
             "name": "composer/ca-bundle",
@@ -1289,7 +1288,7 @@
                 "ssl",
                 "tls"
             ],
-            "time": "2016-07-18 23:07:53"
+            "time": "2016-07-18T23:07:53+00:00"
         },
         {
             "name": "composer/composer",
@@ -1366,7 +1365,7 @@
                 "dependency",
                 "package"
             ],
-            "time": "2016-07-18 23:28:52"
+            "time": "2016-07-18T23:28:52+00:00"
         },
         {
             "name": "composer/semver",
@@ -1428,7 +1427,7 @@
                 "validation",
                 "versioning"
             ],
-            "time": "2016-06-02 09:04:51"
+            "time": "2016-06-02T09:04:51+00:00"
         },
         {
             "name": "composer/spdx-licenses",
@@ -1489,7 +1488,7 @@
                 "spdx",
                 "validator"
             ],
-            "time": "2016-05-04 12:27:30"
+            "time": "2016-05-04T12:27:30+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -1522,7 +1521,7 @@
                 "MIT"
             ],
             "description": "implementation of xdg base directory specification for php",
-            "time": "2014-10-24 07:27:01"
+            "time": "2014-10-24T07:27:01+00:00"
         },
         {
             "name": "doctrine/instantiator",
@@ -1576,7 +1575,7 @@
                 "constructor",
                 "instantiate"
             ],
-            "time": "2015-06-14 21:17:01"
+            "time": "2015-06-14T21:17:01+00:00"
         },
         {
             "name": "fzaninotto/faker",
@@ -1624,7 +1623,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2016-04-29 12:21:54"
+            "time": "2016-04-29T12:21:54+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -1667,7 +1666,7 @@
                     "homepage": "http://www.acci.cz"
                 }
             ],
-            "time": "2014-04-08 15:00:19"
+            "time": "2014-04-08T15:00:19+00:00"
         },
         {
             "name": "jakub-onderka/php-console-highlighter",
@@ -1711,7 +1710,7 @@
                     "homepage": "http://www.acci.cz/"
                 }
             ],
-            "time": "2015-04-20 18:58:01"
+            "time": "2015-04-20T18:58:01+00:00"
         },
         {
             "name": "magento/core",
@@ -1825,7 +1824,7 @@
                 "source": "https://github.com/bragento/magento-core/tree/1.9.2.4",
                 "issues": "https://github.com/bragento/magento-core/issues"
             },
-            "time": "2016-02-24 07:46:07"
+            "time": "2016-02-24T07:46:07+00:00"
         },
         {
             "name": "magetest/magento-phpspec-extension",
@@ -1911,7 +1910,7 @@
                 "testing",
                 "tests"
             ],
-            "time": "2015-11-06 14:28:02"
+            "time": "2015-11-06T14:28:02+00:00"
         },
         {
             "name": "n98/junit-xml",
@@ -1947,7 +1946,7 @@
                 }
             ],
             "description": "JUnit XML Document generation library",
-            "time": "2013-11-23 13:11:26"
+            "time": "2013-11-23T13:11:26+00:00"
         },
         {
             "name": "n98/magerun",
@@ -2013,7 +2012,7 @@
                 "magento",
                 "magerun"
             ],
-            "time": "2016-05-22 08:43:14"
+            "time": "2016-05-22T08:43:14+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -2064,7 +2063,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2016-04-19 13:41:41"
+            "time": "2016-04-19T13:41:41+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -2118,7 +2117,7 @@
                 "reflection",
                 "static analysis"
             ],
-            "time": "2015-12-27 11:43:31"
+            "time": "2015-12-27T11:43:31+00:00"
         },
         {
             "name": "phpdocumentor/reflection-docblock",
@@ -2163,7 +2162,7 @@
                 }
             ],
             "description": "With this component, a library can provide support for annotations via DocBlocks or otherwise retrieve information that is embedded in a DocBlock.",
-            "time": "2016-06-10 09:48:41"
+            "time": "2016-06-10T09:48:41+00:00"
         },
         {
             "name": "phpdocumentor/type-resolver",
@@ -2210,7 +2209,7 @@
                     "email": "me@mikevanriel.com"
                 }
             ],
-            "time": "2016-06-10 07:14:17"
+            "time": "2016-06-10T07:14:17+00:00"
         },
         {
             "name": "phpspec/php-diff",
@@ -2244,7 +2243,7 @@
                 }
             ],
             "description": "A comprehensive library for generating differences between two hashable objects (strings or arrays).",
-            "time": "2013-11-01 13:02:21"
+            "time": "2013-11-01T13:02:21+00:00"
         },
         {
             "name": "phpspec/phpspec",
@@ -2321,7 +2320,7 @@
                 "testing",
                 "tests"
             ],
-            "time": "2015-09-07 07:07:37"
+            "time": "2015-09-07T07:07:37+00:00"
         },
         {
             "name": "phpspec/prophecy",
@@ -2383,7 +2382,7 @@
                 "spy",
                 "stub"
             ],
-            "time": "2016-06-07 08:13:47"
+            "time": "2016-06-07T08:13:47+00:00"
         },
         {
             "name": "psy/psysh",
@@ -2455,7 +2454,7 @@
                 "interactive",
                 "shell"
             ],
-            "time": "2016-03-09 05:03:14"
+            "time": "2016-03-09T05:03:14+00:00"
         },
         {
             "name": "sebastian/comparator",
@@ -2519,7 +2518,7 @@
                 "compare",
                 "equality"
             ],
-            "time": "2015-07-26 15:48:44"
+            "time": "2015-07-26T15:48:44+00:00"
         },
         {
             "name": "sebastian/diff",
@@ -2571,7 +2570,7 @@
             "keywords": [
                 "diff"
             ],
-            "time": "2015-12-08 07:14:41"
+            "time": "2015-12-08T07:14:41+00:00"
         },
         {
             "name": "sebastian/exporter",
@@ -2638,7 +2637,7 @@
                 "export",
                 "exporter"
             ],
-            "time": "2016-06-17 09:04:28"
+            "time": "2016-06-17T09:04:28+00:00"
         },
         {
             "name": "sebastian/recursion-context",
@@ -2691,7 +2690,7 @@
             ],
             "description": "Provides functionality to recursively process PHP variables",
             "homepage": "http://www.github.com/sebastianbergmann/recursion-context",
-            "time": "2015-11-11 19:50:13"
+            "time": "2015-11-11T19:50:13+00:00"
         },
         {
             "name": "seld/cli-prompt",
@@ -2739,7 +2738,7 @@
                 "input",
                 "prompt"
             ],
-            "time": "2016-04-18 09:31:41"
+            "time": "2016-04-18T09:31:41+00:00"
         },
         {
             "name": "seld/jsonlint",
@@ -2785,7 +2784,7 @@
                 "parser",
                 "validator"
             ],
-            "time": "2015-11-21 02:21:41"
+            "time": "2015-11-21T02:21:41+00:00"
         },
         {
             "name": "seld/phar-utils",
@@ -2829,7 +2828,7 @@
             "keywords": [
                 "phra"
             ],
-            "time": "2015-10-13 18:44:15"
+            "time": "2015-10-13T18:44:15+00:00"
         },
         {
             "name": "shanethehat/pretty-xml",
@@ -2872,7 +2871,7 @@
                 "pretty",
                 "xml"
             ],
-            "time": "2015-08-10 14:22:54"
+            "time": "2015-08-10T14:22:54+00:00"
         },
         {
             "name": "symfony/config",
@@ -2925,7 +2924,7 @@
             ],
             "description": "Symfony Config Component",
             "homepage": "https://symfony.com",
-            "time": "2016-06-29 05:31:50"
+            "time": "2016-06-29T05:31:50+00:00"
         },
         {
             "name": "symfony/dependency-injection",
@@ -2988,7 +2987,7 @@
             ],
             "description": "Symfony DependencyInjection Component",
             "homepage": "https://symfony.com",
-            "time": "2016-06-29 05:31:50"
+            "time": "2016-06-29T05:31:50+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -3048,7 +3047,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
-            "time": "2016-06-29 05:29:29"
+            "time": "2016-06-29T05:29:29+00:00"
         },
         {
             "name": "symfony/filesystem",
@@ -3097,7 +3096,7 @@
             ],
             "description": "Symfony Filesystem Component",
             "homepage": "https://symfony.com",
-            "time": "2016-06-29 05:40:00"
+            "time": "2016-06-29T05:40:00+00:00"
         },
         {
             "name": "symfony/finder",
@@ -3146,7 +3145,7 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "https://symfony.com",
-            "time": "2016-06-29 05:29:29"
+            "time": "2016-06-29T05:29:29+00:00"
         },
         {
             "name": "symfony/process",
@@ -3195,7 +3194,7 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
-            "time": "2016-06-29 05:29:29"
+            "time": "2016-06-29T05:29:29+00:00"
         },
         {
             "name": "symfony/translation",
@@ -3259,7 +3258,7 @@
             ],
             "description": "Symfony Translation Component",
             "homepage": "https://symfony.com",
-            "time": "2016-06-29 05:40:00"
+            "time": "2016-06-29T05:40:00+00:00"
         },
         {
             "name": "symfony/validator",
@@ -3332,7 +3331,7 @@
             ],
             "description": "Symfony Validator Component",
             "homepage": "https://symfony.com",
-            "time": "2016-06-29 05:29:29"
+            "time": "2016-06-29T05:29:29+00:00"
         },
         {
             "name": "symfony/var-dumper",
@@ -3395,7 +3394,7 @@
                 "debug",
                 "dump"
             ],
-            "time": "2016-06-29 05:41:56"
+            "time": "2016-06-29T05:41:56+00:00"
         },
         {
             "name": "symfony/yaml",
@@ -3444,7 +3443,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2016-06-29 05:29:29"
+            "time": "2016-06-29T05:29:29+00:00"
         },
         {
             "name": "twig/twig",
@@ -3505,7 +3504,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2016-05-30 09:11:59"
+            "time": "2016-05-30T09:11:59+00:00"
         },
         {
             "name": "webmozart/assert",
@@ -3554,7 +3553,7 @@
                 "check",
                 "validate"
             ],
-            "time": "2015-08-24 13:29:44"
+            "time": "2015-08-24T13:29:44+00:00"
         }
     ],
     "aliases": [],
