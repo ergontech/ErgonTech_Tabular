@@ -1,5 +1,7 @@
 <?php
 
+use Psr\Log\LogLevel;
+
 class ErgonTech_Tabular_Adminhtml_Tabular_ProfileController extends Mage_Adminhtml_Controller_Action
 {
     /**
@@ -79,13 +81,24 @@ class ErgonTech_Tabular_Adminhtml_Tabular_ProfileController extends Mage_Adminht
             return;
         }
 
-
         /** @var ErgonTech\Tabular\Model_Profile_Type $profileType */
         $profileType = Mage::helper('ergontech_tabular/profile_type_factory')->createProfileTypeInstance($profile);
-        Mage::helper('ergontech_tabular/monolog')->pushHandler($profile->getProfileType(),
-            new \Monolog\Handler\StreamHandler(fopen('php://output', 'w')));
 
-        $profileType->execute();
+        /** @var \Monolog\Logger $logger */
+        $logger = Mage::helper('ergontech_tabular/monolog')->getLogger($profile->getProfileType());
+        $outputHandler = new \Monolog\Handler\StreamHandler(fopen('php://output', 'w'));
+        $outputHandler->setLevel(Mage::getIsDeveloperMode() ?LogLevel::DEBUG :LogLevel::INFO);
+
+        $logger->pushHandler($outputHandler);
+
+        try {
+            $profileType->execute();
+            $logger->log(LogLevel::INFO,
+                sprintf('%s finished.', $profile->getName()));
+        } catch (\Exception $e) {
+            $logger->log(LogLevel::ERROR, '%s failed.');
+            $logger->log(LogLevel::NOTICE, $e->getMessage());
+        }
     }
 
     public function saveAction()
