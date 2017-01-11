@@ -96,7 +96,7 @@ class ErgonTech_Tabular_Adminhtml_Tabular_ProfileController extends Mage_Adminht
             $logger->log(LogLevel::INFO,
                 sprintf('%s finished.', $profile->getName()));
         } catch (\Exception $e) {
-            $logger->log(LogLevel::ERROR, '%s failed.');
+            $logger->log(LogLevel::ERROR, sprintf('%s failed.', $profile->getName()));
             $logger->log(LogLevel::NOTICE, $e->getMessage());
         }
     }
